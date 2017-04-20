@@ -1,0 +1,186 @@
+options
+{
+    STATIC    = true;
+    LOOKAHEAD = 1;
+}
+
+PARSER_BEGIN(Parser)
+
+package vendor;
+
+public class Parser {
+
+    public static void main(String[] args) throws ParseException, FileNotFoundException {
+        Parser Parser = new Parser();
+        SimpleNode root = Parser.Start();
+    }
+}
+
+PARSER_END(Parser)
+
+// Whitespace and comments
+<DEFAULT> SKIP : {
+    " "
+    | "\t"
+    | "\n"
+    | "\r"
+    | <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+    | <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+}
+
+// Reserved words
+<DEFAULT> TOKEN : {
+    <RELA_OP: ">" | "<" | "<=" | ">=" | "==" | "!=">
+    | <ADDSUB_OP: "+" | "-">
+    | <ARITH_OP: "*" | "/" | "<<" | ">>" | ">>>">
+    | <BITWISE_OP: "&" | "|" | "^">
+    | <NOT_OP: "!">
+    | <WHILE: "while">
+    | <IF: "if">
+    | <ELSE: "else">
+    | <ASSIGN: "=">
+    | <ASPA: "\"">
+    | <LPAR: "(">
+    | <RPAR: ")">
+    | <VIRG: ",">
+    | <PVIRG: ";">
+    | <LCHAVETA: "{">
+    | <RCHAVETA: "}">
+    | <FUNCTION: "function">
+    | <MODULE: "module">
+    | <SIZE: "size">
+}
+<DEFAULT> TOKEN : {
+    <INTEGER: (<DIGIT>)+>
+    | <ID: <LETTER> (<LETTER> | <DIGIT>)*>
+    | <#LETTER: ["$","A"-"Z","_","a"-"z"]>
+    | <#DIGIT: ["0"-"9"]>
+    | <STRING: "\"" (["a"-"z","A"-"Z","0"-"9",":"," ","="])+ "\"">
+}
+
+SimpleNode Start() #void : {}
+{
+    Module() {return jjtThis;}
+}
+
+// Non terminals
+void Module() #Module : {Token t;}
+{
+    <MODULE> t=<ID>{setNode(jjtThis, t);}
+    <LCHAVETA>
+        ( Declaration() )* ( Function() )*
+    <RCHAVETA>
+    {return jjtThis;}
+}
+
+void Declaration() #void : {}
+ {
+    ( LOOKAHEAD(ArrayElement()) ArrayElement() | ScalarElement() ) ( <ASSIGN> ( ( "[" ArraySize() "]" ) | (<ADDSUB_OP> )? <INTEGER> ) )? <PVIRG>
+}
+
+void Function() #void : {}
+{
+    (
+        LOOKAHEAD(3)
+        ( <FUNCTION> ( LOOKAHEAD(ArrayElement()) ArrayElement() | ScalarElement() ) <ASSIGN> <ID> <LPAR> ( Varlist() )? <RPAR> )
+        |
+        ( <FUNCTION> <ID> <LPAR> ( Varlist() )? <RPAR> )
+    ) <LCHAVETA>
+        Stmtlst()
+    <RCHAVETA>
+}
+
+void Varlist() #void : {}
+{
+    ( LOOKAHEAD(ArrayElement()) ArrayElement() | ScalarElement() ) ( <VIRG> ( LOOKAHEAD(ArrayElement()) ArrayElement() | ScalarElement() ) )*
+}
+
+void ArrayElement() #void : {}
+{
+    <ID> "[" "]" ScalarElement()
+}
+
+void ScalarElement() #void : {}
+{
+    <ID>
+}
+
+void Stmtlst() #void : {}
+{
+    ( Stmt() )*
+}
+
+void Stmt() #void : {}
+{
+    While() | If() | LOOKAHEAD(Assign()) Assign() | Call() <PVIRG>
+}
+
+void Assign() #void : {}
+{
+    Lhs() <ASSIGN> Rhs() <PVIRG>
+}
+
+void Call() #void : {}
+{
+    <ID> ( "." <ID> )? <LPAR> ( ArgumentList() )? <RPAR>
+}
+
+void Lhs() #void : {}
+{
+    ( LOOKAHEAD(ArrayAccess()) ArrayAccess() | ScalarAccess() )
+}
+
+void Rhs() #void : {}
+{
+    ( Term() ( ( <ARITH_OP> | <BITWISE_OP> | <ADDSUB_OP> ) Term() )? ) | "["ArraySize()"]"
+}
+
+void ArraySize() #void : {}
+{
+    ScalarAccess() | <INTEGER>
+}
+
+void Term() #void : {}
+{
+    ( <ADDSUB_OP> )? ( <INTEGER> | LOOKAHEAD(Call()) Call() | LOOKAHEAD(ArrayAccess()) ArrayAccess() | ScalarAccess() )
+}
+
+void Exprtest() #void : {}
+{
+    <LPAR> Lhs() <RELA_OP> Rhs() <RPAR>
+}
+
+void While() #void : {}
+{
+    <WHILE> Exprtest() <LCHAVETA> Stmtlst() <RCHAVETA>
+}
+
+void If() #void : {}
+{
+    <IF> Exprtest() <LCHAVETA> Stmtlst() <RCHAVETA> ( <ELSE> <LCHAVETA> Stmtlst() <RCHAVETA> )?
+}
+
+void ArgumentList() #void : {}
+{
+    Argument() ( <VIRG> Argument() )*
+}
+
+void Argument() #void : {}
+{
+    ( <ID> | <STRING> | <INTEGER> )
+}
+
+void ArrayAccess() #void : {}
+{
+    <ID> "[" Index() "]"
+}
+
+void ScalarAccess() #void : {}
+{
+    <ID> ( "." <SIZE> )?
+}
+
+void Index() #void : {}
+{
+    <ID> | <INTEGER>
+}

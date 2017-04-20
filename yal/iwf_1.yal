@@ -1,0 +1,34 @@
+module iwf_1 {
+
+    function a=sqrt(vsqn) {
+        vsq=vsqn;
+        asq=0;
+        a=0;
+        tvsq=0;
+        i=0;
+        while(i < 6) {
+            nasq1 = asq + a;
+            nasq2 = nasq1 << 2;
+            nasq = nasq2 | 1;
+            sa = a << 1;
+            tvsq1 = tvsq << 2;
+            Vsq1 =  vsq >> 10;
+            Vsq2 = vsq1 & 3;
+            tvsq = tvsq1 | vsq2;
+            vsq = vsq << 2;
+            if(nasq <= tvsq) {
+                a = sa | 1;
+                asq = nasq;
+            } else {
+                a = sa ;
+                asq = asq << 2 ;
+            }
+            i=i+1;
+        }
+    }
+
+    function main() {
+         a=sqrt(26);
+         io.println(a); // result = 5;
+    }
+}

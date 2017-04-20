@@ -1,0 +1,270 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */
+
+
+options
+{
+  JDK_VERSION = "1.8";
+  STATIC      = true;
+  LOOKAHEAD   = 1;
+}
+
+
+PARSER_BEGIN(Parser)
+
+package vendor;
+
+public class Parser {
+}
+
+PARSER_END(Parser)
+
+
+
+//GRAMATICA
+
+//simbolos nao considerados na analise
+<DEFAULT> SKIP : {
+  	 " "
+	| "\t"
+	| "\n"
+	| "\r"
+	| <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+	| < "*/" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/" >
+}
+
+// definicao dos tokens (simbolos terminais)
+<DEFAULT> TOKEN : {
+	<RELA_OP: ">" | "<" | "<=" | ">=" | "==" | "!=">
+	| <ADDSUB_OP: "+" | "-">
+	| <ARITH_OP: "*" | "/" | "<<" | ">>" | ">>>">
+	| <BITWISE_OP: "&" | "|" | "^">
+	| <NOT_OP: "!">
+	| <WHILE: "while">
+	| <IF: "if">
+	| <ELSE: "else">
+	| <ASSIGN: "=">
+	| <ASPA: "\"">
+	| <LPAR: "(">
+	| <RPAR: ")">
+	| <VIRG: ",">
+	| <PVIRG: ";">
+	| <LCHAVETA: "{">
+	| <RCHAVETA: "}">
+	| <FUNCTION: "function">
+	| <MODULE: "module">
+	| <SIZE: "size">
+
+}
+
+// definicao da producao
+<DEFAULT> TOKEN : {
+    <INTEGER: (<DIGIT>)+>
+    	| <ID: <LETTER> (<LETTER> | <DIGIT>)*>
+    	| <#LETTER: ["$","A"-"Z","_","a"-"z"]>
+    	| <#DIGIT: ["0"-"9"]>
+    	| <STRING: "\"" (["a"-"z","A"-"Z","0"-"9",":"," ","="])+ "\"">
+}
+
+
+SimpleNode Start() : {}
+{
+    Module() #Module {return jjtThis;}
+}
+
+void Module() #void : {Token t0; Token t1;}
+{
+    <MODULE> (t0=<ID> {jjtThis.getInfoFromToken(t0);} #ModuleId)
+    <LCHAVETA>
+        (Declaration() #Declaration)*
+        (Function() #Function)*
+    (t1=<RCHAVETA> {jjtThis.getInfoFromToken(t1);} #ModuleEnd)
+}
+
+// A declaration can only be an INT or INT[]
+void Declaration() #void : {Token t0; Token t1; Token t2;}
+{
+    t0=<ID> {jjtThis.getInfoFromToken(t0);} #DeclarationId ["[" "]" #IsArray]
+
+    (<ASSIGN> (("[" ArraySize() #ArraySize "]")
+        | (t1=<ADDSUB_OP> {jjtThis.getInfoFromToken(t1);}
+				#AddSubOp)?
+		t2=<INTEGER> {jjtThis.getInfoFromToken(t2);}
+				#InitVar))?
+		<PVIRG>
+}
+
+// function(VarList) {} || function=nome(VarList) {} || function[]=nome(VarList)
+void Function() #void : {Token t0; Token t1; Token t2; Token t3;}
+{
+    (<FUNCTION> (t0=<ID> {jjtThis.getInfoFromToken(t0);} #ReturnId)
+        (
+        (( "[" "]" {jjtThis.setValue("[]");} #ReturnIsArray)?
+        <ASSIGN> (t2=<ID> {jjtThis.getInfoFromToken(t2);} #FunctionName)
+        <LPAR> (Varlist() #Args)? <RPAR>)
+        |
+        (<LPAR> (Varlist() #Args)? <RPAR>))
+    )
+
+    <LCHAVETA>
+        (Stmtlst() #FunctionBody)
+    (t3=<RCHAVETA> {jjtThis.getInfoFromToken(t3);} #FunctionEnd)
+}
+
+// melhorar identificacao de array
+void Varlist() #void : {Token t0; Token t1;}
+{
+  ((t0=<ID> {jjtThis.getInfoFromToken(t0);} #VarId) ("[" "]" #IsArray)?)
+  ( <VIRG> (t1=<ID> {jjtThis.getInfoFromToken(t1);} #VarId)
+  ("[" "]" #IsArray)? )*
+}
+
+
+void ArrayElement() #void : {Token t;}
+{
+    (t=<ID> {jjtThis.getInfoFromToken(t);} #ArrayId) "[" "]"
+}
+
+void ScalarElement() : {Token t;}
+{
+    t=<ID> {jjtThis.getInfoFromToken(t);} #ScalarId
+}
+
+void Stmtlst() : {}
+{
+    (Stmt() #Stmt)*
+}
+
+void Stmt() #void : {}
+{
+  While() | If() | (LOOKAHEAD(3) Assign() |  Call() <PVIRG> )
+
+ /*
+ {System.out.println("while in");} While() | {System.out.println("if in");} If() |
+ <ID> ( LOOKAHEAD(2)
+ ({System.out.println("assign in");} ( ("[" Index() "]") | ("." <SIZE>)? ) //:lhs()
+    <ASSIGN> Rhs() <PVIRG>
+ ) //assign
+ |
+  ({System.out.println("call in");} ("." <ID>)? <LPAR> (ArgumentList())? <RPAR>
+  <PVIRG>)//call
+ )*/
+}
+
+void Assign() : {}
+{
+    Lhs() <ASSIGN> Rhs() <PVIRG>
+}
+
+
+void Lhs() : {Token t0; Token sizeToken;}
+{
+    //ArrayAccess() | ScalarAccess()
+    t0=<ID> {jjtThis.getInfoFromToken(t0);} (
+        ("[" Index() "]") | ("." sizeToken=<SIZE> {jjtThis.getInfoFromToken(sizeToken);})?
+    )
+}
+
+void Rhs() : {Token t;}
+{
+    (
+        Term() #Term [(
+            t=<ARITH_OP> {jjtThis.getInfoFromToken(t);} #ArithOp |
+            t=<BITWISE_OP> {jjtThis.getInfoFromToken(t);} #BitwiseOp |
+            t=<ADDSUB_OP> {jjtThis.getInfoFromToken(t);} #AddSubOp
+        ) Term() #Term ]
+    )
+    |
+    "[" ArraySize() #ArrSize "]"
+}
+
+void ArraySize() #void : {Token tSize;}
+{
+    ScalarAccess() #Scalar
+    |
+    tSize=<INTEGER> {jjtThis.getInfoFromToken(tSize);} #Integer
+}
+
+void Term() #void: {Token tInt; Token t0; Token t1; Token tSize; Token tOp;}
+{
+    (tOp=<ADDSUB_OP> {jjtThis.getInfoFromToken(tOp);} #AddSubOp)?
+
+    (tInt=<INTEGER> {jjtThis.getInfoFromToken(tInt);} #Integer
+    | ( (t0=<ID> {jjtThis.getInfoFromToken(t0);} #Id)
+            ( LOOKAHEAD(2)
+            (("." (t1=<ID> {jjtThis.getInfoFromToken(t1);} #Id2))?
+         <LPAR> (ArgumentList() #ArgumentList)? <RPAR> {jjtThis.setValue("IsFunc"); } #IsFunc)
+        | ( ("[" Index() /*#Index*/ "]") | ("." tSize=<SIZE> {jjtThis.getInfoFromToken(tSize);} #Size)? ))
+        ))
+}
+
+void Exprtest() : {Token t;}
+{
+    <LPAR>
+        Lhs() t=<RELA_OP> {jjtThis.getInfoFromToken(t);}
+        Rhs()
+    <RPAR>
+}
+
+void While() : {Token t0;}
+{
+    <WHILE> Exprtest() <LCHAVETA>
+        Stmtlst()
+    (t0=<RCHAVETA> {jjtThis.getInfoFromToken(t0);} #WhileEnd)
+}
+
+void If() : {Token t0; Token t1; Token t2;}
+{
+    <IF> Exprtest() <LCHAVETA>
+        Stmtlst()
+    (t0=<RCHAVETA> {jjtThis.getInfoFromToken(t0);} #IfEnd)
+    (
+    (t1=<ELSE> {jjtThis.getInfoFromToken(t1);} #Else) <LCHAVETA>
+        Stmtlst()
+    (t2=<RCHAVETA> {jjtThis.getInfoFromToken(t2);} #ElseEnd))?
+}
+
+void Call() #void : {Token t0; Token t1;}
+{
+    (t0=<ID> {jjtThis.getInfoFromToken(t0);} #CallId)
+    ("." (t1=<ID> {jjtThis.getInfoFromToken(t1);} #CallId2))? <LPAR> (ArgumentList() #ArgumentList)? <RPAR>
+}
+
+void ArgumentList() #void : {}
+{
+    Argument() (<VIRG> Argument())*
+}
+
+void Argument() : {Token t;}
+{
+    (
+        t=<ID> #ArgumentId
+        |
+        t=<STRING> #String
+        |
+        t=<INTEGER> #Integer
+    ) {jjtThis.getInfoFromToken(t);}
+}
+
+void ArrayAccess() #void : {Token t;}
+{
+    (t=<ID> {jjtThis.getInfoFromToken(t);} #ArrayId)
+    "[" (Index() #ArrayIndex) "]"
+}
+
+void ScalarAccess() #void : {Token t0; Token sizeToken;}
+{
+    t0=<ID> {jjtThis.getInfoFromToken(t0);} #ScalarId
+    ["." sizeToken=<SIZE> {jjtThis.getInfoFromToken(sizeToken);} #ScalarSize ]
+}
+
+void Index() : {Token t;}
+{
+    t=<ID> {jjtThis.getInfoFromToken(t);} #IndexId
+    |
+    t=<INTEGER> {jjtThis.getInfoFromToken(t);} #Integer
+}
+
+
+

@@ -1,0 +1,19 @@
+module yal_001 {
+
+    function a[] = doStuff(n[], m, n) {
+        d = 1;
+        n[0] = d;
+    }
+
+    function b() {
+        a = b + 1;
+    }
+
+    function b(arg1) {
+        a = b + 1;
+    }
+
+    function a = sqrt(n, m) {
+        a = 1;
+    }
+}

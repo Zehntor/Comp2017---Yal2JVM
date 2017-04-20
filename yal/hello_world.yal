@@ -1,0 +1,7 @@
+module helloWorld {
+    function n=main() {
+        io.print("Hello World");
+        n = 2;
+        n = n + 1;
+    }
+}
