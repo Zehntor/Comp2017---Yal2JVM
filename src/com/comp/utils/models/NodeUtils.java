@@ -11,7 +11,7 @@ public class NodeUtils {
     public Node getChildByType(Node node, NodeType type) {
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
             if (NodeType.fromString(node.jjtGetChild(n).toString()) == type) {
-                return node;
+                return node.jjtGetChild(n);
             }
         }
 

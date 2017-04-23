@@ -1,8 +1,9 @@
 module yal_001 {
 
-    function a[] = doStuff(n[], m, n) {
+    function a[] = doStuff(n[], m) {
         d = 1;
         n[0] = d;
+        a = n;
     }
 
     function b() {

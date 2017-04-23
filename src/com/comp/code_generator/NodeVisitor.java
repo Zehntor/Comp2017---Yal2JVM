@@ -1,14 +1,14 @@
 package com.comp.code_generator;
 
+import vendor.Node;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.StringJoiner;
 import com.comp.common.Visitor;
 import com.comp.semantic_analyser.NodeType;
-import com.comp.semantic_analyser.analisers.*;
-import com.comp.semantic_analyser.symbol_tables.*;
-import vendor.Node;
+import com.comp.utils.services.NodeUtilsService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import static com.comp.semantic_analyser.NodeType.MODULE_ID;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -16,21 +16,16 @@ import java.util.StringJoiner;
 public final class NodeVisitor implements Visitor, Generator {
 
     private final List<String> errors = new ArrayList<>();
-    private final StringJoiner codeStringJoiner = new StringJoiner("\n");
+    private final StringJoiner code   = new StringJoiner("\n");
+    private String moduleName;
 
     public void visit(Node node) {
-        System.out.println(String.format("Visiting node %s at (%s, %s) with value = %s",
-            node,
-            node.getLine(),
-            node.getColumn(),
-            node.getValue()
-        ));
-
         NodeType nodeType = NodeType.fromString(node.toString());
 
         if (nodeType != null) {
             switch (nodeType) {
                 case MODULE:
+                    processModuleNode(node);
                     break;
                 case FUNCTION:
                     break;
@@ -58,7 +53,17 @@ public final class NodeVisitor implements Visitor, Generator {
 
     @Override
     public String getCode() {
-        return codeStringJoiner.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+            .append(code.toString())
+            .append("\n");
+
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String getModuleName() {
+        return moduleName;
     }
 
     /**
@@ -66,6 +71,10 @@ public final class NodeVisitor implements Visitor, Generator {
      * @param node
      */
     private void processModuleNode(Node node) {
+        Node moduleIdNode = NodeUtilsService.getInstance().getChildByType(node, MODULE_ID);
+        moduleName = moduleIdNode.getValue().toString();
+        code.add(String.format(".class public %s", moduleName));
+        code.add(".super java/lang/Object");
     }
 
     /**

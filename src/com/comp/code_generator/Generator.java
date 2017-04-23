@@ -5,4 +5,5 @@ package com.comp.code_generator;
  */
 public interface Generator {
     String getCode();
+    String getModuleName();
 }

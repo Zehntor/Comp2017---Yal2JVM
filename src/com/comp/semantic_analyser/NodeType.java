@@ -6,6 +6,7 @@ package com.comp.semantic_analyser;
 public enum NodeType {
     
     MODULE("Module"),
+    MODULE_ID("ModuleId"),
     MODULE_END("ModuleEnd"),
     FUNCTION("Function"),
     RETURN_ID("ReturnId"),

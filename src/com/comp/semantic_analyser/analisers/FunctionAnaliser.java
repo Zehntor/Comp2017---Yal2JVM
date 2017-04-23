@@ -50,9 +50,15 @@ public final class FunctionAnaliser extends Analiser {
         if (returnVariable == null) {
             return;
         }
+
         Object value = returnVariable.getValue();
 
-        if (returnVariable.getType() == INTEGER && value == null || returnVariable.getType() == ARRAY && ((List<Integer>) value).isEmpty()) {
+        // TODO
+        boolean
+            isValidInteger = returnVariable.getType() == INTEGER, // && value != null,
+            isValidArray   = returnVariable.getType() == ARRAY; // TODO  && ((List<Integer>) value).isEmpty()
+
+        if (!isValidInteger  && !isValidArray) {
             addError(String.format(MISSING_RETURN_ASSIGNMENT, symbolTable.getId(), node.getLine(), node.getColumn()));
         }
     }

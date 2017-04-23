@@ -8,5 +8,5 @@ import java.util.List;
  */
 public interface Visitor {
     void visit(Node node);
-    public List<String> getErrors();
+    List<String> getErrors();
 }

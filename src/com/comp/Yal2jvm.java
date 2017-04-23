@@ -76,7 +76,7 @@ public class Yal2jvm {
      */
     private static boolean checkArgs(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java -jar yal2jvm <input-file.yal>");
+            System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
         }
 
         return args.length == 1;

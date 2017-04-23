@@ -17,13 +17,6 @@ public final class NodeVisitor implements Visitor {
     private final List<String> errors = new ArrayList<>();
 
     public void visit(Node node) {
-        System.out.println(String.format("Visiting node %s at (%s, %s) with value = %s",
-            node,
-            node.getLine(),
-            node.getColumn(),
-            node.getValue()
-        ));
-
         NodeType nodeType = NodeType.fromString(node.toString());
 
         if (nodeType != null) {
