@@ -1,5 +1,6 @@
-package com.comp.semantic_analyser.node_visitor;
+package com.comp.semantic_analyser;
 
+import com.comp.common.Visitor;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;

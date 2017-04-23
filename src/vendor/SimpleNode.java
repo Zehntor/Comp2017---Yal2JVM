@@ -2,7 +2,7 @@
 /* JavaCCOptions:MULTI=false,NODE_USES_PARSER=false,VISITOR=false,TRACK_TOKENS=false,NODE_PREFIX=AST,NODE_EXTENDS=,NODE_FACTORY=,SUPPORT_CLASS_VISIBILITY_PUBLIC=true */
 package vendor;
 
-import com.comp.semantic_analyser.node_visitor.Visitor;
+import com.comp.common.Visitor;
 
 public class SimpleNode implements Node {
 

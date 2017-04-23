@@ -6,7 +6,7 @@ package vendor;
    machinery for constructing the parent and child relationships
    between nodes. */
 
-import com.comp.semantic_analyser.node_visitor.Visitor;
+import com.comp.common.Visitor;
 
 public interface Node {
 

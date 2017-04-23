@@ -1,15 +1,16 @@
 package com.comp;
 
-import com.comp.profiler.models.TimeMemoryProfile;
-import com.comp.profiler.services.TimeMemoryProfilerService;
-import com.comp.semantic_analyser.SemanticAnaliser;
-import com.comp.utils.services.UtilsService;
 import vendor.Parser;
+import java.util.List;
 import vendor.SimpleNode;
 import vendor.ParseException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
+import com.comp.utils.services.UtilsService;
+import com.comp.code_generator.CodeGenerator;
+import com.comp.profiler.models.TimeMemoryProfile;
+import com.comp.semantic_analyser.SemanticAnaliser;
+import com.comp.profiler.services.TimeMemoryProfilerService;
 
 public class Yal2jvm {
 
@@ -19,27 +20,42 @@ public class Yal2jvm {
      * @param args
      */
     public static void main(String[] args) {
+
+        // Start profiling
         String profileKey = TimeMemoryProfilerService.getInstance().start();
 
+        // Check arguments
         if (!checkArgs(args)) {
             System.exit(1);
         }
 
         String filename = args[0];
 
+        // Syntatic
+        SimpleNode root = null;
         try {
             Parser parser = new Parser(new FileInputStream(filename));
-            SimpleNode root = parser.Start();
+            root = parser.Start();
             root.dump("");
-            SemanticAnaliser.getInstance().analise(root);
-            if (SemanticAnaliser.getInstance().hasErrors()) {
-                showErrors(SemanticAnaliser.getInstance().getErrors());
-            }
         } catch (FileNotFoundException e) {
             System.out.println(String.format("File %s not found"));
             System.exit(1);
         } catch (ParseException e) {
             System.out.println(String.format("A parse exception occurred while parsing file %s:%n%s", filename, e.getMessage()));
+            System.exit(1);
+        }
+
+        // Semantic
+        SemanticAnaliser.getInstance().analise(root);
+        if (SemanticAnaliser.getInstance().hasErrors()) {
+            showErrors(SemanticAnaliser.getInstance().getErrors());
+            System.exit(1);
+        }
+
+        // Code generation
+        CodeGenerator.getInstance().generateCode(root);
+        if (CodeGenerator.getInstance().hasErrors()) {
+            showErrors(CodeGenerator.getInstance().getErrors());
             System.exit(1);
         }
 

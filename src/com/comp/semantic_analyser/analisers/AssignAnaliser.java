@@ -15,6 +15,7 @@ public class AssignAnaliser extends Analiser {
             throw new RuntimeException(MISSING_SYMBOL_TABLE_STACK);
         }
 
+        // TODO
         Node lhsNode = NodeUtilsService.getInstance().getChildByType(node, LHS);
     }
 }

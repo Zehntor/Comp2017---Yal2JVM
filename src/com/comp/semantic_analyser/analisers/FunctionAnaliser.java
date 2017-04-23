@@ -36,6 +36,10 @@ public final class FunctionAnaliser extends Analiser {
         createReturnVariable(node);
     }
 
+    /**
+     * When a FUNCTION_END node is found, this method is called to check if the function has its return assigned
+     * @param node
+     */
     public void checkReturnAssignment(Node node) {
         if (symbolTableStack == null) {
             throw new RuntimeException(MISSING_SYMBOL_TABLE_STACK);
