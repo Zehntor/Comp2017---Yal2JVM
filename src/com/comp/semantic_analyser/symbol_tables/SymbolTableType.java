@@ -19,37 +19,4 @@ public enum SymbolTableType {
     public String toString() {
         return value;
     }
-
-    public static SymbolTableType fromString(String value) {
-        if (value != null) {
-            for (SymbolTableType source : SymbolTableType.values()) {
-                if (value.equalsIgnoreCase(source.value)) {
-                    return source;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public static boolean contains(String value) {
-        for (SymbolTableType source : values()) {
-            if (source.toString().equals(value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static String[] toStringArray() {
-        String[] stringArray = new String[values().length];
-        int index = 0;
-
-        for (SymbolTableType source : values()) {
-            stringArray[index++] = source.toString();
-        }
-
-        return stringArray;
-    }
 }

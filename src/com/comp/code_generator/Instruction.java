@@ -1,17 +1,16 @@
-package com.comp.semantic_analyser.analisers;
+package com.comp.code_generator;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
-public enum AnaliserType {
+public enum Instruction {
 
-    MODULE("module"),
-    FUNCTION("function"),
-    ASSIGN("assign");
+    CLASS_PUBLIC(".class public %s"),
+    SUPER_JAVA_LANG_OBJECT(".super java/lang/Object");
 
     private final String value;
 
-    AnaliserType(final String value) {
+    Instruction(final String value) {
         this.value = value;
     }
 

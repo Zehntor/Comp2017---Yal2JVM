@@ -1,17 +1,16 @@
-package com.comp.semantic_analyser.analisers;
+package com.comp.code_generator.generators;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
-public enum AnaliserType {
+public enum CodeGeneratorType {
 
     MODULE("module"),
-    FUNCTION("function"),
-    ASSIGN("assign");
+    FUNCTION("function");
 
     private final String value;
 
-    AnaliserType(final String value) {
+    CodeGeneratorType(final String value) {
         this.value = value;
     }
 

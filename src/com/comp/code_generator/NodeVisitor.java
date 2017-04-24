@@ -1,5 +1,6 @@
 package com.comp.code_generator;
 
+import com.comp.code_generator.generators.CodeGenerator;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
@@ -7,8 +8,13 @@ import java.util.StringJoiner;
 import com.comp.common.Visitor;
 import com.comp.semantic_analyser.NodeType;
 import com.comp.utils.services.NodeUtilsService;
+import com.comp.code_generator.generators.CodeGeneratorFactory;
 
+import static com.comp.code_generator.generators.CodeGeneratorType.MODULE;
 import static com.comp.semantic_analyser.NodeType.MODULE_ID;
+import static com.comp.code_generator.Instruction.CLASS_PUBLIC;
+import static com.comp.code_generator.generators.CodeGeneratorType.FUNCTION;
+import static com.comp.code_generator.Instruction.SUPER_JAVA_LANG_OBJECT;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -22,12 +28,17 @@ public final class NodeVisitor implements Visitor, Generator {
     public void visit(Node node) {
         NodeType nodeType = NodeType.fromString(node.toString());
 
+        CodeGenerator generator;
+
         if (nodeType != null) {
             switch (nodeType) {
                 case MODULE:
-                    processModuleNode(node);
+                    generator = CodeGeneratorFactory.getInstance().createGenerator(MODULE);
+                    code.add(generator.generate(node));
                     break;
                 case FUNCTION:
+                    generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION);
+                    code.add(generator.generate(node));
                     break;
                 case IF:
                 case ELSE:
@@ -53,12 +64,10 @@ public final class NodeVisitor implements Visitor, Generator {
 
     @Override
     public String getCode() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
+        return new StringBuilder()
             .append(code.toString())
-            .append("\n");
-
-        return stringBuilder.toString();
+            .append("\n")
+            .toString();
     }
 
     @Override
@@ -72,15 +81,10 @@ public final class NodeVisitor implements Visitor, Generator {
      */
     private void processModuleNode(Node node) {
         Node moduleIdNode = NodeUtilsService.getInstance().getChildByType(node, MODULE_ID);
-        moduleName = moduleIdNode.getValue().toString();
-        code.add(String.format(".class public %s", moduleName));
-        code.add(".super java/lang/Object");
+        moduleName        = moduleIdNode.getValue().toString();
+
+        code.add(String.format(CLASS_PUBLIC.toString(), moduleName));
+        code.add(SUPER_JAVA_LANG_OBJECT.toString());
     }
 
-    /**
-     * Processes a function node
-     * @param node
-     */
-    private void processFunctionNode(Node node) {
-    }
 }
