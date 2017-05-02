@@ -1,8 +1,9 @@
 package com.comp.code_generator.generators;
 
-import com.comp.utils.services.NodeUtilsService;
 import vendor.Node;
+import com.comp.utils.services.NodeUtilsService;
 
+import static com.comp.semantic_analyser.NodeType.RETURN_ID;
 import static com.comp.semantic_analyser.NodeType.FUNCTION_NAME;
 
 /**
@@ -13,7 +14,10 @@ public class FunctionCodeGenerator extends CodeGenerator {
     @Override
     public String generate(Node node) {
         Node functionNameNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_NAME);
-        String functionName   = functionNameNode.getValue().toString();
+        if (functionNameNode == null) {
+            functionNameNode = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID);
+        }
+        String functionName = functionNameNode.getValue().toString();
 
         return code.toString();
     }

@@ -10,7 +10,7 @@ module yal_001 {
         a = b + 1;
     }
 
-    function b(arg1) {
+    function c(arg1) {
         a = b + 1;
     }
 

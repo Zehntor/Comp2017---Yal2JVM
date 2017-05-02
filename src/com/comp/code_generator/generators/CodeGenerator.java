@@ -1,7 +1,6 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-
 import java.util.StringJoiner;
 
 /**

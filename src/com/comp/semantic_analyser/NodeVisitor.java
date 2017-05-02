@@ -37,12 +37,10 @@ public final class NodeVisitor implements Visitor {
                     break;
                 case FUNCTION_END:
                     processFunctionEnd(node);
-                    System.out.println(String.format("\tFound a %s, popping a symbol table", node));
                     break;
                 case IF_END:
                 case ELSE_END:
                 case WHILE_END:
-                    System.out.println(String.format("\tFound a %s, popping a symbol table", node));
                     symbolTableStack.pop();
                     break;
                 case ASSIGN:
@@ -70,8 +68,6 @@ public final class NodeVisitor implements Visitor {
 
         analiser.analise(node);
         errors.addAll(analiser.getErrors());
-
-        System.out.println(String.format("\tFound a %s, pushing a new symbol table: %s", node, analiser.getSymbolTableStack()));
     }
 
     /**
@@ -88,8 +84,6 @@ public final class NodeVisitor implements Visitor {
 
         analiser.analise(node);
         errors.addAll(analiser.getErrors());
-
-        System.out.println(String.format("\tFound a %s, pushing a new symbol table: %s", node, analiser.getSymbolTableStack()));
     }
 
     private void processFunctionEnd(Node node) {
@@ -99,7 +93,6 @@ public final class NodeVisitor implements Visitor {
         analiser.checkReturnAssignment(node);
         errors.addAll(analiser.getErrors());
 
-        System.out.println(String.format("\tFound a %s, popping a symbol table", node));
         symbolTableStack.pop();
     }
 
@@ -109,8 +102,6 @@ public final class NodeVisitor implements Visitor {
      */
     private void processGeneralNode(Node node) {
         GeneralSymbolTable symbolTable = SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.GENERAL);
-
-        System.out.println(String.format("\tFound a %s, pushing a new symbol table: %s", node, symbolTable));
         symbolTableStack.push(symbolTable);
     }
 
