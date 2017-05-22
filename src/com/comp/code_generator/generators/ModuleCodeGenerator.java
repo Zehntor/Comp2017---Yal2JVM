@@ -4,22 +4,35 @@ import vendor.Node;
 import com.comp.utils.services.NodeUtilsService;
 
 import static com.comp.semantic_analyser.NodeType.MODULE_ID;
-import static com.comp.code_generator.Instruction.CLASS_PUBLIC;
-import static com.comp.code_generator.Instruction.SUPER_JAVA_LANG_OBJECT;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
-public class ModuleCodeGenerator extends CodeGenerator {
+public final class ModuleCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
         Node moduleIdNode = NodeUtilsService.getInstance().getChildByType(node, MODULE_ID);
-        String moduleName   = moduleIdNode.getValue().toString();
+        String moduleName = moduleIdNode.getValue().toString();
 
-        code.add(String.format(CLASS_PUBLIC.toString(), moduleName));
-        code.add(SUPER_JAVA_LANG_OBJECT.toString());
+        addHeader(moduleName);
+        addDefaultConstructor();
 
         return code.toString();
+    }
+
+    private void addHeader(String moduleName) {
+        code.add(String.format(".class public %s", moduleName));
+        code.add(".super java/lang/Object");
+    }
+
+    private void addDefaultConstructor() {
+        code.add("");
+        code.add("; Default constructor");
+        code.add(".method public <init>()V");
+        code.add("    aload_0");
+        code.add("    invokespecial java/lang/Object/<init>()V");
+        code.add("    return");
+        code.add(".end method");
     }
 }

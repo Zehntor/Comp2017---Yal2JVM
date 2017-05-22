@@ -3,7 +3,7 @@ module yal_001 {
     function a[] = doStuff(n[], m) {
         d = 1;
         n[0] = d;
-        a = n;
+        a = n;não é arroz, é um gelado!
     }
 
     function b() {
