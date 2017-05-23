@@ -556,9 +556,9 @@ void Varlist()       : {Token t0; Token t1;}
                 jjtree.closeNodeScope(jjtn001, true);
               }
             }
-/*@egen*/       ) ("["/*@bgen(jjtree) IsArray */
+/*@egen*/       ) ("["/*@bgen(jjtree) VarIsArray */
                                                          {
-                                                           SimpleNode jjtn002 = new SimpleNode(JJTISARRAY);
+                                                           SimpleNode jjtn002 = new SimpleNode(JJTVARISARRAY);
                                                            boolean jjtc002 = true;
                                                            jjtree.openNodeScope(jjtn002);
                                                          }
@@ -569,7 +569,7 @@ void Varlist()       : {Token t0; Token t1;}
                                                              jjtree.closeNodeScope(jjtn002, true);
                                                            }
                                                          }
-/*@egen*/         )?)
+/*@egen*/            )?)
   ( <VIRG> (t1=<ID>/*@bgen(jjtree) VarId */
                     {
                       SimpleNode jjtn003 = new SimpleNode(JJTVARID);
@@ -589,9 +589,9 @@ void Varlist()       : {Token t0; Token t1;}
                       }
                     }
 /*@egen*/       )
-  ("["/*@bgen(jjtree) IsArray */
+  ("["/*@bgen(jjtree) VarIsArray */
        {
-         SimpleNode jjtn004 = new SimpleNode(JJTISARRAY);
+         SimpleNode jjtn004 = new SimpleNode(JJTVARISARRAY);
          boolean jjtc004 = true;
          jjtree.openNodeScope(jjtn004);
        }
@@ -602,7 +602,7 @@ void Varlist()       : {Token t0; Token t1;}
            jjtree.closeNodeScope(jjtn004, true);
          }
        }
-/*@egen*/         )? )*
+/*@egen*/            )? )*
 }
 
 

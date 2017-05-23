@@ -470,7 +470,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 31:
       jj_consume_token(31);
-                                                           SimpleNode jjtn002 = new SimpleNode(JJTISARRAY);
+                                                           SimpleNode jjtn002 = new SimpleNode(JJTVARISARRAY);
                                                            boolean jjtc002 = true;
                                                            jjtree.openNodeScope(jjtn002);
       try {
@@ -512,7 +512,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 31:
         jj_consume_token(31);
-         SimpleNode jjtn004 = new SimpleNode(JJTISARRAY);
+         SimpleNode jjtn004 = new SimpleNode(JJTVARISARRAY);
          boolean jjtc004 = true;
          jjtree.openNodeScope(jjtn004);
         try {

@@ -22,41 +22,42 @@ public interface ParserTreeConstants
   public int JJTFUNCTIONBODY = 16;
   public int JJTFUNCTIONEND = 17;
   public int JJTVARID = 18;
-  public int JJTARRAYID = 19;
-  public int JJTSCALARELEMENT = 20;
-  public int JJTSCALARID = 21;
-  public int JJTSTMTLST = 22;
-  public int JJTSTMT = 23;
-  public int JJTASSIGN = 24;
-  public int JJTLHS = 25;
-  public int JJTRHS = 26;
-  public int JJTTERM = 27;
-  public int JJTARITHOP = 28;
-  public int JJTBITWISEOP = 29;
-  public int JJTARRSIZE = 30;
-  public int JJTSCALAR = 31;
-  public int JJTINTEGER = 32;
-  public int JJTID = 33;
-  public int JJTID2 = 34;
-  public int JJTARGUMENTLIST = 35;
-  public int JJTISFUNC = 36;
-  public int JJTSIZE = 37;
-  public int JJTEXPRTEST = 38;
-  public int JJTWHILE = 39;
-  public int JJTWHILEEND = 40;
-  public int JJTIF = 41;
-  public int JJTIFEND = 42;
-  public int JJTELSE = 43;
-  public int JJTELSEEND = 44;
-  public int JJTCALLID = 45;
-  public int JJTCALLID2 = 46;
-  public int JJTARGUMENT = 47;
-  public int JJTARGUMENTID = 48;
-  public int JJTSTRING = 49;
-  public int JJTARRAYINDEX = 50;
-  public int JJTSCALARSIZE = 51;
-  public int JJTINDEX = 52;
-  public int JJTINDEXID = 53;
+  public int JJTVARISARRAY = 19;
+  public int JJTARRAYID = 20;
+  public int JJTSCALARELEMENT = 21;
+  public int JJTSCALARID = 22;
+  public int JJTSTMTLST = 23;
+  public int JJTSTMT = 24;
+  public int JJTASSIGN = 25;
+  public int JJTLHS = 26;
+  public int JJTRHS = 27;
+  public int JJTTERM = 28;
+  public int JJTARITHOP = 29;
+  public int JJTBITWISEOP = 30;
+  public int JJTARRSIZE = 31;
+  public int JJTSCALAR = 32;
+  public int JJTINTEGER = 33;
+  public int JJTID = 34;
+  public int JJTID2 = 35;
+  public int JJTARGUMENTLIST = 36;
+  public int JJTISFUNC = 37;
+  public int JJTSIZE = 38;
+  public int JJTEXPRTEST = 39;
+  public int JJTWHILE = 40;
+  public int JJTWHILEEND = 41;
+  public int JJTIF = 42;
+  public int JJTIFEND = 43;
+  public int JJTELSE = 44;
+  public int JJTELSEEND = 45;
+  public int JJTCALLID = 46;
+  public int JJTCALLID2 = 47;
+  public int JJTARGUMENT = 48;
+  public int JJTARGUMENTID = 49;
+  public int JJTSTRING = 50;
+  public int JJTARRAYINDEX = 51;
+  public int JJTSCALARSIZE = 52;
+  public int JJTINDEX = 53;
+  public int JJTINDEXID = 54;
 
 
   public String[] jjtNodeName = {
@@ -79,6 +80,7 @@ public interface ParserTreeConstants
     "FunctionBody",
     "FunctionEnd",
     "VarId",
+    "VarIsArray",
     "ArrayId",
     "ScalarElement",
     "ScalarId",
@@ -116,4 +118,4 @@ public interface ParserTreeConstants
     "IndexId",
   };
 }
-/* JavaCC - OriginalChecksum=02077e216b5242d278326be6a68e599e (do not edit this line) */
+/* JavaCC - OriginalChecksum=ce533f398916afa10eca45f84381cc54 (do not edit this line) */

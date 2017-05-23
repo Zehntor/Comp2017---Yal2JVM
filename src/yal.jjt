@@ -121,9 +121,9 @@ void Function() #void : {Token t0; Token t1; Token t2; Token t3;}
 // melhorar identificacao de array
 void Varlist() #void : {Token t0; Token t1;}
 {
-  ((t0=<ID> {jjtThis.getInfoFromToken(t0);} #VarId) ("[" "]" #IsArray)?)
+  ((t0=<ID> {jjtThis.getInfoFromToken(t0);} #VarId) ("[" "]" #VarIsArray)?)
   ( <VIRG> (t1=<ID> {jjtThis.getInfoFromToken(t1);} #VarId)
-  ("[" "]" #IsArray)? )*
+  ("[" "]" #VarIsArray)? )*
 }
 
 

@@ -22,7 +22,7 @@ public enum NodeType {
     WHILE("While"),
     WHILE_END("WhileEnd"),
     VAR_ID("VarId"),
-    IS_ARRAY("IsArray"),
+    VAR_IS_ARRAY("VarIsArray"),
     ASSIGN("Assign"),
     LHS("Lhs"),
     RHS("Rhs");

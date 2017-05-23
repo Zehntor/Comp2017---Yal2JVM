@@ -1,11 +1,12 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
+import java.util.StringJoiner;
+import com.comp.semantic_analyser.NodeType;
+import com.comp.code_generator.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
 
-import static com.comp.semantic_analyser.NodeType.RETURN_ID;
-import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
-import static com.comp.semantic_analyser.NodeType.RETURN_IS_ARRAY;
+import static com.comp.semantic_analyser.NodeType.*;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -14,15 +15,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
-        Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
-        if (functionIdNode == null) {
-            functionIdNode = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID);
-        }
-        String functionId = functionIdNode.getValue().toString();
-
-        String returnType = getReturnType(node);
-
-        addHeader(functionId);
+        addHeader(node);
         // TODO: fill in the function
 
         addFooter();
@@ -30,28 +23,63 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         return code.toString();
     }
 
-    private String getReturnType(Node node) {
-        Node
-            returnId      = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID),
-            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, RETURN_IS_ARRAY);
+    private void addHeader(Node node) {
+        String
+            functionId = getFunctionId(node),
+            argList    = getJasminArgList(node);
+        JasminVarType returnType = getJasminReturnType(node);
 
-        if (returnId == null) {
-            return "V";
-        }
-
-        if (returnIsArray != null) {
-            return "[I";
-        }
-
-        return "I";
-    }
-
-    private void addHeader(String functionId) {
         code.add("");
-        code.add(String.format(".method public static %s", functionId));
+        code.add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
     }
 
     private void addFooter() {
         code.add(".end method");
+    }
+
+    private String getFunctionId(Node node) {
+        Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
+        return functionIdNode.getValue().toString();
+    }
+
+    private String getJasminArgList(Node node) {
+        Node argsNode = NodeUtilsService.getInstance().getChildByType(node, ARGS);
+        if (argsNode == null) {
+            return "";
+        }
+
+        StringJoiner argList = new StringJoiner(" ");
+
+        for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
+            boolean
+                nodeIsVarId     = NodeType.fromString(argsNode.jjtGetChild(n).toString()) == VAR_ID,
+                nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && NodeType.fromString(argsNode.jjtGetChild(n + 1).toString()) == VAR_IS_ARRAY;
+
+            if (nodeIsVarId) {
+                if (nextNodeIsArray) {
+                    argList.add(JasminVarType.ARRAY_OF_INTEGER.toString());
+                } else {
+                    argList.add(JasminVarType.INTEGER.toString());
+                }
+            }
+        }
+
+        return argList.toString();
+    }
+
+    private JasminVarType getJasminReturnType(Node node) {
+        Node
+            returnId = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID),
+            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, RETURN_IS_ARRAY);
+
+        if (returnId == null) {
+            return JasminVarType.VOID;
+        }
+
+        if (returnIsArray != null) {
+            return JasminVarType.ARRAY_OF_INTEGER;
+        }
+
+        return JasminVarType.INTEGER;
     }
 }

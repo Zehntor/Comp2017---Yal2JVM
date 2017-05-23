@@ -12,7 +12,7 @@ module yal_002 {
         a = b + 1;
     }
 
-    function b[] = cenaitona(a, b) {
+    function b[] = cenaitona(a[], b) {
         a = b + 1;
     }
 

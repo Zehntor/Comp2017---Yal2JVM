@@ -88,16 +88,16 @@ public final class FunctionAnaliser extends Analiser {
         Node argsNode = NodeUtilsService.getInstance().getChildByType(node, ARGS);
 
         if (argsNode != null) {
-            for (int m = 0; m < argsNode.jjtGetNumChildren(); m++) {
+            for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
                 boolean
-                    nodeIsVarId     = NodeType.fromString(argsNode.jjtGetChild(m).toString()) == VAR_ID,
-                    nextNodeIsArray = m < argsNode.jjtGetNumChildren() - 1 && NodeType.fromString(argsNode.jjtGetChild(m + 1).toString()) == IS_ARRAY;
+                    nodeIsVarId     = NodeType.fromString(argsNode.jjtGetChild(n).toString()) == VAR_ID,
+                    nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && NodeType.fromString(argsNode.jjtGetChild(n + 1).toString()) == VAR_IS_ARRAY;
                 if (nodeIsVarId) {
-                    Node varListIdNode = argsNode.jjtGetChild(m);
+                    Node varListIdNode = argsNode.jjtGetChild(n);
                     Variable variable;
                     if (nextNodeIsArray) {
                         variable = VariableFactory.getInstance().createVariable(ARRAY);
-                        m++;
+                        n++;
                     } else {
                         variable = VariableFactory.getInstance().createVariable(INTEGER);
                     }
