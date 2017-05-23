@@ -77,8 +77,8 @@ void Module() #void : {Token t0; Token t1;}
 {
     <MODULE> (t0=<ID> {jjtThis.getInfoFromToken(t0);} #ModuleId)
     <LCHAVETA>
-        (Declaration() #Declaration)*
-        (Function() #Function)*
+        (LOOKAHEAD(4) Declaration() #Declaration)*
+        (LOOKAHEAD(4) Function() #Function)*
     (t1=<RCHAVETA> {jjtThis.getInfoFromToken(t1);} #ModuleEnd)
 }
 
@@ -95,16 +95,22 @@ void Declaration() #void : {Token t0; Token t1; Token t2;}
 		<PVIRG>
 }
 
-// function(VarList) {} || function=nome(VarList) {} || function[]=nome(VarList)
 void Function() #void : {Token t0; Token t1; Token t2; Token t3;}
 {
-    (<FUNCTION> (t0=<ID> {jjtThis.getInfoFromToken(t0);} #ReturnId)
-        (
-        (( "[" "]" {jjtThis.setValue("[]");} #ReturnIsArray)?
-        <ASSIGN> (t2=<ID> {jjtThis.getInfoFromToken(t2);} #FunctionName)
-        <LPAR> (Varlist() #Args)? <RPAR>)
-        |
-        (<LPAR> (Varlist() #Args)? <RPAR>))
+    <FUNCTION>
+
+    // Without return
+    (
+        LOOKAHEAD(2) (t0=<ID> {jjtThis.getInfoFromToken(t0);} #FunctionId <LPAR> (Varlist() #Args)? <RPAR>
+    )
+
+    |
+
+    // With return
+    (
+        (t0=<ID> {jjtThis.getInfoFromToken(t0);} #ReturnId) (("[" "]" {jjtThis.setValue("[]");} #ReturnIsArray)?)
+        <ASSIGN>
+        t1=<ID> {jjtThis.getInfoFromToken(t1);} #FunctionId <LPAR> (Varlist() #Args)? <RPAR>)
     )
 
     <LCHAVETA>

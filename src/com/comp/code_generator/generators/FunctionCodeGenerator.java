@@ -4,7 +4,7 @@ import vendor.Node;
 import com.comp.utils.services.NodeUtilsService;
 
 import static com.comp.semantic_analyser.NodeType.RETURN_ID;
-import static com.comp.semantic_analyser.NodeType.FUNCTION_NAME;
+import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
 import static com.comp.semantic_analyser.NodeType.RETURN_IS_ARRAY;
 
 /**
@@ -14,15 +14,15 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
-        Node functionNameNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_NAME);
-        if (functionNameNode == null) {
-            functionNameNode = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID);
+        Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
+        if (functionIdNode == null) {
+            functionIdNode = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID);
         }
-        String functionName = functionNameNode.getValue().toString();
+        String functionId = functionIdNode.getValue().toString();
 
         String returnType = getReturnType(node);
 
-        addHeader(functionName);
+        addHeader(functionId);
         // TODO: fill in the function
 
         addFooter();
@@ -31,13 +31,24 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     }
 
     private String getReturnType(Node node) {
-        Node a = NodeUtilsService.getInstance().getChildByType(node, RETURN_IS_ARRAY);
-        return "";
+        Node
+            returnId      = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID),
+            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, RETURN_IS_ARRAY);
+
+        if (returnId == null) {
+            return "V";
+        }
+
+        if (returnIsArray != null) {
+            return "[I";
+        }
+
+        return "I";
     }
 
-    private void addHeader(String functionName) {
+    private void addHeader(String functionId) {
         code.add("");
-        code.add(String.format(".method public static %s", functionName));
+        code.add(String.format(".method public static %s", functionId));
     }
 
     private void addFooter() {

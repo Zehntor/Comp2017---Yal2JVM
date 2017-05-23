@@ -15,10 +15,10 @@ public interface ParserTreeConstants
   public int JJTARRAYSIZE = 9;
   public int JJTADDSUBOP = 10;
   public int JJTINITVAR = 11;
-  public int JJTRETURNID = 12;
-  public int JJTRETURNISARRAY = 13;
-  public int JJTFUNCTIONNAME = 14;
-  public int JJTARGS = 15;
+  public int JJTFUNCTIONID = 12;
+  public int JJTARGS = 13;
+  public int JJTRETURNID = 14;
+  public int JJTRETURNISARRAY = 15;
   public int JJTFUNCTIONBODY = 16;
   public int JJTFUNCTIONEND = 17;
   public int JJTVARID = 18;
@@ -72,10 +72,10 @@ public interface ParserTreeConstants
     "ArraySize",
     "AddSubOp",
     "InitVar",
+    "FunctionId",
+    "Args",
     "ReturnId",
     "ReturnIsArray",
-    "FunctionName",
-    "Args",
     "FunctionBody",
     "FunctionEnd",
     "VarId",
@@ -116,4 +116,4 @@ public interface ParserTreeConstants
     "IndexId",
   };
 }
-/* JavaCC - OriginalChecksum=3936505681283ea4eb4e418b05719452 (do not edit this line) */
+/* JavaCC - OriginalChecksum=02077e216b5242d278326be6a68e599e (do not edit this line) */

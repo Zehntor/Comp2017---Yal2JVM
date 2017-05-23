@@ -11,7 +11,7 @@ public enum NodeType {
     FUNCTION("Function"),
     RETURN_ID("ReturnId"),
     RETURN_IS_ARRAY("ReturnIsArray"),
-    FUNCTION_NAME("FunctionName"),
+    FUNCTION_ID("FunctionId"),
     ARGS("Args"),
     FUNCTION_BODY("FunctionBody"),
     FUNCTION_END("FunctionEnd"),

@@ -383,9 +383,9 @@ void Function()       : {Token t0; Token t1; Token t2; Token t3;}
                      }
                    }
 /*@egen*/               )?
-        <ASSIGN> (t2=<ID>/*@bgen(jjtree) FunctionName */
+        <ASSIGN> (t2=<ID>/*@bgen(jjtree) FunctionId */
                           {
-                            SimpleNode jjtn003 = new SimpleNode(JJTFUNCTIONNAME);
+                            SimpleNode jjtn003 = new SimpleNode(JJTFunctionId);
                             boolean jjtc003 = true;
                             jjtree.openNodeScope(jjtn003);
                           }

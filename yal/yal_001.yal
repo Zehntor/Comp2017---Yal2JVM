@@ -1,17 +1,17 @@
 module yal_001 {
 
-    function a[] = doStuff(n[], m) {
-        d = 1;
-        n[0] = d;
-        a = n;não é arroz, é um gelado!
-    }
-
     function b() {
         a = b + 1;
     }
 
     function c(arg1) {
         a = b + 1;
+    }
+
+    function a[] = doStuff(n[], m) {
+        d = 1;
+        n[0] = d;
+        a = n;
     }
 
     function a = sqrt(n, m) {

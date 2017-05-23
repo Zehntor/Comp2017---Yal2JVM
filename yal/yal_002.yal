@@ -1,0 +1,19 @@
+module yal_002 {
+
+    function cena() {
+        a = b + 1;
+    }
+
+    function cenaita(a) {
+        a = b + 1;
+    }
+
+    function a = cenaitinha() {
+        a = b + 1;
+    }
+
+    function b[] = cenaitona(a, b) {
+        a = b + 1;
+    }
+
+}

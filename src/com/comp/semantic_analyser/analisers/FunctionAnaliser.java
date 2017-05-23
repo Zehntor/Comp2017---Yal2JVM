@@ -25,7 +25,7 @@ public final class FunctionAnaliser extends Analiser {
             throw new RuntimeException(MISSING_SYMBOL_TABLE_STACK);
         }
 
-        ((FunctionSymbolTable) symbolTableStack.peek()).setId(getFunctionName(node));
+        ((FunctionSymbolTable) symbolTableStack.peek()).setId(getFunctionId(node));
 
         List<Variable> arguments = getFunctionArguments(node);
         if (!arguments.isEmpty()) {
@@ -68,9 +68,9 @@ public final class FunctionAnaliser extends Analiser {
      * @param node
      * @return String
      */
-    private String getFunctionName(Node node) {
+    private String getFunctionId(Node node) {
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
-            if (NodeType.fromString(node.jjtGetChild(n).toString()) == FUNCTION_NAME) {
+            if (NodeType.fromString(node.jjtGetChild(n).toString()) == FUNCTION_ID) {
                 return node.jjtGetChild(n).getValue().toString();
             }
         }
@@ -139,7 +139,7 @@ public final class FunctionAnaliser extends Analiser {
             firstChildType  = NodeType.fromString(node.jjtGetChild(0).toString()),
             secondChildType = NodeType.fromString(node.jjtGetChild(1).toString());
         boolean
-            returnIsInteger = firstChildType == RETURN_ID && secondChildType == FUNCTION_NAME,
+            returnIsInteger = firstChildType == RETURN_ID && secondChildType == FUNCTION_ID,
             returnIsArray   = firstChildType == RETURN_ID && secondChildType == RETURN_IS_ARRAY;
 
         Variable returnVariable;
