@@ -48,7 +48,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             return "";
         }
 
-        StringJoiner argList = new StringJoiner(" ");
+        StringJoiner argList = new StringJoiner(",");
 
         for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
             boolean
