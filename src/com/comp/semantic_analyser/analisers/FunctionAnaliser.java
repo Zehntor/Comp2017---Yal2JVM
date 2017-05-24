@@ -1,11 +1,11 @@
 package com.comp.semantic_analyser.analisers;
 
-import com.comp.utils.services.NodeUtilsService;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
 import com.comp.semantic_analyser.NodeType;
 import com.comp.semantic_analyser.variables.*;
+import com.comp.utils.services.NodeUtilsService;
 import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
 import static com.comp.semantic_analyser.NodeType.*;
@@ -25,7 +25,7 @@ public final class FunctionAnaliser extends Analiser {
             throw new RuntimeException(MISSING_SYMBOL_TABLE_STACK);
         }
 
-        ((FunctionSymbolTable) symbolTableStack.peek()).setId(getFunctionId(node));
+        symbolTableStack.peek().setId(getFunctionId(node));
 
         List<Variable> arguments = getFunctionArguments(node);
         if (!arguments.isEmpty()) {
@@ -69,10 +69,10 @@ public final class FunctionAnaliser extends Analiser {
      * @return String
      */
     private String getFunctionId(Node node) {
-        for (int n = 0; n < node.jjtGetNumChildren(); n++) {
-            if (NodeType.fromString(node.jjtGetChild(n).toString()) == FUNCTION_ID) {
-                return node.jjtGetChild(n).getValue().toString();
-            }
+        Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
+
+        if (functionIdNode != null) {
+            return functionIdNode.getValue().toString();
         }
 
         return null;    // Should never happen

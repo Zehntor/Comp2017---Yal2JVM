@@ -26,15 +26,11 @@ public final class SymbolTableTree implements Findable {
     }
 
     @Override
-    public GeneralSymbolTable findChild(String id, SymbolTableType type) {
+    public GeneralSymbolTable find(String id, SymbolTableType type) {
         if (root == null) {
             return null;
         }
 
-        if (root.getId().equals(id) && root.getType() == type) {
-            return root;
-        }
-
-        return root.findChild(id, type);
+        return root.find(id, type);
     }
 }

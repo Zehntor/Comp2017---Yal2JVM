@@ -32,7 +32,7 @@ public final class CodeGeneratorFactory {
             case FUNCTION:
                 return new FunctionCodeGenerator();
             case FUNCTION_BODY:
-                return new FunctionBodyGenerator();
+                return new FunctionBodyCodeGenerator();
         }
 
         return null;

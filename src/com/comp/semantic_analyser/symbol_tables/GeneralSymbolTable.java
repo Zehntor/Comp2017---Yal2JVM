@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import com.comp.semantic_analyser.variables.Variable;
 
+import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.GENERAL;
+
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
 public class GeneralSymbolTable implements Findable {
 
     protected String id;
-    protected SymbolTableType type = SymbolTableType.GENERAL;
     protected final Map<String, Variable> variables   = new HashMap<>();
     protected final List<GeneralSymbolTable> children = new ArrayList<>();
 
@@ -26,7 +27,7 @@ public class GeneralSymbolTable implements Findable {
     }
 
     public SymbolTableType getType() {
-        return type;
+        return GENERAL;
     }
 
     /**
@@ -48,20 +49,25 @@ public class GeneralSymbolTable implements Findable {
         return variables.get(name);
     }
 
+    public Map<String, Variable> getVariables() {
+        return variables;
+    }
+
     public GeneralSymbolTable addChild(GeneralSymbolTable symbolTable) {
         children.add(symbolTable);
         return this;
     }
 
     @Override
-    public GeneralSymbolTable findChild(String id, SymbolTableType type) {
+    public GeneralSymbolTable find(String id, SymbolTableType type) {
+        if (this.id.equals(id) && this.getType() == type) {
+            return this;
+        }
+
         for (GeneralSymbolTable child : children) {
-            if (child.getId().equals(id) && child.getType() == type) {
-                return child;
-            }
-            GeneralSymbolTable grandChild = child.findChild(id, type);
-            if (grandChild != null) {
-                return grandChild;
+            GeneralSymbolTable found = child.find(id, type);
+            if (found != null) {
+                return found;
             }
         }
 

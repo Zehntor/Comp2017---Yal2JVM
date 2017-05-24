@@ -11,7 +11,7 @@ import com.comp.semantic_analyser.symbol_tables.SymbolTableFactory;
  */
 public final class SemanticAnaliser {
 
-    private static SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
+    private SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
 
     /**
      * The one and only instance of this class
@@ -43,6 +43,10 @@ public final class SemanticAnaliser {
         nodeVisitor.setSymbolTableTree(symbolTableTree);
         root.accept(nodeVisitor);
         errors.addAll(nodeVisitor.getErrors());
+    }
+
+    public SymbolTableTree getSymbolTableTree() {
+        return symbolTableTree;
     }
 
     public boolean hasErrors() {

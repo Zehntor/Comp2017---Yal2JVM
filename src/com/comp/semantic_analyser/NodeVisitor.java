@@ -94,6 +94,10 @@ public final class NodeVisitor implements Visitor {
         errors.addAll(analiser.getErrors());
     }
 
+    /**
+     * Processes a function end node
+     * @param node
+     */
     private void processFunctionEnd(Node node) {
         FunctionAnaliser analiser = (FunctionAnaliser) AnaliserFactory.getInstance().createAnaliser(AnaliserType.FUNCTION);
         analiser.setSymbolTableStack(symbolTableStack);
@@ -114,6 +118,10 @@ public final class NodeVisitor implements Visitor {
         symbolTableStack.push(symbolTable);
     }
 
+    /**
+     * Processes an assign node
+     * @param node
+     */
     private void processAssignNode(Node node) {
         AssignAnaliser analiser = (AssignAnaliser) AnaliserFactory.getInstance().createAnaliser(AnaliserType.ASSIGN);
         analiser.setSymbolTableStack(symbolTableStack);

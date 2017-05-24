@@ -19,7 +19,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         addHeader(node);
 
         CodeGenerator functionBodyGenerator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_BODY);
-        Node functionBody                   = NodeUtilsService.getInstance().getChildByType(node, NodeType.FUNCTION_ID);
+        Node functionBody                   = NodeUtilsService.getInstance().getChildByType(node, NodeType.FUNCTION_BODY);
         code.add(functionBodyGenerator.generate(functionBody));
 
         addFooter();
