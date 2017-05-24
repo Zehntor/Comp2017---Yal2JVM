@@ -5,15 +5,7 @@ package com.comp.semantic_analyser.symbol_tables;
  */
 public final class ModuleSymbolTable extends GeneralSymbolTable {
 
-    private String id;
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
+    protected SymbolTableType type = SymbolTableType.MODULE;
 
     @Override
     public String toString() {

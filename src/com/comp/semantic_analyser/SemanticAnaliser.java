@@ -3,11 +3,15 @@ package com.comp.semantic_analyser;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableTree;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableFactory;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
 public final class SemanticAnaliser {
+
+    private static SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
 
     /**
      * The one and only instance of this class
@@ -36,6 +40,7 @@ public final class SemanticAnaliser {
      */
     public void analise(Node root) {
         NodeVisitor nodeVisitor = new NodeVisitor();
+        nodeVisitor.setSymbolTableTree(symbolTableTree);
         root.accept(nodeVisitor);
         errors.addAll(nodeVisitor.getErrors());
     }

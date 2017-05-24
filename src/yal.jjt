@@ -144,18 +144,7 @@ void Stmtlst() : {}
 
 void Stmt() #void : {}
 {
-  While() | If() | (LOOKAHEAD(3) Assign() |  Call() <PVIRG> )
-
- /*
- {System.out.println("while in");} While() | {System.out.println("if in");} If() |
- <ID> ( LOOKAHEAD(2)
- ({System.out.println("assign in");} ( ("[" Index() "]") | ("." <SIZE>)? ) //:lhs()
-    <ASSIGN> Rhs() <PVIRG>
- ) //assign
- |
-  ({System.out.println("call in");} ("." <ID>)? <LPAR> (ArgumentList())? <RPAR>
-  <PVIRG>)//call
- )*/
+    While() | If() | (LOOKAHEAD(3) Assign() |  Call() <PVIRG> )
 }
 
 void Assign() : {}

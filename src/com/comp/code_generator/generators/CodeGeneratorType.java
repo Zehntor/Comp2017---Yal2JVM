@@ -6,7 +6,8 @@ package com.comp.code_generator.generators;
 public enum CodeGeneratorType {
 
     MODULE("module"),
-    FUNCTION("function");
+    FUNCTION("function"),
+    FUNCTION_BODY("function body");
 
     private final String value;
 

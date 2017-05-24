@@ -10,9 +10,9 @@ import com.comp.semantic_analyser.variables.Variable;
  */
 public final class FunctionSymbolTable extends GeneralSymbolTable {
 
+    protected SymbolTableType type = SymbolTableType.FUNCTION;
     private Variable returnVariable;
     private final List<Variable> arguments = new ArrayList<>();
-    private String id;
 
     public void setReturnVariable(Variable returnVariable) {
         this.returnVariable = returnVariable;
@@ -40,14 +40,6 @@ public final class FunctionSymbolTable extends GeneralSymbolTable {
     public FunctionSymbolTable addArguments(List<Variable> arguments) {
         this.arguments.addAll(arguments);
         return this;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     @Override

@@ -59,6 +59,7 @@ public class Yal2jvm {
             System.exit(1);
         }
 
+        // Stop profiling and display the profile
         TimeMemoryProfile profile = TimeMemoryProfilerService.getInstance().stop(profileKey);
         System.out.println();
         System.out.println(String.format("Compilation completed successfully in %s using %s of memory",

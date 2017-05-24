@@ -6,7 +6,8 @@ import com.comp.semantic_analyser.NodeType;
 import com.comp.code_generator.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
 
-import static com.comp.semantic_analyser.NodeType.*;
+import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
+import static com.comp.code_generator.generators.CodeGeneratorType.FUNCTION_BODY;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -16,7 +17,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     @Override
     public String generate(Node node) {
         addHeader(node);
-        // TODO: fill in the function
+
+        CodeGenerator functionBodyGenerator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_BODY);
+        Node functionBody                   = NodeUtilsService.getInstance().getChildByType(node, NodeType.FUNCTION_ID);
+        code.add(functionBodyGenerator.generate(functionBody));
 
         addFooter();
 
@@ -29,8 +33,9 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             argList    = getJasminArgList(node);
         JasminVarType returnType = getJasminReturnType(node);
 
-        code.add("");
-        code.add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
+        code
+            .add("")
+            .add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
     }
 
     private void addFooter() {
@@ -43,7 +48,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     }
 
     private String getJasminArgList(Node node) {
-        Node argsNode = NodeUtilsService.getInstance().getChildByType(node, ARGS);
+        Node argsNode = NodeUtilsService.getInstance().getChildByType(node, NodeType.ARGS);
         if (argsNode == null) {
             return "";
         }
@@ -52,8 +57,8 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
         for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
             boolean
-                nodeIsVarId     = NodeType.fromString(argsNode.jjtGetChild(n).toString()) == VAR_ID,
-                nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && NodeType.fromString(argsNode.jjtGetChild(n + 1).toString()) == VAR_IS_ARRAY;
+                nodeIsVarId     = NodeType.fromString(argsNode.jjtGetChild(n).toString()) == NodeType.VAR_ID,
+                nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && NodeType.fromString(argsNode.jjtGetChild(n + 1).toString()) == NodeType.VAR_IS_ARRAY;
 
             if (nodeIsVarId) {
                 if (nextNodeIsArray) {
@@ -69,8 +74,8 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
     private JasminVarType getJasminReturnType(Node node) {
         Node
-            returnId = NodeUtilsService.getInstance().getChildByType(node, RETURN_ID),
-            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, RETURN_IS_ARRAY);
+            returnId = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_ID),
+            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_IS_ARRAY);
 
         if (returnId == null) {
             return JasminVarType.VOID;

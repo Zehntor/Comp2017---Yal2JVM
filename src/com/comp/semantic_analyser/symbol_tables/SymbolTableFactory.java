@@ -36,6 +36,14 @@ public final class SymbolTableFactory {
     }
 
     /**
+     * Creates and returns a SymbolTableTree instance
+     * @return SymbolTableTree
+     */
+    public SymbolTableTree createSymbolTableTree() {
+        return new SymbolTableTree();
+    }
+
+    /**
      * Creates and returns a GeneralSymbolTable instance
      * @return GeneralSymbolTable
      */

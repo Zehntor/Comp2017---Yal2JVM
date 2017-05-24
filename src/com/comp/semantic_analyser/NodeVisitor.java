@@ -15,6 +15,12 @@ public final class NodeVisitor implements Visitor {
 
     private final SymbolTableStack symbolTableStack = SymbolTableFactory.getInstance().createSymbolTableStack();
     private final List<String> errors = new ArrayList<>();
+    private SymbolTableTree symbolTableTree;
+
+    public NodeVisitor setSymbolTableTree(SymbolTableTree symbolTableTree) {
+        this.symbolTableTree = symbolTableTree;
+        return this;
+    }
 
     public void visit(Node node) {
         NodeType nodeType = NodeType.fromString(node.toString());
@@ -64,6 +70,7 @@ public final class NodeVisitor implements Visitor {
 
         ModuleSymbolTable symbolTable = (ModuleSymbolTable) SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.MODULE);
         symbolTableStack.push(symbolTable);
+        symbolTableTree.setRoot(symbolTable);
         analiser.setSymbolTableStack(symbolTableStack);
 
         analiser.analise(node);
@@ -79,6 +86,7 @@ public final class NodeVisitor implements Visitor {
         FunctionAnaliser analiser       = (FunctionAnaliser) AnaliserFactory.getInstance().createAnaliser(AnaliserType.FUNCTION);
         FunctionSymbolTable symbolTable = (FunctionSymbolTable) SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.FUNCTION);
 
+        symbolTableStack.peek().addChild(symbolTable);
         symbolTableStack.push(symbolTable);
         analiser.setSymbolTableStack(symbolTableStack);
 
@@ -102,6 +110,7 @@ public final class NodeVisitor implements Visitor {
      */
     private void processGeneralNode(Node node) {
         GeneralSymbolTable symbolTable = SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.GENERAL);
+        symbolTableStack.peek().addChild(symbolTable);
         symbolTableStack.push(symbolTable);
     }
 
