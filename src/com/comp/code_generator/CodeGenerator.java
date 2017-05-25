@@ -13,8 +13,6 @@ import java.io.BufferedWriter;
  */
 public final class CodeGenerator {
 
-    private static final String FILENAME_TEMPLATE = "%s.j";
-
     /**
      * The one and only instance of this class
      */
@@ -29,15 +27,12 @@ public final class CodeGenerator {
         return instance;
     }
 
-    public void generateCode(Node root) {
+    public void generateCode(Node root, String outputFilename) {
         NodeVisitor nodeVisitor = new NodeVisitor();
         root.accept(nodeVisitor);
         errors.addAll(nodeVisitor.getErrors());
         if (!hasErrors()) {
-            writeCode(
-                getFilename(nodeVisitor.getModuleName()),
-                nodeVisitor.getCode()
-            );
+            writeCode(outputFilename, nodeVisitor.getCode());
         }
     }
 
@@ -57,9 +52,5 @@ public final class CodeGenerator {
         } catch (IOException e) {
             errors.add(e.getMessage());
         }
-    }
-
-    private String getFilename(String moduleName) {
-        return String.format(FILENAME_TEMPLATE, moduleName);
     }
 }

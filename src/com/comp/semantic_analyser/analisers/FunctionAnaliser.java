@@ -58,7 +58,7 @@ public final class FunctionAnaliser extends Analiser {
             isValidInteger = returnVariable.getType() == INTEGER, // && value != null,
             isValidArray   = returnVariable.getType() == ARRAY; // TODO  && ((List<Integer>) value).isEmpty()
 
-        if (!isValidInteger  && !isValidArray) {
+        if (!isValidInteger && !isValidArray) {
             addError(String.format(MISSING_RETURN_ASSIGNMENT, symbolTable.getId(), node.getLine(), node.getColumn()));
         }
     }

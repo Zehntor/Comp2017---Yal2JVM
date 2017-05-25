@@ -35,6 +35,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
         code
             .add("")
+            .add(String.format("; Function %s", functionId))
             .add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
     }
 

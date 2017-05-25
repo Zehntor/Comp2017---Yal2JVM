@@ -14,6 +14,8 @@ import com.comp.profiler.services.TimeMemoryProfilerService;
 
 public class Yal2jvm {
 
+    private static final String inputFilename_TEMPLATE = "%s.j";
+
     /**
      * Application entry point
      * Façade method for the whole compiler
@@ -29,35 +31,8 @@ public class Yal2jvm {
             System.exit(1);
         }
 
-        String filename = args[0];
-
-        // Syntatic
-        SimpleNode root = null;
-        try {
-            Parser parser = new Parser(new FileInputStream(filename));
-            root = parser.Start();
-            root.dump("");
-        } catch (FileNotFoundException e) {
-            System.out.println(String.format("File %s not found"));
-            System.exit(1);
-        } catch (ParseException e) {
-            System.out.println(String.format("A parse exception occurred while parsing file %s:%n%s", filename, e.getMessage()));
-            System.exit(1);
-        }
-
-        // Semantic
-        SemanticAnaliser.getInstance().analise(root);
-        if (SemanticAnaliser.getInstance().hasErrors()) {
-            showErrors(SemanticAnaliser.getInstance().getErrors());
-            System.exit(1);
-        }
-
-        // Code generation
-        CodeGenerator.getInstance().generateCode(root);
-        if (CodeGenerator.getInstance().hasErrors()) {
-            showErrors(CodeGenerator.getInstance().getErrors());
-            System.exit(1);
-        }
+        // Compile
+        compile(args[0]);
 
         // Stop profiling and display the profile
         TimeMemoryProfile profile = TimeMemoryProfilerService.getInstance().stop(profileKey);
@@ -81,6 +56,67 @@ public class Yal2jvm {
         }
 
         return args.length == 1;
+    }
+
+    private static void compile(String inputFilename) {
+        SimpleNode root = performSyntacticAnalysis(inputFilename);
+        performSemanticAlysis(root);
+        performCodeGeneration(root, getOutputFilename(inputFilename));
+    }
+
+    /**
+     * Performs the syntactic analysis step of the compilation
+     * @param inputFilename
+     * @return SimpleNode the root node
+     */
+    private static SimpleNode performSyntacticAnalysis(String inputFilename) {
+        SimpleNode root = null;
+        try {
+            Parser parser = new Parser(new FileInputStream(inputFilename));
+            root = parser.Start();
+            root.dump("");
+        } catch (FileNotFoundException e) {
+            System.out.println(String.format("File %s not found"));
+            System.exit(1);
+        } catch (ParseException e) {
+            System.out.println(String.format("A parse exception occurred while parsing file %s:%n%s", inputFilename, e.getMessage()));
+            System.exit(1);
+        }
+
+        return root;
+    }
+
+    /**
+     * Performs the semantic analysis step of the compilation
+     * @param root the root node
+     */
+    private static void performSemanticAlysis(SimpleNode root) {
+        SemanticAnaliser.getInstance().analise(root);
+        if (SemanticAnaliser.getInstance().hasErrors()) {
+            showErrors(SemanticAnaliser.getInstance().getErrors());
+            System.exit(1);
+        }
+    }
+
+    /**
+     * ﻿Performs the code generation step of the compilation
+     * @param root the root node
+     */
+    private static void performCodeGeneration(SimpleNode root, String outputFilename) {
+        CodeGenerator.getInstance().generateCode(root, outputFilename);
+        if (CodeGenerator.getInstance().hasErrors()) {
+            showErrors(CodeGenerator.getInstance().getErrors());
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Determines the output file name based on the input file name
+     * @param inputFilename
+     * @return String
+     */
+    private static String getOutputFilename(String inputFilename) {
+        return inputFilename.replace(".yal", ".j");
     }
 
     /**

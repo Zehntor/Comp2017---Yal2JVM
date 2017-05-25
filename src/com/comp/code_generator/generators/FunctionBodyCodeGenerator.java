@@ -30,6 +30,9 @@ public class FunctionBodyCodeGenerator extends CodeGenerator {
         FunctionSymbolTable symbolTable = (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().find(functionId, FUNCTION);
 
         int limit = symbolTable.getArguments().size() + symbolTable.getVariables().size();
+        if (symbolTable.getReturnVariable() != null) {
+            limit++;
+        }
 
         code
             .add(String.format("    .limit stack %s", limit))

@@ -21,7 +21,6 @@ public final class NodeVisitor implements Visitor, Generator {
 
     private final List<String> errors = new ArrayList<>();
     private final StringJoiner code   = new StringJoiner("\n");
-    private String moduleName;
 
     public void visit(Node node) {
         NodeType nodeType = NodeType.fromString(node.toString());
@@ -32,7 +31,6 @@ public final class NodeVisitor implements Visitor, Generator {
             switch (nodeType) {
                 case MODULE:
                     generator = CodeGeneratorFactory.getInstance().createGenerator(MODULE);
-                    moduleName = NodeUtilsService.getInstance().getChildByType(node, MODULE_ID).getValue().toString();
                     code.add(generator.generate(node));
                     break;
                 case FUNCTION:
@@ -67,10 +65,5 @@ public final class NodeVisitor implements Visitor, Generator {
             .append(code.toString())
             .append("\n")
             .toString();
-    }
-
-    @Override
-    public String getModuleName() {
-        return moduleName;
     }
 }
