@@ -28,7 +28,7 @@ public class TimeMemoryProfilerService {
 
     /**
      * Returns the one and only instance of this class
-     * @return
+     * @return TimeMemoryProfilerService
      */
     public static TimeMemoryProfilerService getInstance() {
         return instance;

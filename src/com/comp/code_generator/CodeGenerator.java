@@ -20,13 +20,25 @@ public final class CodeGenerator {
 
     private final List<String> errors = new ArrayList<>();
 
+    /**
+     * Private constructor, so this class cannot be instantiated outside
+     */
     private CodeGenerator() {
     }
 
+    /**
+     * Returns the one and only instance of this class
+     * @return CodeGenerator
+     */
     public static CodeGenerator getInstance() {
         return instance;
     }
 
+    /**
+     * Generates and writes code
+     * @param root
+     * @param outputFilename
+     */
     public void generateCode(Node root, String outputFilename) {
         NodeVisitor nodeVisitor = new NodeVisitor();
         root.accept(nodeVisitor);
@@ -36,17 +48,30 @@ public final class CodeGenerator {
         }
     }
 
+    /**
+     * Returns true if there are errors; false otherwise
+     * @return
+     */
     public boolean hasErrors() {
         return !errors.isEmpty();
     }
 
+    /**
+     * Returns the error list
+     * @return
+     */
     public List<String> getErrors() {
         return errors;
     }
 
-    private void writeCode(String filename, String code) {
+    /**
+     * Writes the generated code to file
+     * @param outputFilename
+     * @param code
+     */
+    private void writeCode(String outputFilename, String code) {
         try {
-            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filename))) {
+            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outputFilename))) {
                 writer.write(code);
             }
         } catch (IOException e) {
