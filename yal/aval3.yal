@@ -4,6 +4,7 @@ module aval3  {
         if(a >= b) {
             c = 2;
         } else {
+            c = 4;
         }
     }
 
