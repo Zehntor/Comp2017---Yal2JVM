@@ -1,8 +1,8 @@
 package com.comp.semantic_analyser.analisers;
 
-import com.comp.semantic_analyser.variables.IntegerVariable;
 import vendor.Node;
 import com.comp.utils.services.NodeUtilsService;
+import com.comp.semantic_analyser.variables.IntegerVariable;
 
 import static com.comp.semantic_analyser.NodeType.LHS;
 
