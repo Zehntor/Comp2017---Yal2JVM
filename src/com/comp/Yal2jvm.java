@@ -14,8 +14,9 @@ import com.comp.profiler.services.TimeMemoryProfilerService;
 
 public class Yal2jvm {
 
-    private static final String YAL_EXTENSION    = "yal";
-    private static final String JASMIN_EXTENSION = "j";
+    private static final String YAL_EXTENSION      = "yal";
+    private static final String JASMIN_EXTENSION   = "j";
+    private static final String COMPILATION_FAILED = "Compilation failed...";
 
     /**
      * Application entry point
@@ -75,7 +76,7 @@ public class Yal2jvm {
         try {
             Parser parser = new Parser(new FileInputStream(inputFilename));
             root = parser.Start();
-            root.dump("");
+            // root.dump("");
         } catch (FileNotFoundException e) {
             System.out.println(String.format("File %s not found. Cannot do anything about that; exiting now.", inputFilename));
             System.exit(1);
@@ -94,7 +95,12 @@ public class Yal2jvm {
     private static void performSemanticAnalysis(SimpleNode root) {
         SemanticAnaliser.getInstance().analise(root);
         if (SemanticAnaliser.getInstance().hasErrors()) {
-            showErrors(SemanticAnaliser.getInstance().getErrors());
+            List<String> errors = SemanticAnaliser.getInstance().getErrors();
+            System.out.println(COMPILATION_FAILED);
+            System.out.println(
+                UtilsService.getInstance().getHumanReadableNumber(errors.size(),"semantic error:")
+            );
+            showErrors(errors);
             System.exit(1);
         }
     }
@@ -106,6 +112,11 @@ public class Yal2jvm {
     private static void performCodeGeneration(SimpleNode root, String outputFilename) {
         CodeGenerator.getInstance().generateCode(root, outputFilename);
         if (CodeGenerator.getInstance().hasErrors()) {
+            List<String> errors = CodeGenerator.getInstance().getErrors();
+            System.out.println(COMPILATION_FAILED);
+            System.out.println(
+                UtilsService.getInstance().getHumanReadableNumber(errors.size(),"code generation error:")
+            );
             showErrors(CodeGenerator.getInstance().getErrors());
             System.exit(1);
         }
@@ -131,7 +142,7 @@ public class Yal2jvm {
      */
     private static void showErrors(List<String> errors) {
         for (String error : errors) {
-            System.out.println(error);
+            System.out.println(String.format("    -> %s", error));
         }
     }
 }

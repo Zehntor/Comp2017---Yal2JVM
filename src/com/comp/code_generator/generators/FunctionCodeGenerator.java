@@ -17,11 +17,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     @Override
     public String generate(Node node) {
         addHeader(node);
-
-        CodeGenerator functionBodyGenerator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_BODY);
-        Node functionBody                   = NodeUtilsService.getInstance().getChildByType(node, NodeType.FUNCTION_BODY);
-        code.add(functionBodyGenerator.generate(functionBody));
-
+        addBody(node);
         addFooter();
 
         return code.toString();
@@ -37,6 +33,12 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             .add("")
             .add(String.format("; Function %s", functionId))
             .add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
+    }
+
+    private void addBody(Node node) {
+        CodeGenerator functionBodyGenerator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_BODY);
+        Node functionBody                   = NodeUtilsService.getInstance().getChildByType(node, NodeType.FUNCTION_BODY);
+        code.add(functionBodyGenerator.generate(functionBody));
     }
 
     private void addFooter() {

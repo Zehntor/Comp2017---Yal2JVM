@@ -1,24 +1,21 @@
+module aval3  {
 
-module aval3 
-{
-
-function c=f(a, b) {
-    if(a >= b) {
-	c = 2;
-    } else {
-	c = 4;
+    function c=f(a, b) {
+        if(a >= b) {
+            c = 2;
+        } else {
+        }
     }
-}
 
-function main() {
-   a=2;
-   b=3;
-   a=f(a,b);
-   io.println(a);    // result = 4
+    function mainax() {
+        a = 2;
+        b = 3;
+        a = f(a,b);
+        io.println(a);    // result = 4
 
-   a=6;
-   a=f(a,b);
-   io.println(a);    // result = 2
-}
+        a = 6;
+        a = f(a,b);
+        io.println(a);    // result = 2
+    }
 
 }

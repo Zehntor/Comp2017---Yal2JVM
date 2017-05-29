@@ -24,4 +24,12 @@ public class UtilsService {
     public String formatBytes(long bytes) {
         return utils.formatBytes(bytes);
     }
+
+    public String getHumanReadableNumber(int number, String singular) {
+        return utils.getHumanReadableNumber(number, singular);
+    }
+
+    public String getHumanReadableNumber(int number, String singular, String plural) {
+        return utils.getHumanReadableNumber(number, singular, plural);
+    }
 }

@@ -17,4 +17,8 @@ public class NodeUtils {
 
         return null;
     }
+
+    public boolean nodeIsOfType(Node node, NodeType type) {
+        return NodeType.fromString(node.toString()) == type;
+    }
 }

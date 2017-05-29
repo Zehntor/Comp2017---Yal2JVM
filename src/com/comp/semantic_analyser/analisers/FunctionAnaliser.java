@@ -31,7 +31,9 @@ public final class FunctionAnaliser extends Analiser {
         if (!arguments.isEmpty()) {
             checkDuplicateArguments(arguments);
         }
-        ((FunctionSymbolTable) symbolTableStack.peek()).addArguments(arguments);
+        ((FunctionSymbolTable) symbolTableStack.peek())
+            .addArguments(arguments)
+            .addVariables(arguments);
 
         createReturnVariable(node);
     }
@@ -142,15 +144,24 @@ public final class FunctionAnaliser extends Analiser {
             returnIsInteger = firstChildType == RETURN_ID && secondChildType == FUNCTION_ID,
             returnIsArray   = firstChildType == RETURN_ID && secondChildType == RETURN_IS_ARRAY;
 
-        Variable returnVariable;
-        if (returnIsInteger) {
-            ((FunctionSymbolTable) symbolTableStack.peek()).setReturnVariable(
-                VariableFactory.getInstance().createVariable(INTEGER)
-            );
-        } else if (returnIsArray) {
-            ((FunctionSymbolTable) symbolTableStack.peek()).setReturnVariable(
-                VariableFactory.getInstance().createVariable(ARRAY)
-            );
+        if (!returnIsInteger && !returnIsArray) {
+            return;
         }
+
+
+        Variable returnVariable;
+
+        if (returnIsInteger) {
+            returnVariable = VariableFactory.getInstance().createVariable(INTEGER);
+        } else  {   // returnIsArray
+            returnVariable = VariableFactory.getInstance().createVariable(ARRAY);
+        }
+
+        returnVariable.setName(
+            NodeUtilsService.getInstance().getChildByType(node, RETURN_ID).getValue().toString()
+        );
+        ((FunctionSymbolTable) symbolTableStack.peek())
+            .setReturnVariable(returnVariable)
+            .addVariable(returnVariable);
     }
 }

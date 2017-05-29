@@ -40,6 +40,14 @@ public class GeneralSymbolTable implements Findable {
         return this;
     }
 
+    public GeneralSymbolTable addVariables(List<Variable> variables) {
+        for (Variable variable : variables) {
+            addVariable(variable);
+        }
+
+        return this;
+    }
+
     /**
      * Finds an entry by name and returns it
      * @param name
@@ -60,7 +68,7 @@ public class GeneralSymbolTable implements Findable {
 
     @Override
     public GeneralSymbolTable findSymbolTable(String id, SymbolTableType type) {
-        if (this.id.equals(id) && this.getType() == type) {
+        if (this.id != null && this.id.equals(id) && this.getType() == type) {
             return this;
         }
 

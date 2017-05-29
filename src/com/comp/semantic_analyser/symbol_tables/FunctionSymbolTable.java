@@ -20,8 +20,9 @@ public final class FunctionSymbolTable extends GeneralSymbolTable {
         return FUNCTION;
     }
 
-    public void setReturnVariable(Variable returnVariable) {
+    public FunctionSymbolTable setReturnVariable(Variable returnVariable) {
         this.returnVariable = returnVariable;
+        return this;
     }
 
     public Variable getReturnVariable() {
@@ -62,9 +63,17 @@ public final class FunctionSymbolTable extends GeneralSymbolTable {
         if (returnVariable != null) {
             switch (returnVariable.getType()) {
                 case INTEGER:
-                    return String.format("FunctionSymbolTable{id = %s, arguments = [%s], return type = integer}", id, stringJoiner.toString());
+                    return String.format("FunctionSymbolTable{id = %s, arguments = [%s], return = [%s], type = integer}",
+                        id,
+                        stringJoiner.toString(),
+                        returnVariable.getName()
+                    );
                 case ARRAY:
-                    return String.format("FunctionSymbolTable{id = %s, arguments = [%s]}, return type = array", id, stringJoiner.toString());
+                    return String.format("FunctionSymbolTable{id = %s, arguments = [%s]}, return = [%s], type = array",
+                        id,
+                        stringJoiner.toString(),
+                        returnVariable.getName()
+                    );
             }
         }
 
