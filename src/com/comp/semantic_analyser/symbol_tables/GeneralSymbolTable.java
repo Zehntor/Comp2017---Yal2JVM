@@ -31,12 +31,12 @@ public class GeneralSymbolTable implements Findable {
     }
 
     /**
-     * Adds an entry to the symbol table
-     * @param entry
+     * Adds an variable to the symbol table
+     * @param variable
      * @return GeneralSymbolTable, for a fluent interface
      */
-    public GeneralSymbolTable addVariable(Variable entry) {
-        variables.put(entry.getName(), entry);
+    public GeneralSymbolTable addVariable(Variable variable) {
+        variables.put(variable.getName(), variable);
         return this;
     }
 
@@ -59,13 +59,29 @@ public class GeneralSymbolTable implements Findable {
     }
 
     @Override
-    public GeneralSymbolTable find(String id, SymbolTableType type) {
+    public GeneralSymbolTable findSymbolTable(String id, SymbolTableType type) {
         if (this.id.equals(id) && this.getType() == type) {
             return this;
         }
 
         for (GeneralSymbolTable child : children) {
-            GeneralSymbolTable found = child.find(id, type);
+            GeneralSymbolTable found = child.findSymbolTable(id, type);
+            if (found != null) {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Variable findVariable(String name) {
+        if (variables.containsKey(name)) {
+            return variables.get(name);
+        }
+
+        for (GeneralSymbolTable child : children) {
+            Variable found = child.findVariable(name);
             if (found != null) {
                 return found;
             }

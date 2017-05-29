@@ -189,7 +189,7 @@ void Term() #void: {Token tInt; Token t0; Token t1; Token tSize; Token tOp;}
     | ( (t0=<ID> {jjtThis.getInfoFromToken(t0);} #Id)
             ( LOOKAHEAD(2)
             (("." (t1=<ID> {jjtThis.getInfoFromToken(t1);} #Id2))?
-         <LPAR> (ArgumentList() #ArgumentList)? <RPAR> {jjtThis.setValue("IsFunc"); } #IsFunc)
+         <LPAR> (ArgumentList() #ArgumentList)? <RPAR> {jjtThis.setValue("IsFunction"); } #IsFunction)
         | ( ("[" Index() /*#Index*/ "]") | ("." tSize=<SIZE> {jjtThis.getInfoFromToken(tSize);} #Size)? ))
         ))
 }

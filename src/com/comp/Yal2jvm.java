@@ -14,7 +14,8 @@ import com.comp.profiler.services.TimeMemoryProfilerService;
 
 public class Yal2jvm {
 
-    private static final String inputFilename_TEMPLATE = "%s.j";
+    private static final String YAL_EXTENSION    = "yal";
+    private static final String JASMIN_EXTENSION = "j";
 
     /**
      * Application entry point
@@ -60,7 +61,7 @@ public class Yal2jvm {
 
     private static void compile(String inputFilename) {
         SimpleNode root = performSyntacticAnalysis(inputFilename);
-        performSemanticAlysis(root);
+        performSemanticAnalysis(root);
         performCodeGeneration(root, getOutputFilename(inputFilename));
     }
 
@@ -76,7 +77,7 @@ public class Yal2jvm {
             root = parser.Start();
             root.dump("");
         } catch (FileNotFoundException e) {
-            System.out.println(String.format("File %s not found"));
+            System.out.println(String.format("File %s not found. Cannot do anything about that; exiting now.", inputFilename));
             System.exit(1);
         } catch (ParseException e) {
             System.out.println(String.format("A parse exception occurred while parsing file %s:%n%s", inputFilename, e.getMessage()));
@@ -90,7 +91,7 @@ public class Yal2jvm {
      * Performs the semantic analysis step of the compilation
      * @param root the root node
      */
-    private static void performSemanticAlysis(SimpleNode root) {
+    private static void performSemanticAnalysis(SimpleNode root) {
         SemanticAnaliser.getInstance().analise(root);
         if (SemanticAnaliser.getInstance().hasErrors()) {
             showErrors(SemanticAnaliser.getInstance().getErrors());
@@ -116,7 +117,12 @@ public class Yal2jvm {
      * @return String
      */
     private static String getOutputFilename(String inputFilename) {
-        return inputFilename.replace(".yal", ".j");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+            .append(inputFilename.substring(0, inputFilename.length() - YAL_EXTENSION.length()))
+            .append(JASMIN_EXTENSION);
+
+        return stringBuilder.toString();
     }
 
     /**

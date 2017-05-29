@@ -11,6 +11,18 @@ public abstract class Variable {
     protected int column;
     protected VariableType type;
 
+    public Variable() {
+    }
+
+    public Variable(String name) {
+        this.name = name;
+    }
+
+    public Variable(String name, Object value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public Variable setName(String name) {
         this.name = name;
         return this;

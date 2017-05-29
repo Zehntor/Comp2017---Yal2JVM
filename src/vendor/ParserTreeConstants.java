@@ -40,7 +40,7 @@ public interface ParserTreeConstants
   public int JJTID = 34;
   public int JJTID2 = 35;
   public int JJTARGUMENTLIST = 36;
-  public int JJTISFUNC = 37;
+  public int JJTISFUNCTION = 37;
   public int JJTSIZE = 38;
   public int JJTEXPRTEST = 39;
   public int JJTWHILE = 40;
@@ -98,7 +98,7 @@ public interface ParserTreeConstants
     "Id",
     "Id2",
     "ArgumentList",
-    "IsFunc",
+    "IsFunction",
     "Size",
     "Exprtest",
     "While",
@@ -118,4 +118,4 @@ public interface ParserTreeConstants
     "IndexId",
   };
 }
-/* JavaCC - OriginalChecksum=ce533f398916afa10eca45f84381cc54 (do not edit this line) */
+/* JavaCC - OriginalChecksum=d1bdd23a600922e5d6245282677a9cc6 (do not edit this line) */

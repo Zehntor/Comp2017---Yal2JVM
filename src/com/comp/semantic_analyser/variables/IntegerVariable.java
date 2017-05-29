@@ -7,6 +7,13 @@ public final class IntegerVariable extends Variable {
 
     private Integer value;
 
+    public IntegerVariable() {
+    }
+
+    public IntegerVariable(String name) {
+        super(name);
+    }
+
     public void setValue(Integer value) {
         this.value = value;
     }

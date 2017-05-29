@@ -27,7 +27,7 @@ public class FunctionBodyCodeGenerator extends CodeGenerator {
     private void addLimits(Node node) {
         String functionId = getFunctionId(node);
 
-        FunctionSymbolTable symbolTable = (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().find(functionId, FUNCTION);
+        FunctionSymbolTable symbolTable = (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().findSymbolTable(functionId, FUNCTION);
 
         int limit = symbolTable.getArguments().size() + symbolTable.getVariables().size();
         if (symbolTable.getReturnVariable() != null) {

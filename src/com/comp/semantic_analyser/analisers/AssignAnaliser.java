@@ -1,5 +1,6 @@
 package com.comp.semantic_analyser.analisers;
 
+import com.comp.semantic_analyser.variables.IntegerVariable;
 import vendor.Node;
 import com.comp.utils.services.NodeUtilsService;
 
@@ -17,5 +18,11 @@ public class AssignAnaliser extends Analiser {
 
         // TODO
         Node lhsNode = NodeUtilsService.getInstance().getChildByType(node, LHS);
+        String variableName = lhsNode.getValue().toString();
+        boolean variableExists = symbolTableStack.peek().findVariable(variableName) != null;
+
+        if (!variableExists) {
+            symbolTableStack.peek().addVariable(new IntegerVariable(variableName));
+        }
     }
 }
