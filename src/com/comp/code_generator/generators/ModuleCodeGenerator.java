@@ -22,17 +22,19 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addHeader(String moduleName) {
-        code.add(String.format(".class public %s", moduleName));
-        code.add(".super java/lang/Object");
+        code
+            .add(String.format(".class public %s", moduleName))
+            .add(".super java/lang/Object");
     }
 
     private void addDefaultConstructor() {
-        code.add("");
-        code.add("; Default constructor");
-        code.add(".method public <init>()V");
-        code.add("    aload_0");
-        code.add("    invokespecial java/lang/Object/<init>()V");
-        code.add("    return");
-        code.add(".end method");
+        code
+            .add("")
+            .add("; Default constructor")
+            .add(".method static public <clinit>()V")
+            .add("    .limit stack 0")
+            .add("    .limit locals 0")
+            .add("    return")
+            .add(".end method");
     }
 }

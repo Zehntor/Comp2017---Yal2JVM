@@ -1,10 +1,9 @@
 package com.comp.semantic_analyser;
 
-import com.comp.common.Visitor;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
-import com.comp.semantic_analyser.NodeType;
+import com.comp.common.Visitor;
 import com.comp.semantic_analyser.analisers.*;
 import com.comp.semantic_analyser.symbol_tables.*;
 
@@ -13,8 +12,9 @@ import com.comp.semantic_analyser.symbol_tables.*;
  */
 public final class NodeVisitor implements Visitor {
 
-    private final SymbolTableStack symbolTableStack = SymbolTableFactory.getInstance().createSymbolTableStack();
-    private final List<String> errors = new ArrayList<>();
+    private final SymbolTableStack symbolTableStack       = SymbolTableFactory.getInstance().createSymbolTableStack();
+    private final List<String> errors                     = new ArrayList<>();
+    private final List<FunctionSymbolTable> functionCalls = new ArrayList<>();
     private SymbolTableTree symbolTableTree;
 
     public NodeVisitor setSymbolTableTree(SymbolTableTree symbolTableTree) {
@@ -60,6 +60,10 @@ public final class NodeVisitor implements Visitor {
         return errors;
     }
 
+    public List<FunctionSymbolTable> getFunctionCalls() {
+        return functionCalls;
+    }
+
     /**
      * Processes a module node
      * Collects the module id and stores it in the the symbol table
@@ -89,6 +93,7 @@ public final class NodeVisitor implements Visitor {
         symbolTableStack.peek().addChild(symbolTable);
         symbolTableStack.push(symbolTable);
         analiser.setSymbolTableStack(symbolTableStack);
+        analiser.setSymbolTableTree(symbolTableTree);
 
         analiser.analise(node);
         errors.addAll(analiser.getErrors());
@@ -126,5 +131,11 @@ public final class NodeVisitor implements Visitor {
         AssignAnaliser analiser = (AssignAnaliser) AnaliserFactory.getInstance().createAnaliser(AnaliserType.ASSIGN);
         analiser.setSymbolTableStack(symbolTableStack);
         analiser.analise(node);
+
+        if (analiser.hasFunctionCalls(node)) {
+            functionCalls.addAll(analiser.getFunctionCalls(node));
+        }
+
+
     }
 }

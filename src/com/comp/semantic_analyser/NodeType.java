@@ -25,7 +25,12 @@ public enum NodeType {
     VAR_IS_ARRAY("VarIsArray"),
     ASSIGN("Assign"),
     LHS("Lhs"),
-    RHS("Rhs");
+    RHS("Rhs"),
+    TERM("Term"),
+    IS_FUNCTION("IsFunction"),
+    ID("Id"),
+    ARGUMENT_LIST("ArgumentList"),
+    ARGUMENT_ID("ArgumentId");
 
     private final String value;
 

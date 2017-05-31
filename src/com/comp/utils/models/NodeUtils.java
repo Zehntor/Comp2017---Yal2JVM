@@ -18,6 +18,10 @@ public class NodeUtils {
         return null;
     }
 
+    public boolean hasChildOfType(Node node, NodeType type) {
+        return getChildByType(node, type) != null;
+    }
+
     public boolean nodeIsOfType(Node node, NodeType type) {
         return NodeType.fromString(node.toString()) == type;
     }

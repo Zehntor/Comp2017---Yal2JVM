@@ -24,10 +24,17 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     }
 
     private void addHeader(Node node) {
-        String
-            functionId = getFunctionId(node),
+        String functionId = getFunctionId(node);
+        String argList;
+        JasminVarType returnType;
+
+        if (functionId.equals("main")) {
+            argList    = "[Ljava/lang/String;";
+            returnType = JasminVarType.VOID;
+        } else {
             argList    = getJasminArgList(node);
-        JasminVarType returnType = getJasminReturnType(node);
+            returnType = getJasminReturnType(node);
+        }
 
         code
             .add("")

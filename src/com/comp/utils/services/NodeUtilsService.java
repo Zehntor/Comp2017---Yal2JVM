@@ -27,6 +27,10 @@ public class NodeUtilsService {
         return nodeUtils.getChildByType(node, type);
     }
 
+    public boolean hasChildOfType(Node node, NodeType type) {
+        return nodeUtils.hasChildOfType(node, type);
+    }
+
     public boolean nodeIsOfType(Node node, NodeType type) {
         return nodeUtils.nodeIsOfType(node, type);
     }

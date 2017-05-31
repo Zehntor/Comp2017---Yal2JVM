@@ -1,20 +1,22 @@
 package com.comp.semantic_analyser;
 
+import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
+import com.comp.semantic_analyser.symbol_tables.GeneralSymbolTable;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
-import com.comp.utils.services.NodeUtilsService;
 import com.comp.semantic_analyser.symbol_tables.SymbolTableTree;
 import com.comp.semantic_analyser.symbol_tables.SymbolTableFactory;
 
-import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
+import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
 public final class SemanticAnaliser {
 
-    private static final String MISSING_MAIN_FUNCTION = "Missing main function";
+    private static final String MISSING_MAIN_FUNCTION        = "Missing main function";
+    private static final String CALL_TO_NONEXISTENT_FUNCTION = "Call to nonexistent function '%s' @ %s, %s";
 
     private SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
 
@@ -47,7 +49,10 @@ public final class SemanticAnaliser {
         NodeVisitor nodeVisitor = new NodeVisitor();
         nodeVisitor.setSymbolTableTree(symbolTableTree);
         root.accept(nodeVisitor);
-        checkMainFunctionExists(root);
+
+        checkMainFunctionExists();
+        checkFunctionCalls(nodeVisitor.getFunctionCalls());
+
         errors.addAll(nodeVisitor.getErrors());
     }
 
@@ -63,28 +68,24 @@ public final class SemanticAnaliser {
         return errors;
     }
 
-    private void checkMainFunctionExists(Node root) {
-        if (!mainFunctionExists(root)) {
+    private void checkMainFunctionExists() {
+        if (symbolTableTree.findSymbolTable("main", FUNCTION) == null) {
             errors.add(MISSING_MAIN_FUNCTION);
         }
     }
 
-    private boolean mainFunctionExists(Node node) {
-        boolean
-            isFunction = NodeUtilsService.getInstance().nodeIsOfType(node, FUNCTION_ID),
-            nameIsMain = node.getValue() != null && node.getValue().equals("main");
-
-        if (isFunction && nameIsMain) {
-            return true;
-        }
-
-        for (int n = 0; n < node.jjtGetNumChildren(); n++) {
-            boolean found = mainFunctionExists(node.jjtGetChild(n));
-            if (found) {
-                return true;
+    private void checkFunctionCalls(List<FunctionSymbolTable> functionCalls) {
+        for (FunctionSymbolTable functionCall : functionCalls) {
+            String functionCallName                = functionCall.getId();
+            GeneralSymbolTable functionSymbolTable = symbolTableTree.findSymbolTable(functionCallName, FUNCTION);
+            if (functionSymbolTable == null) {
+                errors.add(String.format(CALL_TO_NONEXISTENT_FUNCTION,
+                    functionCall.getId(),
+                    functionCall.getLine(),
+                    functionCall.getColumn()
+                ));
             }
+            int functionCallArgumentCount = functionCall.getArguments().size();
         }
-
-        return false;
     }
 }

@@ -14,6 +14,8 @@ import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.GENERAL;
 public class GeneralSymbolTable implements Findable {
 
     protected String id;
+    protected int line;
+    protected int column;
     protected final Map<String, Variable> variables   = new HashMap<>();
     protected final List<GeneralSymbolTable> children = new ArrayList<>();
 
@@ -24,6 +26,24 @@ public class GeneralSymbolTable implements Findable {
 
     public String getId() {
         return id;
+    }
+
+    public GeneralSymbolTable setLine(int line) {
+        this.line = line;
+        return this;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public GeneralSymbolTable setColumn(int column) {
+        this.column = column;
+        return this;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     public SymbolTableType getType() {

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.comp.semantic_analyser.NodeType;
 import com.comp.semantic_analyser.variables.*;
 import com.comp.utils.services.NodeUtilsService;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableType;
 import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
 import static com.comp.semantic_analyser.NodeType.*;
@@ -19,12 +20,14 @@ public final class FunctionAnaliser extends Analiser {
 
     private static final String DUPLICATE_ARGUMENT_ERROR_TEMPLATE = "Duplicate function argument '%s' found @ %s, %s";
     private static final String MISSING_RETURN_ASSIGNMENT         = "Missing return assignment for function '%s' @ %s, %s";
+    public static final String DUPLICATE_FUNCTION_ID              = "Duplicate function id '%s' @ %s, %s";
 
     public void analise(Node node) {
         if (symbolTableStack == null) {
             throw new RuntimeException(MISSING_SYMBOL_TABLE_STACK);
         }
 
+        checkDuplicateFunctionId(node);
         symbolTableStack.peek().setId(getFunctionId(node));
 
         List<Variable> arguments = getFunctionArguments(node);
@@ -61,7 +64,11 @@ public final class FunctionAnaliser extends Analiser {
             isValidArray   = returnVariable.getType() == ARRAY; // TODO  && ((List<Integer>) value).isEmpty()
 
         if (!isValidInteger && !isValidArray) {
-            addError(String.format(MISSING_RETURN_ASSIGNMENT, symbolTable.getId(), node.getLine(), node.getColumn()));
+            addError(String.format(MISSING_RETURN_ASSIGNMENT,
+                symbolTable.getId(),
+                node.getLine(),
+                node.getColumn()
+            ));
         }
     }
 
@@ -136,6 +143,10 @@ public final class FunctionAnaliser extends Analiser {
         }
     }
 
+    /**
+     * Creates and fills a return variable
+     * @param node
+     */
     private void createReturnVariable(Node node) {
         NodeType
             firstChildType  = NodeType.fromString(node.jjtGetChild(0).toString()),
@@ -147,7 +158,6 @@ public final class FunctionAnaliser extends Analiser {
         if (!returnIsInteger && !returnIsArray) {
             return;
         }
-
 
         Variable returnVariable;
 
@@ -163,5 +173,17 @@ public final class FunctionAnaliser extends Analiser {
         ((FunctionSymbolTable) symbolTableStack.peek())
             .setReturnVariable(returnVariable)
             .addVariable(returnVariable);
+    }
+
+    private void checkDuplicateFunctionId(Node node) {
+        String functionId = getFunctionId(node);
+        if (symbolTableTree.findSymbolTable(functionId, SymbolTableType.FUNCTION) != null) {
+            Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
+            addError(String.format(DUPLICATE_FUNCTION_ID,
+                functionId,
+                functionIdNode.getLine(),
+                functionIdNode.getColumn()
+            ));
+        }
     }
 }

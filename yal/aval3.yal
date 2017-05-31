@@ -8,14 +8,17 @@ module aval3  {
         }
     }
 
-    function mainax() {
+    function f() {
+    }
+
+    function main() {
         a = 2;
         b = 3;
-        a = f(a,b);
+        a = f(a, b) + fa(b, a);
         io.println(a);    // result = 4
 
         a = 6;
-        a = f(a,b);
+        a = f(a, b);
         io.println(a);    // result = 2
     }
 
