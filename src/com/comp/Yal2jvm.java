@@ -97,9 +97,9 @@ public class Yal2jvm {
         if (SemanticAnaliser.getInstance().hasErrors()) {
             List<String> errors = SemanticAnaliser.getInstance().getErrors();
             System.out.println(COMPILATION_FAILED);
-            System.out.println(
-                UtilsService.getInstance().getHumanReadableNumber(errors.size(),"semantic error:")
-            );
+            System.out.println(String.format("%s:",
+                UtilsService.getInstance().getHumanReadableNumber(errors.size(),"semantic error")
+            ));
             showErrors(errors);
             System.exit(1);
         }
