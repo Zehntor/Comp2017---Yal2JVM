@@ -5,9 +5,10 @@ import java.util.StringJoiner;
 import com.comp.semantic_analyser.NodeType;
 import com.comp.code_generator.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
+import com.comp.semantic_analyser.SemanticAnaliser;
+import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
-import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
-import static com.comp.code_generator.generators.CodeGeneratorType.FUNCTION_BODY;
+import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -17,14 +18,13 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     @Override
     public String generate(Node node) {
         addHeader(node);
-        addBody(node);
-        addFooter();
+        addLimits(node);
 
         return code.toString();
     }
 
     private void addHeader(Node node) {
-        String functionId = getFunctionId(node);
+        String functionId = NodeUtilsService.getInstance().getFunctionId(node);
         String argList;
         JasminVarType returnType;
 
@@ -42,19 +42,20 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             .add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
     }
 
-    private void addBody(Node node) {
-        CodeGenerator functionBodyGenerator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_BODY);
-        Node functionBody                   = NodeUtilsService.getInstance().getChildByType(node, NodeType.FUNCTION_BODY);
-        code.add(functionBodyGenerator.generate(functionBody));
-    }
+    private void addLimits(Node node) {
+        String functionId = NodeUtilsService.getInstance().getFunctionId(node);
 
-    private void addFooter() {
-        code.add(".end method");
-    }
+        FunctionSymbolTable symbolTable =
+            (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().findSymbolTable(functionId, FUNCTION);
 
-    private String getFunctionId(Node node) {
-        Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
-        return functionIdNode.getValue().toString();
+        int limit = symbolTable.getArguments().size() + symbolTable.getVariables().size();
+        if (symbolTable.getReturnVariable() != null) {
+            limit++;
+        }
+
+        code
+            .add(String.format("    .limit stack %s", limit))
+            .add(String.format("    .limit locals %s", limit));
     }
 
     private String getJasminArgList(Node node) {

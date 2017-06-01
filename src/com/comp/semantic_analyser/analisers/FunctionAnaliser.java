@@ -28,7 +28,9 @@ public final class FunctionAnaliser extends Analiser {
         }
 
         checkDuplicateFunctionId(node);
-        symbolTableStack.peek().setId(getFunctionId(node));
+        symbolTableStack.peek().setId(
+            NodeUtilsService.getInstance().getFunctionId(node)
+        );
 
         List<Variable> arguments = getFunctionArguments(node);
         if (!arguments.isEmpty()) {
@@ -70,21 +72,6 @@ public final class FunctionAnaliser extends Analiser {
                 node.getColumn()
             ));
         }
-    }
-
-    /**
-     * Finds and returns the function name
-     * @param node
-     * @return String
-     */
-    private String getFunctionId(Node node) {
-        Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
-
-        if (functionIdNode != null) {
-            return functionIdNode.getValue().toString();
-        }
-
-        return null;    // Should never happen
     }
 
     /**
@@ -176,7 +163,7 @@ public final class FunctionAnaliser extends Analiser {
     }
 
     private void checkDuplicateFunctionId(Node node) {
-        String functionId = getFunctionId(node);
+        String functionId = NodeUtilsService.getInstance().getFunctionId(node);
         if (symbolTableTree.findSymbolTable(functionId, SymbolTableType.FUNCTION) != null) {
             Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
             addError(String.format(DUPLICATE_FUNCTION_ID,

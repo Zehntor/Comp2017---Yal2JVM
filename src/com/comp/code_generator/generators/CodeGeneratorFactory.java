@@ -31,8 +31,10 @@ public final class CodeGeneratorFactory {
                 return new ModuleCodeGenerator();
             case FUNCTION:
                 return new FunctionCodeGenerator();
-            case FUNCTION_BODY:
-                return new FunctionBodyCodeGenerator();
+            case FUNCTION_END:
+                return new FunctionEndCodeGenerator();
+            case FUNCTION_CALL:
+                return new FunctionCallGenerator();
         }
 
         return null;

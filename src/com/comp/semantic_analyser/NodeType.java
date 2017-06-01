@@ -30,7 +30,8 @@ public enum NodeType {
     IS_FUNCTION("IsFunction"),
     ID("Id"),
     ARGUMENT_LIST("ArgumentList"),
-    ARGUMENT_ID("ArgumentId");
+    ARGUMENT_ID("ArgumentId"),
+    CALL_ID("CallId");
 
     private final String value;
 

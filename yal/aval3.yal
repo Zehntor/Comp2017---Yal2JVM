@@ -1,6 +1,8 @@
 module aval3  {
 
     function c=f(a, b) {
+        io.println("cenas");
+
         if(a >= b) {
             c = 2;
         } else {
@@ -11,7 +13,7 @@ module aval3  {
     function main() {
         a = 2;
         b = 3;
-        a = f(a) + f(b, a);
+        a = f(a, b) + f(b, a);
         io.println(a);    // result = 4
 
         a = 6;

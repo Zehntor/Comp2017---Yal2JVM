@@ -34,4 +34,13 @@ public class NodeUtilsService {
     public boolean nodeIsOfType(Node node, NodeType type) {
         return nodeUtils.nodeIsOfType(node, type);
     }
+
+    /**
+     * Finds and returns the function id
+     * @param node
+     * @return String
+     */
+    public String getFunctionId(Node node) {
+        return nodeUtils.getFunctionId(node);
+    }
 }

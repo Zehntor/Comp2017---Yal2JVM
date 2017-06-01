@@ -10,9 +10,8 @@ import com.comp.utils.services.NodeUtilsService;
 import com.comp.code_generator.generators.CodeGenerator;
 import com.comp.code_generator.generators.CodeGeneratorFactory;
 
+import static com.comp.code_generator.generators.CodeGeneratorType.*;
 import static com.comp.semantic_analyser.NodeType.MODULE_ID;
-import static com.comp.code_generator.generators.CodeGeneratorType.MODULE;
-import static com.comp.code_generator.generators.CodeGeneratorType.FUNCTION;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -44,12 +43,18 @@ public final class NodeVisitor implements Visitor, Generator {
                 case MODULE_END:
                     break;
                 case FUNCTION_END:
+                    generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_END);
+                    code.add(generator.generate(node));
                     break;
                 case IF_END:
                 case ELSE_END:
                 case WHILE_END:
                     break;
                 case ASSIGN:
+                    break;
+                case CALL_ID:
+                    generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_CALL);
+                    code.add(generator.generate(node));
                     break;
             }
         }
