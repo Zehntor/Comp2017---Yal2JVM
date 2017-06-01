@@ -1,7 +1,5 @@
 package com.comp.semantic_analyser;
 
-import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
-import com.comp.semantic_analyser.symbol_tables.GeneralSymbolTable;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
@@ -16,7 +14,6 @@ import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 public final class SemanticAnaliser {
 
     private static final String MISSING_MAIN_FUNCTION        = "Missing main function";
-    private static final String CALL_TO_NONEXISTENT_FUNCTION = "Call to nonexistent function '%s' @ %s, %s";
 
     private SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
 
@@ -51,7 +48,7 @@ public final class SemanticAnaliser {
         root.accept(nodeVisitor);
 
         checkMainFunctionExists();
-        checkFunctionCalls(nodeVisitor.getFunctionCalls());
+        nodeVisitor.checkFunctionCalls();
 
         errors.addAll(nodeVisitor.getErrors());
     }
@@ -71,21 +68,6 @@ public final class SemanticAnaliser {
     private void checkMainFunctionExists() {
         if (symbolTableTree.findSymbolTable("main", FUNCTION) == null) {
             errors.add(MISSING_MAIN_FUNCTION);
-        }
-    }
-
-    private void checkFunctionCalls(List<FunctionSymbolTable> functionCalls) {
-        for (FunctionSymbolTable functionCall : functionCalls) {
-            String functionCallName                = functionCall.getId();
-            GeneralSymbolTable functionSymbolTable = symbolTableTree.findSymbolTable(functionCallName, FUNCTION);
-            if (functionSymbolTable == null) {
-                errors.add(String.format(CALL_TO_NONEXISTENT_FUNCTION,
-                    functionCall.getId(),
-                    functionCall.getLine(),
-                    functionCall.getColumn()
-                ));
-            }
-            int functionCallArgumentCount = functionCall.getArguments().size();
         }
     }
 }

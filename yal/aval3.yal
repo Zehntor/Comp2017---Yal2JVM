@@ -8,13 +8,10 @@ module aval3  {
         }
     }
 
-    function f() {
-    }
-
     function main() {
         a = 2;
         b = 3;
-        a = f(a, b) + fa(b, a);
+        a = f(a) + f(b, a);
         io.println(a);    // result = 4
 
         a = 6;

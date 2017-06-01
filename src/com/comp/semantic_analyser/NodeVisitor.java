@@ -4,13 +4,19 @@ import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
 import com.comp.common.Visitor;
+import com.comp.utils.services.UtilsService;
 import com.comp.semantic_analyser.analisers.*;
 import com.comp.semantic_analyser.symbol_tables.*;
+
+import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
 public final class NodeVisitor implements Visitor {
+
+    private static final String CALL_TO_NONEXISTENT_FUNCTION          = "Call to nonexistent function '%s' @ %s, %s";
+    private static final String WRONG_ARGUMENT_COUNT_IN_FUNCTION_CALL = "Wrong argument count in function call. Has %s, should have %s";
 
     private final SymbolTableStack symbolTableStack       = SymbolTableFactory.getInstance().createSymbolTableStack();
     private final List<String> errors                     = new ArrayList<>();
@@ -60,8 +66,31 @@ public final class NodeVisitor implements Visitor {
         return errors;
     }
 
-    public List<FunctionSymbolTable> getFunctionCalls() {
-        return functionCalls;
+    /**
+     * Checks that function calls call existent functions and that the parameter count is correct
+     */
+    public void checkFunctionCalls() {
+        for (FunctionSymbolTable functionCall : functionCalls) {
+            String functionCallName                = functionCall.getId();
+            FunctionSymbolTable functionSymbolTable = (FunctionSymbolTable) symbolTableTree.findSymbolTable(functionCallName, FUNCTION);
+            if (functionSymbolTable == null) {
+                errors.add(String.format(CALL_TO_NONEXISTENT_FUNCTION,
+                    functionCall.getId(),
+                    functionCall.getLine(),
+                    functionCall.getColumn()
+                ));
+            } else {
+                int
+                    functionCallArgumentCount = functionCall.getArguments().size(),
+                    functionArgumentCount     = functionSymbolTable.getArguments().size();
+                if (functionArgumentCount != functionCallArgumentCount) {
+                    errors.add(String.format(WRONG_ARGUMENT_COUNT_IN_FUNCTION_CALL,
+                        UtilsService.getInstance().getHumanReadableNumber(functionCallArgumentCount, "argument"),
+                        functionArgumentCount
+                    ));
+                }
+            }
+        }
     }
 
     /**
@@ -70,7 +99,7 @@ public final class NodeVisitor implements Visitor {
      * @param node
      */
     private void processModuleNode(Node node) {
-        ModuleAnaliser analiser       = (ModuleAnaliser) AnaliserFactory.getInstance().createAnaliser(AnaliserType.MODULE);
+        ModuleAnaliser analiser = (ModuleAnaliser) AnaliserFactory.getInstance().createAnaliser(AnaliserType.MODULE);
 
         ModuleSymbolTable symbolTable = (ModuleSymbolTable) SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.MODULE);
         symbolTableStack.push(symbolTable);
@@ -135,7 +164,5 @@ public final class NodeVisitor implements Visitor {
         if (analiser.hasFunctionCalls(node)) {
             functionCalls.addAll(analiser.getFunctionCalls(node));
         }
-
-
     }
 }
