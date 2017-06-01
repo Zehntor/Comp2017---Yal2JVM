@@ -16,7 +16,7 @@ import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 public final class NodeVisitor implements Visitor {
 
     private static final String CALL_TO_NONEXISTENT_FUNCTION          = "Call to nonexistent function '%s' @ %s, %s";
-    private static final String WRONG_ARGUMENT_COUNT_IN_FUNCTION_CALL = "Wrong argument count in function call. Has %s, should have %s";
+    private static final String WRONG_ARGUMENT_COUNT_IN_FUNCTION_CALL = "Wrong argument count in function call @ %s, %s. Has %s, should have %s";
 
     private final SymbolTableStack symbolTableStack       = SymbolTableFactory.getInstance().createSymbolTableStack();
     private final List<String> errors                     = new ArrayList<>();
@@ -85,6 +85,8 @@ public final class NodeVisitor implements Visitor {
                     functionArgumentCount     = functionSymbolTable.getArguments().size();
                 if (functionArgumentCount != functionCallArgumentCount) {
                     errors.add(String.format(WRONG_ARGUMENT_COUNT_IN_FUNCTION_CALL,
+                        functionCall.getLine(),
+                        functionCall.getColumn(),
                         UtilsService.getInstance().getHumanReadableNumber(functionCallArgumentCount, "argument"),
                         functionArgumentCount
                     ));
