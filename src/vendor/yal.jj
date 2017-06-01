@@ -1126,9 +1126,9 @@ void Term()      : {Token tInt; Token t0; Token t1; Token tSize; Token tOp;}
                      jjtree.closeNodeScope(jjtn005, true);
                    }
                  }
-/*@egen*/              )? <RPAR>/*@bgen(jjtree) IsFunction */
+/*@egen*/              )? <RPAR>/*@bgen(jjtree) FunctionCall */
                                                        {
-                                                         SimpleNode jjtn006 = new SimpleNode(JJTISFUNCTION);
+                                                         SimpleNode jjtn006 = new SimpleNode(JJTFUNCTIONCALL);
                                                          boolean jjtc006 = true;
                                                          jjtree.openNodeScope(jjtn006);
                                                        }
@@ -1138,13 +1138,13 @@ void Term()      : {Token tInt; Token t0; Token t1; Token tSize; Token tOp;}
                                                          jjtree.closeNodeScope(jjtn006, true);
                                                          jjtc006 = false;
                                                        }
-/*@egen*/ {jjtn006.setValue("IsFunction"); }/*@bgen(jjtree)*/
+/*@egen*/ {jjtn006.setValue("FunctionCall"); }/*@bgen(jjtree)*/
                                                        } finally {
                                                          if (jjtc006) {
                                                            jjtree.closeNodeScope(jjtn006, true);
                                                          }
                                                        }
-/*@egen*/            )
+/*@egen*/              )
         | ( ("[" Index() /*#Index*/ "]") | ("." tSize=<SIZE>/*@bgen(jjtree) Size */
                                                              {
                                                                SimpleNode jjtn007 = new SimpleNode(JJTSIZE);

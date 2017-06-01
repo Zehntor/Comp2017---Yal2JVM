@@ -34,7 +34,7 @@ public final class CodeGeneratorFactory {
             case FUNCTION_END:
                 return new FunctionEndCodeGenerator();
             case FUNCTION_CALL:
-                return new FunctionCallGenerator();
+                return new FunctionCallCodeGenerator();
         }
 
         return null;

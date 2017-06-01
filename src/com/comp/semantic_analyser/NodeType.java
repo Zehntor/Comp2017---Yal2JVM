@@ -31,7 +31,8 @@ public enum NodeType {
     ID("Id"),
     ARGUMENT_LIST("ArgumentList"),
     ARGUMENT_ID("ArgumentId"),
-    CALL_ID("CallId");
+    CALL_ID("CallId"),
+    FUNCTION_CALL("FunctionCall");
 
     private final String value;
 

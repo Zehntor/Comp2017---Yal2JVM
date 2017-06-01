@@ -1,8 +1,6 @@
 module aval3  {
 
     function c=f(a, b) {
-        io.println("cenas");
-
         if(a >= b) {
             c = 2;
         } else {

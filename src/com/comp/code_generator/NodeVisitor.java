@@ -52,6 +52,7 @@ public final class NodeVisitor implements Visitor, Generator {
                     break;
                 case ASSIGN:
                     break;
+                case FUNCTION_CALL:
                 case CALL_ID:
                     generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_CALL);
                     code.add(generator.generate(node));

@@ -64,7 +64,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             return "";
         }
 
-        StringJoiner argList = new StringJoiner(",");
+        StringBuilder argList = new StringBuilder();
 
         for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
             boolean
@@ -73,9 +73,9 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
             if (nodeIsVarId) {
                 if (nextNodeIsArray) {
-                    argList.add(JasminVarType.ARRAY_OF_INTEGER.toString());
+                    argList.append(JasminVarType.ARRAY_OF_INTEGER.toString());
                 } else {
-                    argList.add(JasminVarType.INTEGER.toString());
+                    argList.append(JasminVarType.INTEGER.toString());
                 }
             }
         }

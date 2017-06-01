@@ -1,7 +1,5 @@
 module helloWorld {
-    function n=main() {
+    function main() {
         io.print("Hello World");
-        n = 2;
-        n = n + 1;
     }
 }

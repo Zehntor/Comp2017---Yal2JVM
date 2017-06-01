@@ -1083,13 +1083,13 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
           ;
         }
         jj_consume_token(RPAR);
-                                                         SimpleNode jjtn006 = new SimpleNode(JJTISFUNCTION);
+                                                         SimpleNode jjtn006 = new SimpleNode(JJTFUNCTIONCALL);
                                                          boolean jjtc006 = true;
                                                          jjtree.openNodeScope(jjtn006);
         try {
                                                          jjtree.closeNodeScope(jjtn006, true);
                                                          jjtc006 = false;
-                                                        jjtn006.setValue("IsFunction");
+                                                        jjtn006.setValue("FunctionCall");
         } finally {
                                                          if (jjtc006) {
                                                            jjtree.closeNodeScope(jjtn006, true);
