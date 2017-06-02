@@ -3,6 +3,7 @@ package com.comp.semantic_analyser;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
+import com.comp.utils.services.NodeUtilsService;
 import com.comp.semantic_analyser.symbol_tables.SymbolTableTree;
 import com.comp.semantic_analyser.symbol_tables.SymbolTableFactory;
 
@@ -13,9 +14,11 @@ import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
  */
 public final class SemanticAnaliser {
 
-    private static final String MISSING_MAIN_FUNCTION        = "Missing main function";
+    private static final String MISSING_MAIN_FUNCTION = "Missing main function";
 
-    private SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
+    private final SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
+
+    private String moduleName;
 
     /**
      * The one and only instance of this class
@@ -51,6 +54,8 @@ public final class SemanticAnaliser {
         nodeVisitor.checkFunctionCalls();
 
         errors.addAll(nodeVisitor.getErrors());
+
+        findModuleName(root);
     }
 
     public SymbolTableTree getSymbolTableTree() {
@@ -65,9 +70,26 @@ public final class SemanticAnaliser {
         return errors;
     }
 
+    public String getModuleName() {
+        return moduleName;
+    }
+
     private void checkMainFunctionExists() {
         if (symbolTableTree.findSymbolTable("main", FUNCTION) == null) {
             errors.add(MISSING_MAIN_FUNCTION);
+        }
+    }
+
+    private void findModuleName(Node node) {
+        if (NodeUtilsService.getInstance().nodeIsOfType(node, NodeType.MODULE_ID)) {
+            moduleName = node.getValue().toString();
+        }
+
+        for (int n = 0; n < node.jjtGetNumChildren(); n++) {
+            findModuleName(node.jjtGetChild(n));
+            if (moduleName != null) {
+                return;
+            }
         }
     }
 }

@@ -1,10 +1,9 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-import java.util.StringJoiner;
-import com.comp.semantic_analyser.NodeType;
-import com.comp.code_generator.JasminVarType;
+import com.comp.common.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
+import com.comp.utils.services.JasminUtilsService;
 import com.comp.semantic_analyser.SemanticAnaliser;
 import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
@@ -23,6 +22,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         return code.toString();
     }
 
+    /**
+     * Adds the function header
+     * @param node a FUNTION node
+     */
     private void addHeader(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
         String argList;
@@ -32,8 +35,8 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             argList    = "[Ljava/lang/String;";
             returnType = JasminVarType.VOID;
         } else {
-            argList    = getJasminArgList(node);
-            returnType = getJasminReturnType(node);
+            argList    = JasminUtilsService.getInstance().getJasminArgListFromNode(node);
+            returnType = JasminUtilsService.getInstance().getJasminReturnTypeFromNode(node);
         }
 
         code
@@ -56,46 +59,5 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         code
             .add(String.format("    .limit stack %s", limit))
             .add(String.format("    .limit locals %s", limit));
-    }
-
-    private String getJasminArgList(Node node) {
-        Node argsNode = NodeUtilsService.getInstance().getChildByType(node, NodeType.ARGS);
-        if (argsNode == null) {
-            return "";
-        }
-
-        StringBuilder argList = new StringBuilder();
-
-        for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
-            boolean
-                nodeIsVarId     = NodeType.fromString(argsNode.jjtGetChild(n).toString()) == NodeType.VAR_ID,
-                nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && NodeType.fromString(argsNode.jjtGetChild(n + 1).toString()) == NodeType.VAR_IS_ARRAY;
-
-            if (nodeIsVarId) {
-                if (nextNodeIsArray) {
-                    argList.append(JasminVarType.ARRAY_OF_INTEGER.toString());
-                } else {
-                    argList.append(JasminVarType.INTEGER.toString());
-                }
-            }
-        }
-
-        return argList.toString();
-    }
-
-    private JasminVarType getJasminReturnType(Node node) {
-        Node
-            returnId = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_ID),
-            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_IS_ARRAY);
-
-        if (returnId == null) {
-            return JasminVarType.VOID;
-        }
-
-        if (returnIsArray != null) {
-            return JasminVarType.ARRAY_OF_INTEGER;
-        }
-
-        return JasminVarType.INTEGER;
     }
 }

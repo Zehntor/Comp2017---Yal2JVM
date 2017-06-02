@@ -1,4 +1,4 @@
-package com.comp.code_generator;
+package com.comp.common;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
