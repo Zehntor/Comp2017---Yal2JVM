@@ -22,9 +22,9 @@ PARSER_END(Parser)
 
 
 
-//GRAMATICA
+// Grammar
 
-//simbolos nao considerados na analise
+// Ignored symbols
 <DEFAULT> SKIP : {
   	 " "
 	| "\t"
@@ -34,7 +34,7 @@ PARSER_END(Parser)
 	| < "*/" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/" >
 }
 
-// definicao dos tokens (simbolos terminais)
+// Terminal tokens
 <DEFAULT> TOKEN : {
 	<RELA_OP: ">" | "<" | "<=" | ">=" | "==" | "!=">
 	| <ADDSUB_OP: "+" | "-">
@@ -58,7 +58,7 @@ PARSER_END(Parser)
 
 }
 
-// definicao da producao
+// Production definition
 <DEFAULT> TOKEN : {
     <INTEGER: (<DIGIT>)+>
     	| <ID: <LETTER> (<LETTER> | <DIGIT>)*>
@@ -118,14 +118,12 @@ void Function() #void : {Token t0; Token t1; Token t2; Token t3;}
     (t3=<RCHAVETA> {jjtThis.getInfoFromToken(t3);} #FunctionEnd)
 }
 
-// melhorar identificacao de array
 void Varlist() #void : {Token t0; Token t1;}
 {
   ((t0=<ID> {jjtThis.getInfoFromToken(t0);} #VarId) ("[" "]" #VarIsArray)?)
   ( <VIRG> (t1=<ID> {jjtThis.getInfoFromToken(t1);} #VarId)
   ("[" "]" #VarIsArray)? )*
 }
-
 
 void ArrayElement() #void : {Token t;}
 {
@@ -155,7 +153,6 @@ void Assign() : {}
 
 void Lhs() : {Token t0; Token sizeToken;}
 {
-    //ArrayAccess() | ScalarAccess()
     t0=<ID> {jjtThis.getInfoFromToken(t0);} (
         ("[" Index() "]") | ("." sizeToken=<SIZE> {jjtThis.getInfoFromToken(sizeToken);})?
     )
@@ -260,6 +257,3 @@ void Index() : {Token t;}
     |
     t=<INTEGER> {jjtThis.getInfoFromToken(t);} #Integer
 }
-
-
-
