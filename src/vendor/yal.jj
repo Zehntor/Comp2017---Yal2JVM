@@ -26,9 +26,9 @@ PARSER_END(Parser)
 
 
 
-//GRAMATICA
+// Grammar
 
-//simbolos nao considerados na analise
+// Ignored symbols
 <DEFAULT> SKIP : {
   	 " "
 	| "\t"
@@ -38,7 +38,7 @@ PARSER_END(Parser)
 	| < "*/" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/" >
 }
 
-// definicao dos tokens (simbolos terminais)
+// Terminal tokens
 <DEFAULT> TOKEN : {
 	<RELA_OP: ">" | "<" | "<=" | ">=" | "==" | "!=">
 	| <ADDSUB_OP: "+" | "-">
@@ -62,7 +62,7 @@ PARSER_END(Parser)
 
 }
 
-// definicao da producao
+// Production definition
 <DEFAULT> TOKEN : {
     <INTEGER: (<DIGIT>)+>
     	| <ID: <LETTER> (<LETTER> | <DIGIT>)*>
@@ -535,7 +535,6 @@ void Function()       : {Token t0; Token t1; Token t2; Token t3;}
 /*@egen*/             )
 }
 
-// melhorar identificacao de array
 void Varlist()       : {Token t0; Token t1;}
 {
   ((t0=<ID>/*@bgen(jjtree) VarId */
@@ -604,7 +603,6 @@ void Varlist()       : {Token t0; Token t1;}
        }
 /*@egen*/            )? )*
 }
-
 
 void ArrayElement()       : {Token t;}
 {
@@ -767,7 +765,6 @@ void Lhs() : {/*@bgen(jjtree) Lhs */
 {/*@bgen(jjtree) Lhs */
     try {
 /*@egen*/
-    //ArrayAccess() | ScalarAccess()
     t0=<ID> {jjtn000.getInfoFromToken(t0);} (
         ("[" Index() "]") | ("." sizeToken=<SIZE> {jjtn000.getInfoFromToken(sizeToken);})?
     )/*@bgen(jjtree)*/
@@ -1631,6 +1628,3 @@ void Index() : {/*@bgen(jjtree) Index */
     }
 /*@egen*/
 }
-
-
-

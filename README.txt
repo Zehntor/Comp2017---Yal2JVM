@@ -26,13 +26,19 @@ GRADE1: 20, CONTRIBUTION1: 100%
 
 
 ** EXECUTE: (indicate how to run your tool)
+
+To perform the compilation to Jasmin:
 java -jar yal2jvm.jar <input-file.yal>
-java -jar jasmin.jar input-file.j
-java input-file
+
+To compile the jasmin file to Java bytecodes:
+java -jar jasmin.jar <input-file.j>
+
+To execute the Java bytecodes:
+java <input-file>
 
 
 **DEALING WITH SYNTACTIC ERRORS: (Describe how the syntactic error recovery of your tool does work. Does it exit after the first error?)
-
+The syntatic error analysis phase is performed by the javacc generated files.
 
 
 **SEMANTIC ANALYSIS: (Refer the possible semantic rules implemented by your tool.)

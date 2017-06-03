@@ -29,9 +29,7 @@ public class Yal2jvm {
         String profileKey = TimeMemoryProfilerService.getInstance().start();
 
         // Check arguments
-        if (!checkArgs(args)) {
-            System.exit(1);
-        }
+        checkArgs(args);
 
         // Compile
         compile(args[0]);
@@ -50,14 +48,17 @@ public class Yal2jvm {
      * Returns true if the arguments are ok, false otherwise
      * Prints a message if the arguments are not ok
      * @param args
-     * @return boolean
      */
-    private static boolean checkArgs(String[] args) {
+    private static void checkArgs(String[] args) {
         if (args.length != 1) {
+            System.out.println("Argument error:");
+            showError("No input file supplied");
             System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
+            abortCompilation();
+        } else if (!args[0].endsWith(YAL_EXTENSION)) {
+            System.out.println(String.format("The input file name must have a '%s' extension", YAL_EXTENSION));
+            abortCompilation();
         }
-
-        return args.length == 1;
     }
 
     /**
@@ -75,6 +76,7 @@ public class Yal2jvm {
 
     /**
      * Performs the syntactic analysis step of the compilation
+     * If there ara errors, shows them and aborts the compilation
      * @param inputFilename
      * @return SimpleNode the root node
      */
@@ -85,11 +87,11 @@ public class Yal2jvm {
             root = parser.Start();
             // root.dump("");
         } catch (FileNotFoundException e) {
-            System.out.println(String.format("File %s not found. Cannot do anything about that; exiting now.", inputFilename));
-            System.exit(1);
+            System.out.println(String.format("File '%s' not found. Cannot do anything about that; exiting now.", inputFilename));
+            abortCompilation();
         } catch (ParseException e) {
-            System.out.println(String.format("A parse exception occurred while parsing file %s:%n%s", inputFilename, e.getMessage()));
-            System.exit(1);
+            System.out.println(String.format("A parse exception occurred while parsing file '%s':%n%s", inputFilename, e.getMessage()));
+            abortCompilation();
         }
 
         return root;
@@ -97,6 +99,7 @@ public class Yal2jvm {
 
     /**
      * Performs the semantic analysis step of the compilation
+     * If there are errors, shows them and aborts the compilation
      * @param root the root node
      */
     private static void performSemanticAnalysis(SimpleNode root) {
@@ -108,12 +111,13 @@ public class Yal2jvm {
                 UtilsService.getInstance().getHumanReadableNumber(errors.size(),"semantic error")
             ));
             showErrors(errors);
-            System.exit(1);
+            abortCompilation();
         }
     }
 
     /**
      * ﻿Performs the code generation step of the compilation
+     * If there ara errors, shows them and aborts the compilation
      * @param root the root node
      */
     private static void performCodeGeneration(SimpleNode root, String outputFilename) {
@@ -125,7 +129,7 @@ public class Yal2jvm {
                 UtilsService.getInstance().getHumanReadableNumber(errors.size(),"code generation error:")
             );
             showErrors(CodeGenerator.getInstance().getErrors());
-            System.exit(1);
+            abortCompilation();
         }
     }
 
@@ -149,7 +153,23 @@ public class Yal2jvm {
      */
     private static void showErrors(List<String> errors) {
         for (String error : errors) {
-            System.out.println(String.format("    -> %s", error));
+            showError(error);
         }
+    }
+
+    /**
+     * Displays an error
+     * @param error
+     */
+    private static void showError(String error) {
+        System.out.println(String.format("    -> %s", error));
+    }
+
+    /**
+     * Aborts the compilation and exists the program with an error status code
+     */
+    private static void abortCompilation() {
+        System.out.println("Aborting compilation...");
+        System.exit(1);
     }
 }
