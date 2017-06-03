@@ -60,6 +60,13 @@ public class Yal2jvm {
         return args.length == 1;
     }
 
+    /**
+     * Tries to compile the file
+     * Calls the syntactic analysis
+     * Calls the semantic analysis
+     * Calls the code generation
+     * @param inputFilename
+     */
     private static void compile(String inputFilename) {
         SimpleNode root = performSyntacticAnalysis(inputFilename);
         performSemanticAnalysis(root);
