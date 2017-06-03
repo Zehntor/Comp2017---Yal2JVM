@@ -162,6 +162,11 @@ public final class FunctionAnaliser extends Analiser {
             .addVariable(returnVariable);
     }
 
+    /**
+     * Checks for duplicate function ids
+     * If duplicates are found, then an error is added to the error list
+     * @param node
+     */
     private void checkDuplicateFunctionId(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
         if (symbolTableTree.findSymbolTable(functionId, SymbolTableType.FUNCTION) != null) {

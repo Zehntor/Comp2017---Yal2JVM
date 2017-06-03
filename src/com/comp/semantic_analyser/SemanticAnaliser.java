@@ -18,7 +18,7 @@ public final class SemanticAnaliser {
 
     private final SymbolTableTree symbolTableTree = SymbolTableFactory.getInstance().createSymbolTableTree();
 
-    private String moduleName;
+    private String moduleId;
 
     /**
      * The one and only instance of this class
@@ -35,7 +35,7 @@ public final class SemanticAnaliser {
 
     /**
      * Returns the one and only instance of this class
-     * @return
+     * @return SemanticAnaliser
      */
     public static SemanticAnaliser getInstance() {
         return instance;
@@ -55,39 +55,62 @@ public final class SemanticAnaliser {
 
         errors.addAll(nodeVisitor.getErrors());
 
-        findModuleName(root);
+        findModuleId(root);
     }
 
+    /**
+     * Getter for the symbol table tree
+     * @return SymbolTableTree
+     */
     public SymbolTableTree getSymbolTableTree() {
         return symbolTableTree;
     }
 
+    /**
+     * @return true if there are errors; false otherwise
+     */
     public boolean hasErrors() {
         return !errors.isEmpty();
     }
 
+    /**
+     * Getter for errors
+     * @return
+     */
     public List<String> getErrors() {
         return errors;
     }
 
-    public String getModuleName() {
-        return moduleName;
+    /**
+     * @return String the module id
+     */
+    public String getModuleId() {
+        return moduleId;
     }
 
+    /**
+     * Checks that the main function exists
+     * If it does not exist, an error is added to the errors list
+     */
     private void checkMainFunctionExists() {
         if (symbolTableTree.findSymbolTable("main", FUNCTION) == null) {
             errors.add(MISSING_MAIN_FUNCTION);
         }
     }
 
-    private void findModuleName(Node node) {
+    /**
+     * Dives into the AST and finds the module id
+     * @param node
+     */
+    private void findModuleId(Node node) {
         if (NodeUtilsService.getInstance().nodeIsOfType(node, NodeType.MODULE_ID)) {
-            moduleName = node.getValue().toString();
+            moduleId = node.getValue().toString();
+            return;
         }
 
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
-            findModuleName(node.jjtGetChild(n));
-            if (moduleName != null) {
+            findModuleId(node.jjtGetChild(n));
+            if (moduleId != null) {
                 return;
             }
         }

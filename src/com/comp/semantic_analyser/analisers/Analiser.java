@@ -19,18 +19,34 @@ public abstract class Analiser {
 
     public abstract void analise(Node node);
 
+    /**
+     * Setter for a SymbolTableStack
+     * @param symbolTableStack
+     */
     public void setSymbolTableStack(SymbolTableStack symbolTableStack) {
         this.symbolTableStack = symbolTableStack;
     }
 
+    /**
+     * Setter for a SymbolTableTree
+     * @param symbolTableTree
+     */
     public void setSymbolTableTree(SymbolTableTree symbolTableTree) {
         this.symbolTableTree = symbolTableTree;
     }
 
+    /**
+     * Adds an error to the errors list
+     * @param error
+     */
     public void addError(String error) {
         errors.add(error);
     }
 
+    /**
+     * Getter for errors
+     * @return List<String> the error list
+     */
     public List<String> getErrors() {
         return errors;
     }

@@ -10,6 +10,7 @@ public final class SymbolTableStack {
 
     /**
      * The LIFO stack where the symbol tables are kept
+     * @var Stack<GeneralSymbolTable>
      */
     private final Stack<GeneralSymbolTable> stack = new Stack<>();
 

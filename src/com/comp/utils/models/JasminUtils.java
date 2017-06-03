@@ -1,23 +1,26 @@
 package com.comp.utils.models;
 
-import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
-import com.comp.semantic_analyser.symbol_tables.SymbolTableTree;
-import com.comp.semantic_analyser.symbol_tables.SymbolTableType;
-import com.comp.semantic_analyser.variables.ArrayVariable;
-import com.comp.semantic_analyser.variables.IntegerVariable;
-import com.comp.semantic_analyser.variables.Variable;
 import vendor.Node;
 import com.comp.common.JasminVarType;
 import com.comp.semantic_analyser.NodeType;
 import com.comp.utils.services.NodeUtilsService;
-
-import java.lang.reflect.Array;
+import com.comp.semantic_analyser.variables.Variable;
+import com.comp.semantic_analyser.variables.ArrayVariable;
+import com.comp.semantic_analyser.variables.IntegerVariable;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableType;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableTree;
+import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
 public class JasminUtils {
 
+    /**
+     * Gets a jasmin argument list from a node
+     * @param node
+     * @return String
+     */
     public String getJasminArgListFromNode(Node node) {
         Node argsNode = NodeUtilsService.getInstance().getChildByType(node, NodeType.ARGS);
         if (argsNode == null) {
@@ -43,6 +46,11 @@ public class JasminUtils {
         return argList.toString();
     }
 
+    /**
+     * Gets a jasmin return type from a node
+     * @param node
+     * @return String
+     */
     public JasminVarType getJasminReturnTypeFromNode(Node node) {
         Node
             returnId = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_ID),
@@ -59,6 +67,12 @@ public class JasminUtils {
         return JasminVarType.INTEGER;
     }
 
+    /**
+     * Gets a jasmin argument list from a symbol table
+     * @param symbolTableTree
+     * @param functionId
+     * @return String
+     */
     public String getJasminArgListFromSymbolTable(SymbolTableTree symbolTableTree, String functionId) {
         FunctionSymbolTable symbolTable = (FunctionSymbolTable) symbolTableTree.findSymbolTable(functionId, SymbolTableType.FUNCTION);
 
@@ -74,6 +88,12 @@ public class JasminUtils {
         return stringBuilder.toString();
     }
 
+    /**
+     * Gets a jasmin return type from a symbol table
+     * @param symbolTableTree
+     * @param functionId
+     * @return String
+     */
     public String getJasminReturnTypeFromSymbolTable(SymbolTableTree symbolTableTree, String functionId) {
         FunctionSymbolTable symbolTable = (FunctionSymbolTable) symbolTableTree.findSymbolTable(functionId, SymbolTableType.FUNCTION);
 

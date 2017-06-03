@@ -17,25 +17,54 @@ public class JasminUtilsService {
 
     private static final JasminUtils jasminUtils = new JasminUtils();
 
+    /**
+     * Private constructor, so this class cannot be instantiated outside
+     */
     private JasminUtilsService() {
     }
 
+    /**
+     * Returns the one and only instance of this class
+     * @return
+     */
     public static JasminUtilsService getInstance() {
         return instance;
     }
 
+    /**
+     * Gets a jasmin argument list from a node
+     * @param node
+     * @return String
+     */
     public String getJasminArgListFromNode(Node node) {
         return jasminUtils.getJasminArgListFromNode(node);
     }
 
+    /**
+     * Gets a jasmin return type from a node
+     * @param node
+     * @return String
+     */
     public JasminVarType getJasminReturnTypeFromNode(Node node) {
         return jasminUtils.getJasminReturnTypeFromNode(node);
     }
 
+    /**
+     * Gets a jasmin argument list from a symbol table
+     * @param symbolTableTree
+     * @param functionId
+     * @return String
+     */
     public String getJasminArgListFromSymbolTable(SymbolTableTree symbolTableTree, String functionId) {
         return jasminUtils.getJasminArgListFromSymbolTable(symbolTableTree, functionId);
     }
 
+    /**
+     * Gets a jasmin return type from a symbol table
+     * @param symbolTableTree
+     * @param functionId
+     * @return String
+     */
     public String getJasminReturnTypeFromSymbolTable(SymbolTableTree symbolTableTree, String functionId) {
         return jasminUtils.getJasminReturnTypeFromSymbolTable(symbolTableTree, functionId);
     }

@@ -15,20 +15,37 @@ public final class FunctionSymbolTable extends GeneralSymbolTable {
     private Variable returnVariable;
     private final List<Variable> arguments = new ArrayList<>();
 
+    /**
+     * Returns this symbol table's type
+     * @return
+     */
     @Override
     public SymbolTableType getType() {
         return FUNCTION;
     }
 
+    /**
+     * Sets the function's return variable
+     * @param returnVariable
+     * @return FunctionSymbolTable, for a fluent interface
+     */
     public FunctionSymbolTable setReturnVariable(Variable returnVariable) {
         this.returnVariable = returnVariable;
         return this;
     }
 
+    /**
+     * Getter for the return variable
+     * @return Variable
+     */
     public Variable getReturnVariable() {
         return returnVariable;
     }
 
+    /**
+     * Getter for the argument list
+     * @return
+     */
     public List<Variable> getArguments() {
         return arguments;
     }

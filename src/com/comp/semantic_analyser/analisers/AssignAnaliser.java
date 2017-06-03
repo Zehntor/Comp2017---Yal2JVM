@@ -50,6 +50,11 @@ public class AssignAnaliser extends Analiser {
         return false;
     }
 
+    /**
+     * Getter for function calls
+     * @param node
+     * @return List<FunctionSymbolTable> the list of function calls
+     */
     public List<FunctionSymbolTable> getFunctionCalls(Node node) {
         List<FunctionSymbolTable> functionCalls = new ArrayList<>();
 

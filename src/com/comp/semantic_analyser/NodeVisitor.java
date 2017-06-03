@@ -23,11 +23,20 @@ public final class NodeVisitor implements Visitor {
     private final List<FunctionSymbolTable> functionCalls = new ArrayList<>();
     private SymbolTableTree symbolTableTree;
 
+    /**
+     * Setter for a symbolTableTree
+     * @param symbolTableTree
+     * @return
+     */
     public NodeVisitor setSymbolTableTree(SymbolTableTree symbolTableTree) {
         this.symbolTableTree = symbolTableTree;
         return this;
     }
 
+    /**
+     * Visits a node
+     * @param node
+     */
     public void visit(Node node) {
         NodeType nodeType = NodeType.fromString(node.toString());
 

@@ -7,6 +7,8 @@ import static com.comp.semantic_analyser.NodeType.MODULE_ID;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
+ *
+ * Generates code for modules
  */
 public final class ModuleCodeGenerator extends CodeGenerator {
 

@@ -11,6 +11,8 @@ import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
+ *
+ * Generates code for functions
  */
 public final class FunctionCodeGenerator extends CodeGenerator {
 

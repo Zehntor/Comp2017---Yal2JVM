@@ -18,7 +18,7 @@ public final class AnaliserFactory {
 
     /**
      * Returns the one and only instance of this class
-     * @return
+     * @return AnaliserFactory
      */
     public static AnaliserFactory getInstance() {
         return instance;

@@ -11,6 +11,8 @@ import static com.comp.semantic_analyser.NodeType.ID;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
+ *
+ * Generates code for function calls
  */
 public final class FunctionCallCodeGenerator extends CodeGenerator {
 
@@ -40,7 +42,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
      */
     private void addInternalCall(Node node) {
         String
-            moduleName = SemanticAnaliser.getInstance().getModuleName(),
+            moduleName = SemanticAnaliser.getInstance().getModuleId(),
             functionId = NodeUtilsService.getInstance().getChildByType(node.jjtGetParent(), ID).getValue().toString(),
             jasminArgs = JasminUtilsService.getInstance().getJasminArgListFromSymbolTable(
                 SemanticAnaliser.getInstance().getSymbolTableTree(),

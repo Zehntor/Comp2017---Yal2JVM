@@ -19,7 +19,7 @@ public final class ModuleAnaliser extends Analiser {
     }
 
     /**
-     * Finds and returns the function name
+     * Finds and returns the function id
      * @param node
      * @return String
      */

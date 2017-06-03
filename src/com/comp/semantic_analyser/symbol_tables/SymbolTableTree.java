@@ -7,6 +7,10 @@ import com.comp.semantic_analyser.variables.Variable;
  */
 public final class SymbolTableTree implements Findable {
 
+    /**
+     * This tree's root
+     * @var GeneralSymbolTable
+     */
     private GeneralSymbolTable root;
 
     /**

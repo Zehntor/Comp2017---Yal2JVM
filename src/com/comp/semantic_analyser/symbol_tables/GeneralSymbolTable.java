@@ -19,33 +19,64 @@ public class GeneralSymbolTable implements Findable {
     protected final Map<String, Variable> variables   = new HashMap<>();
     protected final List<GeneralSymbolTable> children = new ArrayList<>();
 
+    /**
+     * Setter for the id
+     * @param id
+     * @return GeneralSymbolTable, for a fluent interface
+     */
     public GeneralSymbolTable setId(String id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Getter for the id
+     * @return
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Sets the line
+     * @param line
+     * @return GeneralSymbolTable, for a fluent interface
+     */
     public GeneralSymbolTable setLine(int line) {
         this.line = line;
         return this;
     }
 
+    /**
+     * Getter for the line
+     * @return int
+     */
     public int getLine() {
         return line;
     }
 
+    /**
+     * Sets the column
+     * @param column
+     * @return GeneralSymbolTable, for a fluent interface
+     */
     public GeneralSymbolTable setColumn(int column) {
         this.column = column;
         return this;
     }
 
+    /**
+     * Getter for the column
+     * @return int
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * Returns this symbol table's type
+     * @return
+     */
     public SymbolTableType getType() {
         return GENERAL;
     }
@@ -60,6 +91,11 @@ public class GeneralSymbolTable implements Findable {
         return this;
     }
 
+    /**
+     * Adds a list of variables to the variable map
+     * @param variables
+     * @return
+     */
     public GeneralSymbolTable addVariables(List<Variable> variables) {
         for (Variable variable : variables) {
             addVariable(variable);
@@ -69,7 +105,7 @@ public class GeneralSymbolTable implements Findable {
     }
 
     /**
-     * Finds an entry by name and returns it
+     * Finds variable by name and returns it
      * @param name
      * @return Variable, or null if not found
      */
@@ -77,6 +113,10 @@ public class GeneralSymbolTable implements Findable {
         return variables.get(name);
     }
 
+    /**
+     * Getter for the variables map
+     * @return Map<String, Variable>
+     */
     public Map<String, Variable> getVariables() {
         return variables;
     }

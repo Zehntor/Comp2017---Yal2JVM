@@ -2,6 +2,9 @@ package com.comp.code_generator.generators;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
+ *
+ * Creates instances of every class related to code generation
+ * Singleton
  */
 public final class CodeGeneratorFactory {
 
@@ -25,6 +28,11 @@ public final class CodeGeneratorFactory {
         return instance;
     }
 
+    /**
+     * Creates and returns a generator
+     * @param type
+     * @return
+     */
     public CodeGenerator createGenerator(CodeGeneratorType type) {
         switch (type) {
             case MODULE:

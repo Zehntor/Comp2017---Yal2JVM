@@ -7,6 +7,10 @@ import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.MODULE;
  */
 public final class ModuleSymbolTable extends GeneralSymbolTable {
 
+    /**
+     * Returns this symbol table's type
+     * @return
+     */
     @Override
     public SymbolTableType getType() {
         return MODULE;

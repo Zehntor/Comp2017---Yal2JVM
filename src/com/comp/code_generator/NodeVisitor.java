@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 import com.comp.common.Visitor;
 import com.comp.semantic_analyser.NodeType;
-import com.comp.utils.services.NodeUtilsService;
 import com.comp.code_generator.generators.CodeGenerator;
 import com.comp.code_generator.generators.CodeGeneratorFactory;
 
 import static com.comp.code_generator.generators.CodeGeneratorType.*;
-import static com.comp.semantic_analyser.NodeType.MODULE_ID;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -21,6 +19,10 @@ public final class NodeVisitor implements Visitor, Generator {
     private final List<String> errors = new ArrayList<>();
     private final StringJoiner code   = new StringJoiner("\n");
 
+    /**
+     * Visits a node
+     * @param node
+     */
     public void visit(Node node) {
         NodeType nodeType = NodeType.fromString(node.toString());
 
@@ -61,6 +63,10 @@ public final class NodeVisitor implements Visitor, Generator {
         }
     }
 
+    /**
+     * Getter for errors
+     * @return List<String> the error list
+     */
     public List<String> getErrors() {
         return errors;
     }

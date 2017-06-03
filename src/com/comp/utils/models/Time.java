@@ -9,6 +9,11 @@ public class Time {
     private static final long ONE_HOUR   = 3600;
     private static final long ONE_MINUTE = 60;
 
+    /**
+     * Returns a human readable time string
+     * @param time
+     * @return String
+     */
     public String getHumanReadableTime(double time) {
         double d = 0;
         while (time >= ONE_DAY) {
