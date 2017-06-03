@@ -9,7 +9,10 @@ public class FunctionEndCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
-        code.add(".end method");
+        code
+            .add("")
+            .add("    return")
+            .add(".end method");
         return code.toString();
     }
 }

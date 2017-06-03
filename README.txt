@@ -11,7 +11,7 @@ GRADE1: <0 to 20 value>, CONTRIBUTION1: <0 to 100 %>
 NAME2: <name>, NR2: < student number >, GRADE2: <0 to 20 value>, CONTRIBUTION2: <0 to 100 %>
 
 NAME1: Ricardo Wragg Freitas, NR1: 199502870
-GRADE1: 20, CONTRIBUTION1: 100%
+GRADE1: 16, CONTRIBUTION1: 100%
 
 
 ...
@@ -23,6 +23,7 @@ GRADE1: 20, CONTRIBUTION1: 100%
 
 ** SUMMARY: (Describe what your tool does and its main features.)
 
+The main purpose of this tool is to convert a yal file into a Jasmin syntax file
 
 
 ** EXECUTE: (indicate how to run your tool)
@@ -30,7 +31,7 @@ GRADE1: 20, CONTRIBUTION1: 100%
 To perform the compilation to Jasmin:
 java -jar yal2jvm.jar <input-file.yal>
 
-To compile the jasmin file to Java bytecodes:
+To compile the Jasmin file to Java bytecodes:
 java -jar jasmin.jar <input-file.j>
 
 To execute the Java bytecodes:
@@ -52,9 +53,9 @@ There are N analiser types:
     Analises a MODULE node
 - Function analiser
     Analises a FUNCTION node. Checks for:
-        - Duplicate function ids
-        - Duplicate arguments
-        - Correct return assignments
+    - Duplicate function ids
+    - Duplicate arguments
+    - Correct return assignments
 - Assign analiser
     Analises an ASSIGN node. Checks for:
     - Correct function calls
@@ -79,6 +80,27 @@ There are N generator types:
 
 **OVERVIEW: (refer the approach used in your tool, the main algorithms, the third-party tools and/or packages, etc.)
 
+The application was split into:
+
+    3 main modules:
+    - Syntactic analiser
+    - Semantic analiser
+    - Code generator
+
+    2 secondary modules:
+    - Utilities module
+    - Profiler module
+
+    one main file, which:
+    - Acts as a façade for all the functionality
+    - Performs input checks
+    - Displays errors
+
+General development principles
+- Modules talk to each other via services, which expose the module's functionality to the outside
+- Clean code
+- Design patterns where applicable
+- No anti-patterns
 
 
 **TESTSUITE AND TEST INFRASTRUCTURE: (Describe the content of your testsuite regarding the number of examples, the approach to automate the test, etc.)
@@ -97,9 +119,10 @@ Ricardo Wragg Freitas, NR: 199502870
         Implementation details
         Design pattern choice
     Project Manager
-        Project management, tracking and estimation
+        Project management and tracking
+        Task estimation
     Product Owner
-        Specification translation into functional requirements
+        Translation of specifications into functional requirements
     QA engineer
         Test suite design, implementation and testing
     Release Manager
@@ -113,4 +136,7 @@ Ricardo Wragg Freitas, NR: 199502870
 
 It rocks!
 
+
 **CONS: (Identify the most negative aspects of your tool)
+
+None.

@@ -14,10 +14,6 @@ import com.comp.profiler.services.TimeMemoryProfilerService;
 
 public class Yal2jvm {
 
-    private static final String YAL_EXTENSION      = "yal";
-    private static final String JASMIN_EXTENSION   = "j";
-    private static final String COMPILATION_FAILED = "Compilation failed...";
-
     /**
      * Application entry point
      * Façade method for the whole compiler
@@ -55,8 +51,8 @@ public class Yal2jvm {
             showError("No input file supplied");
             System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
             abortCompilation();
-        } else if (!args[0].endsWith(YAL_EXTENSION)) {
-            System.out.println(String.format("The input file name must have a '%s' extension", YAL_EXTENSION));
+        } else if (!args[0].endsWith("yal")) {
+            System.out.println("The input file name must have a 'yal' extension");
             abortCompilation();
         }
     }
@@ -81,18 +77,24 @@ public class Yal2jvm {
      * @return SimpleNode the root node
      */
     private static SimpleNode performSyntacticAnalysis(String inputFilename) {
+        System.out.print("Performing syntactic analysis...");
+
         SimpleNode root = null;
         try {
             Parser parser = new Parser(new FileInputStream(inputFilename));
             root = parser.Start();
             // root.dump("");
+            System.out.println(" done, everything ok");
         } catch (FileNotFoundException e) {
+            System.out.println();
             System.out.println(String.format("File '%s' not found. Cannot do anything about that; exiting now.", inputFilename));
             abortCompilation();
         } catch (ParseException e) {
+            System.out.println();
             System.out.println(String.format("A parse exception occurred while parsing file '%s':%n%s", inputFilename, e.getMessage()));
             abortCompilation();
         }
+
 
         return root;
     }
@@ -103,16 +105,20 @@ public class Yal2jvm {
      * @param root the root node
      */
     private static void performSemanticAnalysis(SimpleNode root) {
+        System.out.print("Performing semantic analysis...");
+
         SemanticAnaliser.getInstance().analise(root);
         if (SemanticAnaliser.getInstance().hasErrors()) {
             List<String> errors = SemanticAnaliser.getInstance().getErrors();
-            System.out.println(COMPILATION_FAILED);
+            System.out.println();
             System.out.println(String.format("%s:",
                 UtilsService.getInstance().getHumanReadableNumber(errors.size(),"semantic error")
             ));
             showErrors(errors);
             abortCompilation();
         }
+
+        System.out.println(" done, everything ok");
     }
 
     /**
@@ -121,10 +127,12 @@ public class Yal2jvm {
      * @param root the root node
      */
     private static void performCodeGeneration(SimpleNode root, String outputFilename) {
+        System.out.println("Performing code generation");
+
         CodeGenerator.getInstance().generateCode(root, outputFilename);
         if (CodeGenerator.getInstance().hasErrors()) {
             List<String> errors = CodeGenerator.getInstance().getErrors();
-            System.out.println(COMPILATION_FAILED);
+            System.out.println();
             System.out.println(
                 UtilsService.getInstance().getHumanReadableNumber(errors.size(),"code generation error:")
             );
@@ -141,8 +149,8 @@ public class Yal2jvm {
     private static String getOutputFilename(String inputFilename) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-            .append(inputFilename.substring(0, inputFilename.length() - YAL_EXTENSION.length()))
-            .append(JASMIN_EXTENSION);
+            .append(inputFilename.substring(0, inputFilename.length() - "yal".length()))
+            .append("j");
 
         return stringBuilder.toString();
     }

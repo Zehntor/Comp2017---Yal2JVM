@@ -33,6 +33,17 @@ public final class ModuleCodeGenerator extends CodeGenerator {
         code
             .add("")
             .add("; Default constructor")
+            .add(".method public <init>()V")
+            .add("    aload_0 ; push this")
+            .add("    invokespecial java/lang/Object/<init>()V ; call super")
+            .add("    return")
+            .add(".end method");
+    }
+
+    private void addClConstructor() {
+        code
+            .add("")
+            .add("; Cl constructor")
             .add(".method static public <clinit>()V")
             .add("    .limit stack 0")
             .add("    .limit locals 0")

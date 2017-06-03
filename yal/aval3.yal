@@ -1,4 +1,4 @@
-module aval3  {
+module aval3 {
 
     function c=f(a, b) {
         if(a >= b) {

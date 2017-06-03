@@ -73,7 +73,7 @@ public final class CodeGenerator {
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outputFilename))) {
                 writer.write(code);
-                System.out.println(String.format("Generated: %s", outputFilename));
+                System.out.println(String.format("    Generated: %s", outputFilename));
             }
         } catch (IOException e) {
             errors.add(e.getMessage());
