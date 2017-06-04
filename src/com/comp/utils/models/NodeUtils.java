@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import com.comp.semantic_analyser.NodeType;
 
-import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
+import static com.comp.semantic_analyser.NodeType.*;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -79,5 +79,14 @@ public class NodeUtils {
         }
 
         return null;    // Should never happen
+    }
+
+    /**
+     * Returns true if the node is an array declaration node; false otherwise
+     * @param node
+     * @return
+     */
+    public boolean declarationNodeIsArray(Node node) {
+        return hasChildOfType(node, DECLARATION_ID) && (hasChildOfType(node, ARRAY_SIZE) || hasChildOfType(node, IS_ARRAY));
     }
 }

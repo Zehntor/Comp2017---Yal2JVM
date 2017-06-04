@@ -76,4 +76,13 @@ public class NodeUtilsService {
     public String getFunctionId(Node node) {
         return nodeUtils.getFunctionId(node);
     }
+
+    /**
+     * Returns true if the node is an array declaration node; false otherwise
+     * @param node
+     * @return
+     */
+    public boolean declarationNodeIsArray(Node node) {
+        return nodeUtils.declarationNodeIsArray(node);
+    }
 }
