@@ -18,6 +18,9 @@ public class NodeUtilsService {
 
     private static final NodeUtils nodeUtils = new NodeUtils();
 
+    /**
+     * Private constructor, so this class cannot be instantiated outside
+     */
     private NodeUtilsService() {
     }
 
@@ -25,18 +28,42 @@ public class NodeUtilsService {
         return instance;
     }
 
+    /**
+     * Finds and returns the first child which is of the specified type
+     * @param node
+     * @param type
+     * @return Node
+     */
     public Node getChildOfType(Node node, NodeType type) {
         return nodeUtils.getChildOfType(node, type);
     }
 
+    /**
+     * Finds and returns a list of children which are of the specified type
+     * @param node
+     * @param type
+     * @return List<Node>
+     */
     public List<Node> getChildrenOfType(Node node, NodeType type) {
         return nodeUtils.getChildrenOfType(node, type);
     }
 
+    /**
+     * Returns true if the node has at least one child of the specified type; false otherwise
+     * @param node
+     * @param type
+     * @return boolean
+     */
     public boolean hasChildOfType(Node node, NodeType type) {
         return nodeUtils.hasChildOfType(node, type);
     }
 
+    /**
+     * Returns true if the node is of the specified type; false otherwise
+     * @param node
+     * @param type
+     * @return
+     */
     public boolean nodeIsOfType(Node node, NodeType type) {
         return nodeUtils.nodeIsOfType(node, type);
     }
