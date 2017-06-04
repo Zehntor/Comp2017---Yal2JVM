@@ -54,8 +54,8 @@ public class NodeUtilsService {
      * @param type
      * @return boolean
      */
-    public boolean hasChildOfType(Node node, NodeType type) {
-        return nodeUtils.hasChildOfType(node, type);
+    public boolean nodeHasChildOfType(Node node, NodeType type) {
+        return nodeUtils.nodeHasChildOfType(node, type);
     }
 
     /**
@@ -66,6 +66,26 @@ public class NodeUtilsService {
      */
     public boolean nodeIsOfType(Node node, NodeType type) {
         return nodeUtils.nodeIsOfType(node, type);
+    }
+
+    /**
+     * Returns true if the node has an ancesetor of the specified type; false otherwise
+     * @param node
+     * @param type
+     * @return
+     */
+    public boolean nodeHasAncestorOfType(Node node, NodeType type) {
+        return nodeUtils.nodeHasAncestorOfType(node, type);
+    }
+
+    /**
+     * Return the first (counting bottom up) ancestor of the specified type
+     * @param node
+     * @param type
+     * @return Node the ancestor, or null if not found
+     */
+    public Node getAncestorOfType(Node node, NodeType type) {
+        return nodeUtils.getAncestorOfType(node, type);
     }
 
     /**

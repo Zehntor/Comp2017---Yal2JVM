@@ -52,7 +52,7 @@ public class NodeUtils {
      * @param type
      * @return boolean
      */
-    public boolean hasChildOfType(Node node, NodeType type) {
+    public boolean nodeHasChildOfType(Node node, NodeType type) {
         return getChildOfType(node, type) != null;
     }
 
@@ -64,6 +64,42 @@ public class NodeUtils {
      */
     public boolean nodeIsOfType(Node node, NodeType type) {
         return NodeType.fromString(node.toString()) == type;
+    }
+
+    /**
+     * Returns true if the node has an ancestor of the specified type; false otherwise
+     * @param node
+     * @param type
+     * @return
+     */
+    public boolean nodeHasAncestorOfType(Node node, NodeType type) {
+        if (node.jjtGetParent() == null) {
+            return false;
+        }
+
+        if (nodeIsOfType(node.jjtGetParent(), type)) {
+            return true;
+        }
+
+        return nodeHasAncestorOfType(node.jjtGetParent(), type);
+    }
+
+    /**
+     * Return the first (counting bottom up) ancestor of the specified type
+     * @param node
+     * @param type
+     * @return Node the ancestor, or null if not found
+     */
+    public Node getAncestorOfType(Node node, NodeType type) {
+        if (node.jjtGetParent() == null) {
+            return null;
+        }
+
+        if (nodeIsOfType(node.jjtGetParent(), type)) {
+            return node.jjtGetParent();
+        }
+
+        return getAncestorOfType(node.jjtGetParent(), type);
     }
 
     /**
@@ -87,6 +123,6 @@ public class NodeUtils {
      * @return
      */
     public boolean declarationNodeIsArray(Node node) {
-        return hasChildOfType(node, DECLARATION_ID) && (hasChildOfType(node, ARRAY_SIZE) || hasChildOfType(node, IS_ARRAY));
+        return nodeHasChildOfType(node, DECLARATION_ID) && (nodeHasChildOfType(node, ARRAY_SIZE) || nodeHasChildOfType(node, IS_ARRAY));
     }
 }
