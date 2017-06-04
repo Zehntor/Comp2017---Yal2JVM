@@ -1,0 +1,9 @@
+module test_while {
+    function main() {
+        a = 0;
+        while (a < 3) {
+            io.println(a);
+            a = a + 1;
+        }
+    }
+}

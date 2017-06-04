@@ -8,7 +8,12 @@ public enum CodeGeneratorType {
     MODULE("module"),
     FUNCTION("function"),
     FUNCTION_CALL("function call"),
-    STMT("stmt");
+    STMT("stmt"),
+    ASSIGN("assign"),
+    WHILE("while"),
+    IF("if"),
+    EXPR_TEST("expr test"),
+    STMTLST("stmt lst");
 
     private final String value;
 

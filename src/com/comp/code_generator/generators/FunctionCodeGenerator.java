@@ -81,12 +81,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             return;
         }
 
-        CodeGenerator generator = CodeGeneratorFactory.getInstance().createGenerator(STMT);
+        CodeGenerator generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.STMTLST);
         Node stmtlstNode        = NodeUtilsService.getInstance().getChildOfType(functionBodyNode, STMTLST);
 
-        for (int n = 0; n < stmtlstNode.jjtGetNumChildren(); n++) {
-            code.add(generator.generate(stmtlstNode.jjtGetChild(n)));
-        }
+        code.add(generator.generate(stmtlstNode));
     }
 
     private void addFooter(Node node) {

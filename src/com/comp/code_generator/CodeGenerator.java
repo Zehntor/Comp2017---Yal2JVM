@@ -20,6 +20,8 @@ public final class CodeGenerator {
 
     private final List<String> errors = new ArrayList<>();
 
+    private int labelCounter = 0;
+
     /**
      * Private constructor, so this class cannot be instantiated outside
      */
@@ -62,6 +64,23 @@ public final class CodeGenerator {
      */
     public List<String> getErrors() {
         return errors;
+    }
+
+    /**
+     * Returns the value of the label counter
+     * @return int
+     */
+    public int getLabelCounter() {
+        return labelCounter;
+    }
+
+    /**
+     * Increments the label counter
+     * @return
+     */
+    public CodeGenerator incrementLabelCounter() {
+        labelCounter++;
+        return this;
     }
 
     /**

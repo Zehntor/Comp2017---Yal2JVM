@@ -42,7 +42,8 @@ public enum NodeType {
     ARRAY_SIZE("ArraySize"),
     IS_ARRAY("IsArray"),
     ADD_SUB_OP("AddSubOp"),
-    INTEGER("Integer");
+    INTEGER("Integer"),
+    EXPR_TEST("ExprTest");
 
     private final String value;
 

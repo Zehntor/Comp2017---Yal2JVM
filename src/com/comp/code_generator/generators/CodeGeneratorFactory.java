@@ -43,6 +43,16 @@ public final class CodeGeneratorFactory {
                 return new FunctionCallCodeGenerator();
             case STMT:
                 return new StatementCodeGenerator();
+            case ASSIGN:
+                return new AssignCodeGenerator();
+            case WHILE:
+                return new WhileCodeGenerator();
+            case IF:
+                return new IfCodeGenerator();
+            case EXPR_TEST:
+                return new ExprTestCodeGenerator();
+            case STMTLST:
+                return new StatementListCodeGenerator();
         }
 
         return null;

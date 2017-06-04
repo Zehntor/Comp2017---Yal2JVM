@@ -3,8 +3,6 @@ package com.comp.code_generator.generators;
 import vendor.Node;
 import com.comp.semantic_analyser.NodeType;
 
-import static com.comp.code_generator.generators.CodeGeneratorType.FUNCTION_CALL;
-
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  *
@@ -23,14 +21,20 @@ public class StatementCodeGenerator extends CodeGenerator {
             if (nodeType != null) {
                 switch (nodeType) {
                     case ASSIGN:
+                        generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.ASSIGN);
+                        code.add(generator.generate(childNode));
                         break;
                     case WHILE:
+                        generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.WHILE);
+                        code.add(generator.generate(childNode));
                         break;
                     case IF:
+                        generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.IF);
+                        code.add(generator.generate(childNode));
                         break;
                     case FUNCTION_CALL:
                     case CALL_ID:
-                        generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_CALL);
+                        generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.FUNCTION_CALL);
                         code.add(generator.generate(childNode));
                         break;
                 }
