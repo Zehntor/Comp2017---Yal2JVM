@@ -25,6 +25,9 @@ GRADE1: 16, CONTRIBUTION1: 100%
 
 The main purpose of this tool is to convert a yal file into a Jasmin syntax file
 
+** REPOSITORY
+
+The code is stored at http://github.com/zehntor/comp
 
 ** EXECUTE: (indicate how to run your tool)
 
