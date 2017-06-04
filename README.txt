@@ -92,15 +92,16 @@ The application was split into:
     - Profiler module
 
     one main file, which:
-    - Acts as a façade for all the functionality
+    - Acts as a façade for all the compilation steps
     - Performs input checks
     - Displays errors
 
 General development principles
 - Modules talk to each other via services, which expose the module's functionality to the outside
-- Clean code
 - Design patterns where applicable
 - No anti-patterns
+- SOLID principles
+- Clean code
 
 
 **TESTSUITE AND TEST INFRASTRUCTURE: (Describe the content of your testsuite regarding the number of examples, the approach to automate the test, etc.)
