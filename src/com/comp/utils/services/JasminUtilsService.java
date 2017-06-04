@@ -60,6 +60,14 @@ public class JasminUtilsService {
     }
 
     /**
+     * @param node A stmt node
+     * @return String
+     */
+    public String getJasminArgListCallFromNode(Node node) {
+        return jasminUtils.getJasminArgListCallFromNode(node);
+    }
+
+    /**
      * Gets a jasmin return type from a symbol table
      * @param symbolTableTree
      * @param functionId

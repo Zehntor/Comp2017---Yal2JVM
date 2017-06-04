@@ -42,7 +42,7 @@ public class AssignAnaliser extends Analiser {
     public boolean hasFunctionCalls(Node node) {
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
             Node child = node.jjtGetChild(n);
-            if (NodeUtilsService.getInstance().hasChildOfType(child, IS_FUNCTION) || hasFunctionCalls(child)) {
+            if (NodeUtilsService.getInstance().nodeHasChildOfType(child, IS_FUNCTION) || hasFunctionCalls(child)) {
                 return true;
             }
         }

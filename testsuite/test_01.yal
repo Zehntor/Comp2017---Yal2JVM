@@ -1,7 +1,9 @@
 module test_01 {
 
-    c = 10;
+    b;
+    c = -10;
     d = [100];
+    e = [4];
 
     function main() {
         a = 3;

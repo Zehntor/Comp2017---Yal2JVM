@@ -25,10 +25,10 @@ public final class ModuleCodeGenerator extends CodeGenerator {
 
     private void addHeader(Node node) {
         Node moduleIdNode = NodeUtilsService.getInstance().getChildOfType(node, MODULE_ID);
-        String moduleName = moduleIdNode.getValue().toString();
+        String moduleId   = moduleIdNode.getValue().toString();
 
         code
-            .add(String.format(".class public %s", moduleName))
+            .add(String.format(".class public %s", moduleId))
             .add(".super java/lang/Object");
     }
 
@@ -77,9 +77,9 @@ public final class ModuleCodeGenerator extends CodeGenerator {
         if (NodeUtilsService.getInstance().declarationNodeIsArray(node)) {
             code.add(String.format(".field static %s [I", declarationId));
         } else {
-            if (NodeUtilsService.getInstance().hasChildOfType(node, INIT_VAR)) {
+            if (NodeUtilsService.getInstance().nodeHasChildOfType(node, INIT_VAR)) {
                 String signal = "";
-                if (NodeUtilsService.getInstance().hasChildOfType(node, ADD_SUB_OP)) {
+                if (NodeUtilsService.getInstance().nodeHasChildOfType(node, ADD_SUB_OP)) {
                     signal = NodeUtilsService.getInstance().getChildOfType(node, ADD_SUB_OP).getValue().toString();
                 }
                 String value = NodeUtilsService.getInstance().getChildOfType(node, INIT_VAR).getValue().toString();

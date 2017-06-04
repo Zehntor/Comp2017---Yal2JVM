@@ -1,13 +1,14 @@
 package com.comp.code_generator.generators;
 
-import com.comp.semantic_analyser.SemanticAnaliser;
-import com.comp.utils.services.JasminUtilsService;
 import vendor.Node;
 import com.comp.utils.services.NodeUtilsService;
+import com.comp.utils.services.JasminUtilsService;
+import com.comp.semantic_analyser.SemanticAnaliser;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableTree;
+import com.comp.semantic_analyser.symbol_tables.SymbolTableType;
+import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
-import static com.comp.semantic_analyser.NodeType.CALL_ID;
-import static com.comp.semantic_analyser.NodeType.FUNCTION_CALL;
-import static com.comp.semantic_analyser.NodeType.ID;
+import static com.comp.semantic_analyser.NodeType.*;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -28,11 +29,20 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
     }
 
     /**
-     * Adds an external call (io.println)
+     * Adds an external call
      * @param node CALL_ID node
      */
     private void addExternalCall(Node node) {
-        code.add("    invokestatic io/println(I)V");    // TODO: get the args
+        Node
+            stmtAncestorNode = NodeUtilsService.getInstance().getAncestorOfType(node, STMT),
+            callId2Node      = NodeUtilsService.getInstance().getChildOfType(stmtAncestorNode, CALL_ID_2);
+        String jasminArgs     = JasminUtilsService.getInstance().getJasminArgListCallFromNode(stmtAncestorNode);
+
+        code.add(String.format("    invokestatic %s/%s(%s)V",
+            node.getValue(),
+            callId2Node.getValue(),
+            jasminArgs
+        ));
     }
 
     /**
@@ -41,7 +51,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
      */
     private void addInternalCall(Node node) {
         String
-            moduleName = SemanticAnaliser.getInstance().getModuleId(),
+            moduleId   = SemanticAnaliser.getInstance().getModuleId(),
             functionId = NodeUtilsService.getInstance().getChildOfType(node.jjtGetParent(), ID).getValue().toString(),
             jasminArgs = JasminUtilsService.getInstance().getJasminArgListFromSymbolTable(
                 SemanticAnaliser.getInstance().getSymbolTableTree(),
@@ -52,6 +62,8 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
                 functionId
             );
 
-        code.add(String.format("    invokestatic %s/%s(%s)%s", moduleName, functionId, jasminArgs, jasminReturn));
+        Node functionAncestorNode = NodeUtilsService.getInstance().getAncestorOfType(node, FUNCTION);
+
+        code.add(String.format("    invokestatic %s/%s(%s)%s", moduleId, functionId, jasminArgs, jasminReturn));
     }
 }

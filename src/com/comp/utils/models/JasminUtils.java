@@ -89,6 +89,20 @@ public class JasminUtils {
     }
 
     /**
+     * @param node A stmt node
+     * @return String
+     */
+    public String getJasminArgListCallFromNode(Node node) {
+        Node argumentListNode = NodeUtilsService.getInstance().getChildOfType(node, NodeType.ARGUMENT_LIST);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int n = 0; n < argumentListNode.jjtGetNumChildren(); n++) {
+            stringBuilder.append("I");
+        }
+
+        return stringBuilder.toString();
+    }
+
+    /**
      * Gets a jasmin return type from a symbol table
      * @param symbolTableTree
      * @param functionId

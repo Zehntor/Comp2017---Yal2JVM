@@ -1,16 +1,19 @@
 package com.comp.code_generator.generators;
 
-import com.comp.semantic_analyser.variables.ArrayVariable;
 import vendor.Node;
+import java.util.List;
 import com.comp.common.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
 import com.comp.utils.services.JasminUtilsService;
 import com.comp.semantic_analyser.SemanticAnaliser;
 import com.comp.semantic_analyser.variables.Variable;
+import com.comp.semantic_analyser.variables.ArrayVariable;
 import com.comp.semantic_analyser.variables.IntegerVariable;
 import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
 import static com.comp.semantic_analyser.NodeType.FUNCTION_BODY;
+import static com.comp.code_generator.generators.CodeGeneratorType.STMT;
+import static com.comp.semantic_analyser.NodeType.STMTLST;
 import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
@@ -32,7 +35,7 @@ public final class FunctionCodeGenerator extends CodeGenerator {
 
     /**
      * Adds the function header
-     * @param node a FUNTION node
+     * @param node a FUNCTION node
      */
     private void addHeader(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
@@ -78,14 +81,18 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             return;
         }
 
+        CodeGenerator generator = CodeGeneratorFactory.getInstance().createGenerator(STMT);
+        Node stmtlstNode        = NodeUtilsService.getInstance().getChildOfType(functionBodyNode, STMTLST);
+
+        for (int n = 0; n < stmtlstNode.jjtGetNumChildren(); n++) {
+            code.add(generator.generate(stmtlstNode.jjtGetChild(n)));
+        }
     }
 
     private void addFooter(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
-        FunctionSymbolTable symbolTable = (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().findSymbolTable(
-            functionId,
-            FUNCTION
-        );
+        FunctionSymbolTable symbolTable =
+            (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().findSymbolTable(functionId, FUNCTION);
 
         code.add("");
 

@@ -10,6 +10,7 @@ public final class CodeGeneratorFactory {
 
     /**
      * The one and only instance of this class
+     * @var CodeGeneratorFactory
      */
     private static final CodeGeneratorFactory instance = new CodeGeneratorFactory();
 
@@ -21,8 +22,7 @@ public final class CodeGeneratorFactory {
 
     /**
      * Returns the one and only instance of this class
-     *
-     * @return
+     * @return CodeGeneratorFactory
      */
     public static CodeGeneratorFactory getInstance() {
         return instance;
@@ -31,7 +31,7 @@ public final class CodeGeneratorFactory {
     /**
      * Creates and returns a generator
      * @param type
-     * @return
+     * @return CodeGenerator
      */
     public CodeGenerator createGenerator(CodeGeneratorType type) {
         switch (type) {
