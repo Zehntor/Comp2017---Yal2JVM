@@ -1,9 +1,9 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-import com.comp.utils.services.NodeUtilsService;
-
 import java.util.List;
+import com.comp.utils.services.NodeUtilsService;
+import com.comp.semantic_analyser.SemanticAnaliser;
 
 import static com.comp.semantic_analyser.NodeType.*;
 
@@ -18,7 +18,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     public String generate(Node node) {
         addHeader(node);
         addDeclarations(node);
-        addDefaultConstructor();
+        addClassConstructor(node);
 
         return code.toString();
     }
@@ -43,13 +43,18 @@ public final class ModuleCodeGenerator extends CodeGenerator {
             .add(".end method");
     }
 
-    private void addClassConstructor() {
+    private void addClassConstructor(Node node) {
         code
             .add("")
             .add("; Class constructor")
             .add(".method static public <clinit>()V")
-            .add("    .limit stack 0")
-            .add("    .limit locals 0")
+            .add("    .limit stack 2")
+            .add("    .limit locals 0");
+
+        addStaticArrayInitializations(node);
+
+        code
+            .add("")
             .add("    return")
             .add(".end method");
     }
@@ -67,22 +72,49 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addDeclaration(Node node) {
-        for (int n = 0; n < node.jjtGetNumChildren(); n++) {
-            Node childNode = node.jjtGetChild(n);
-            if (NodeUtilsService.getInstance().nodeIsOfType(childNode, DECLARATION_ID)) {
-                if (n < node.jjtGetNumChildren() - 1) {
-                    Node nextNode = node.jjtGetChild(n + 1);
-                    if (NodeUtilsService.getInstance().nodeIsOfType(nextNode, INIT_VAR)) {
-                        code.add(String.format(".field static %s I", childNode.getValue()));
-                    } else {
-                        boolean
-                            nodeIsArraySize = NodeUtilsService.getInstance().nodeIsOfType(nextNode, ARRAY_SIZE),
-                            nodeIsIsArray   = NodeUtilsService.getInstance().nodeIsOfType(nextNode, IS_ARRAY);
-                        if (nodeIsArraySize || nodeIsIsArray) {
-                            code.add(String.format(".field static %s [I", childNode.getValue()));
-                        }
-                    }
+        String declarationId = NodeUtilsService.getInstance().getChildOfType(node, DECLARATION_ID).getValue().toString();
+
+        if (NodeUtilsService.getInstance().declarationNodeIsArray(node)) {
+            code.add(String.format(".field static %s [I", declarationId));
+        } else {
+            if (NodeUtilsService.getInstance().hasChildOfType(node, INIT_VAR)) {
+                String signal = "";
+                if (NodeUtilsService.getInstance().hasChildOfType(node, ADD_SUB_OP)) {
+                    signal = NodeUtilsService.getInstance().getChildOfType(node, ADD_SUB_OP).getValue().toString();
                 }
+                String value = NodeUtilsService.getInstance().getChildOfType(node, INIT_VAR).getValue().toString();
+                code.add(String.format(".field static %s I = %s%s",
+                    declarationId,
+                    signal,
+                    value
+                ));
+            } else {
+                code.add(String.format(".field static %s I", declarationId));
+            }
+        }
+    }
+
+    private void addStaticArrayInitializations(Node node) {
+        List<Node> declarationNodes = NodeUtilsService.getInstance().getChildrenOfType(node, DECLARATION);
+        for (Node declarationNode : declarationNodes) {
+            if (NodeUtilsService.getInstance().declarationNodeIsArray(declarationNode)) {
+                Node
+                    arraySizeNode = NodeUtilsService.getInstance().getChildOfType(declarationNode, ARRAY_SIZE),
+                    integerNode   = NodeUtilsService.getInstance().getChildOfType(arraySizeNode, INTEGER);
+                String size = integerNode.getValue().toString();
+
+                code.add("");
+                if (Integer.valueOf(size) <= 5) {
+                    code.add(String.format("    iconst_%s", size));
+                } else {
+                    code.add(String.format("    bipush %s", size));
+                }
+                code
+                    .add("    newarray int")
+                    .add(String.format("    putstatic %s/%s [I",
+                        SemanticAnaliser.getInstance().getModuleId(),
+                        NodeUtilsService.getInstance().getChildOfType(declarationNode, DECLARATION_ID).getValue().toString()
+                    ));
             }
         }
     }
