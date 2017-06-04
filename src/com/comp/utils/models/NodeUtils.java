@@ -3,6 +3,9 @@ package com.comp.utils.models;
 import vendor.Node;
 import com.comp.semantic_analyser.NodeType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
 
 /**
@@ -10,7 +13,7 @@ import static com.comp.semantic_analyser.NodeType.FUNCTION_ID;
  */
 public class NodeUtils {
 
-    public Node getChildByType(Node node, NodeType type) {
+    public Node getChildOfType(Node node, NodeType type) {
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
             if (NodeType.fromString(node.jjtGetChild(n).toString()) == type) {
                 return node.jjtGetChild(n);
@@ -20,8 +23,20 @@ public class NodeUtils {
         return null;
     }
 
+    public List<Node> getChildrenOfType(Node node, NodeType type) {
+        List<Node> children = new ArrayList<>();
+
+        for (int n = 0; n < node.jjtGetNumChildren(); n++) {
+            if (NodeType.fromString(node.jjtGetChild(n).toString()) == type) {
+                children.add(node.jjtGetChild(n));
+            }
+        }
+
+        return children;
+    }
+
     public boolean hasChildOfType(Node node, NodeType type) {
-        return getChildByType(node, type) != null;
+        return getChildOfType(node, type) != null;
     }
 
     public boolean nodeIsOfType(Node node, NodeType type) {
@@ -34,7 +49,7 @@ public class NodeUtils {
      * @return String
      */
     public String getFunctionId(Node node) {
-        Node functionIdNode = getChildByType(node, FUNCTION_ID);
+        Node functionIdNode = getChildOfType(node, FUNCTION_ID);
 
         if (functionIdNode != null) {
             return functionIdNode.getValue().toString();

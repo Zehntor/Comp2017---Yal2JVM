@@ -39,10 +39,10 @@ public final class CodeGeneratorFactory {
                 return new ModuleCodeGenerator();
             case FUNCTION:
                 return new FunctionCodeGenerator();
-            case FUNCTION_END:
-                return new FunctionEndCodeGenerator();
             case FUNCTION_CALL:
                 return new FunctionCallCodeGenerator();
+            case STMT:
+                return new StatementCodeGenerator();
         }
 
         return null;

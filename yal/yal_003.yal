@@ -1,4 +1,10 @@
 module yal_003 {
+
+    function cenas(a) {
+        out.println(a);
+    }
+
     function main() {
+        out.println(12);
     }
 }

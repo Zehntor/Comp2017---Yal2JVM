@@ -32,7 +32,14 @@ public enum NodeType {
     ARGUMENT_LIST("ArgumentList"),
     ARGUMENT_ID("ArgumentId"),
     CALL_ID("CallId"),
-    FUNCTION_CALL("FunctionCall");
+    FUNCTION_CALL("FunctionCall"),
+    STMTLST("Stmtlst"),
+    STMT("Stmt"),
+    DECLARATION("Declaration"),
+    DECLARATION_ID("DeclarationId"),
+    INIT_VAR("InitVar"),
+    ARRAY_SIZE("ArraySize"),
+    IS_ARRAY("IsArray");
 
     private final String value;
 

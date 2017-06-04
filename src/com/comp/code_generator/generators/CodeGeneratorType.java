@@ -7,8 +7,8 @@ public enum CodeGeneratorType {
 
     MODULE("module"),
     FUNCTION("function"),
-    FUNCTION_END("function end"),
-    FUNCTION_CALL("function call");
+    FUNCTION_CALL("function call"),
+    STMT("stmt");
 
     private final String value;
 

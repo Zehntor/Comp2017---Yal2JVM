@@ -81,7 +81,7 @@ public final class FunctionAnaliser extends Analiser {
      */
     private List<Variable> getFunctionArguments(Node node) {
         List<Variable> functionArguments = new ArrayList<>();
-        Node argsNode = NodeUtilsService.getInstance().getChildByType(node, ARGS);
+        Node argsNode = NodeUtilsService.getInstance().getChildOfType(node, ARGS);
 
         if (argsNode != null) {
             for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
@@ -155,7 +155,7 @@ public final class FunctionAnaliser extends Analiser {
         }
 
         returnVariable.setName(
-            NodeUtilsService.getInstance().getChildByType(node, RETURN_ID).getValue().toString()
+            NodeUtilsService.getInstance().getChildOfType(node, RETURN_ID).getValue().toString()
         );
         ((FunctionSymbolTable) symbolTableStack.peek())
             .setReturnVariable(returnVariable)
@@ -170,7 +170,7 @@ public final class FunctionAnaliser extends Analiser {
     private void checkDuplicateFunctionId(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
         if (symbolTableTree.findSymbolTable(functionId, SymbolTableType.FUNCTION) != null) {
-            Node functionIdNode = NodeUtilsService.getInstance().getChildByType(node, FUNCTION_ID);
+            Node functionIdNode = NodeUtilsService.getInstance().getChildOfType(node, FUNCTION_ID);
             addError(String.format(DUPLICATE_FUNCTION_ID,
                 functionId,
                 functionIdNode.getLine(),

@@ -1,12 +1,12 @@
 
-module aval3 
+module aval3
 {
 
 function c=f(a, b) {
     if(a >= b) {
-	c = 2;
+	    c = 2;
     } else {
-	c = 4;
+	    c = 4;
     }
 }
 

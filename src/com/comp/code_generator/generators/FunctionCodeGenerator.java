@@ -1,12 +1,16 @@
 package com.comp.code_generator.generators;
 
+import com.comp.semantic_analyser.variables.ArrayVariable;
 import vendor.Node;
 import com.comp.common.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
 import com.comp.utils.services.JasminUtilsService;
 import com.comp.semantic_analyser.SemanticAnaliser;
+import com.comp.semantic_analyser.variables.Variable;
+import com.comp.semantic_analyser.variables.IntegerVariable;
 import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
+import static com.comp.semantic_analyser.NodeType.FUNCTION_BODY;
 import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
@@ -20,6 +24,8 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     public String generate(Node node) {
         addHeader(node);
         addLimits(node);
+        addFunctionBody(node);
+        addFooter(node);
 
         return code.toString();
     }
@@ -53,7 +59,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         FunctionSymbolTable symbolTable =
             (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().findSymbolTable(functionId, FUNCTION);
 
-        int limit = symbolTable.getArguments().size() + symbolTable.getVariables().size();
+        int limit = Math.max(
+            symbolTable.getArguments().size() + symbolTable.getVariables().size(),
+            1
+        );
         if (symbolTable.getReturnVariable() != null) {
             limit++;
         }
@@ -61,5 +70,34 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         code
             .add(String.format("    .limit stack %s", limit))
             .add(String.format("    .limit locals %s", limit));
+    }
+
+    private void addFunctionBody(Node node) {
+        Node functionBodyNode = NodeUtilsService.getInstance().getChildOfType(node, FUNCTION_BODY);
+        if (functionBodyNode == null) {
+            return;
+        }
+
+    }
+
+    private void addFooter(Node node) {
+        String functionId = NodeUtilsService.getInstance().getFunctionId(node);
+        FunctionSymbolTable symbolTable = (FunctionSymbolTable) SemanticAnaliser.getInstance().getSymbolTableTree().findSymbolTable(
+            functionId,
+            FUNCTION
+        );
+
+        code.add("");
+
+        Variable returnVariable = symbolTable.getReturnVariable();
+        if (returnVariable == null) {
+            code.add("    return");
+        } else if (returnVariable instanceof IntegerVariable) {
+            code.add("    ireturn");
+        } else if (returnVariable instanceof ArrayVariable) {
+            code.add("    areturn");
+        }
+
+        code.add(".end method");
     }
 }

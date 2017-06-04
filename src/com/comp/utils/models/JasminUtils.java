@@ -22,7 +22,7 @@ public class JasminUtils {
      * @return String
      */
     public String getJasminArgListFromNode(Node node) {
-        Node argsNode = NodeUtilsService.getInstance().getChildByType(node, NodeType.ARGS);
+        Node argsNode = NodeUtilsService.getInstance().getChildOfType(node, NodeType.ARGS);
         if (argsNode == null) {
             return "";
         }
@@ -53,8 +53,8 @@ public class JasminUtils {
      */
     public JasminVarType getJasminReturnTypeFromNode(Node node) {
         Node
-            returnId = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_ID),
-            returnIsArray = NodeUtilsService.getInstance().getChildByType(node, NodeType.RETURN_IS_ARRAY);
+            returnId = NodeUtilsService.getInstance().getChildOfType(node, NodeType.RETURN_ID),
+            returnIsArray = NodeUtilsService.getInstance().getChildOfType(node, NodeType.RETURN_IS_ARRAY);
 
         if (returnId == null) {
             return JasminVarType.VOID;

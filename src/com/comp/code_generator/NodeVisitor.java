@@ -38,15 +38,25 @@ public final class NodeVisitor implements Visitor, Generator {
                     generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION);
                     code.add(generator.generate(node));
                     break;
+
+
+
+
+
+
+
+
+                case STMT:
+                    //generator = CodeGeneratorFactory.getInstance().createGenerator(STMT);
+                    //code.add(generator.generate(node));
+                    break;
+
+
                 case IF:
                 case ELSE:
                 case WHILE:
                     break;
                 case MODULE_END:
-                    break;
-                case FUNCTION_END:
-                    generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_END);
-                    code.add(generator.generate(node));
                     break;
                 case IF_END:
                 case ELSE_END:
@@ -56,8 +66,8 @@ public final class NodeVisitor implements Visitor, Generator {
                     break;
                 case FUNCTION_CALL:
                 case CALL_ID:
-                    generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_CALL);
-                    code.add(generator.generate(node));
+                    // generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_CALL);
+                    // code.add(generator.generate(node));
                     break;
             }
         }

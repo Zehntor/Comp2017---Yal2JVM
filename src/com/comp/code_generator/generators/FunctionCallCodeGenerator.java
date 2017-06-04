@@ -33,7 +33,6 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
      */
     private void addExternalCall(Node node) {
         code.add("    invokestatic io/println(I)V");    // TODO: get the args
-
     }
 
     /**
@@ -43,7 +42,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
     private void addInternalCall(Node node) {
         String
             moduleName = SemanticAnaliser.getInstance().getModuleId(),
-            functionId = NodeUtilsService.getInstance().getChildByType(node.jjtGetParent(), ID).getValue().toString(),
+            functionId = NodeUtilsService.getInstance().getChildOfType(node.jjtGetParent(), ID).getValue().toString(),
             jasminArgs = JasminUtilsService.getInstance().getJasminArgListFromSymbolTable(
                 SemanticAnaliser.getInstance().getSymbolTableTree(),
                 functionId

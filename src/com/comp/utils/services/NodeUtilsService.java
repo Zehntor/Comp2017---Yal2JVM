@@ -4,6 +4,8 @@ import vendor.Node;
 import com.comp.utils.models.NodeUtils;
 import com.comp.semantic_analyser.NodeType;
 
+import java.util.List;
+
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
  */
@@ -23,8 +25,12 @@ public class NodeUtilsService {
         return instance;
     }
 
-    public Node getChildByType(Node node, NodeType type) {
-        return nodeUtils.getChildByType(node, type);
+    public Node getChildOfType(Node node, NodeType type) {
+        return nodeUtils.getChildOfType(node, type);
+    }
+
+    public List<Node> getChildrenOfType(Node node, NodeType type) {
+        return nodeUtils.getChildrenOfType(node, type);
     }
 
     public boolean hasChildOfType(Node node, NodeType type) {

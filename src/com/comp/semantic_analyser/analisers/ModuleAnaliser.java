@@ -24,7 +24,7 @@ public final class ModuleAnaliser extends Analiser {
      * @return String
      */
     private String getModuleId(Node node) {
-        Node moduleIdNode = NodeUtilsService.getInstance().getChildByType(node, MODULE_ID);
+        Node moduleIdNode = NodeUtilsService.getInstance().getChildOfType(node, MODULE_ID);
 
         if (moduleIdNode != null) {
             return moduleIdNode.getValue().toString();

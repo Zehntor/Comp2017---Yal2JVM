@@ -1,0 +1,11 @@
+module test_01 {
+
+    c = 10;
+    d = [100];
+
+    function main() {
+        a = 3;
+        io.println(2);
+    }
+
+}
