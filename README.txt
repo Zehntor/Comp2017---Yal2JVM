@@ -1,24 +1,10 @@
-**PROJECT TITLE: <title of the project>
+**PROJECT TITLE: P17: SIMPLE (Yal2JVM)
 
-**GROUP: <identifier of the group>
+**GROUP: G41
 
-(Names, numbers, self assessment, and contribution of
-the members of the group to the project according to:)
-
-NAME1: <name>, NR1: <student number>,
-GRADE1: <0 to 20 value>, CONTRIBUTION1: <0 to 100 %>
-
-NAME2: <name>, NR2: < student number >, GRADE2: <0 to 20 value>, CONTRIBUTION2: <0 to 100 %>
 
 NAME1: Ricardo Wragg Freitas, NR1: 199502870
 GRADE1: 16, CONTRIBUTION1: 100%
-
-
-...
-
-(Note that the sum of the CONTRIBUTION? values must be
-100 %)
-
 
 
 ** SUMMARY: (Describe what your tool does and its main features.)
@@ -139,6 +125,11 @@ Ricardo Wragg Freitas, NR: 199502870
 **PROS: (Identify the most positive aspects of your tool)
 
 It rocks!
+Well thought
+Well structured
+Maintainable
+Extendable
+
 
 
 **CONS: (Identify the most negative aspects of your tool)
