@@ -50,7 +50,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
     private void addInternalCall(Node node) {
         String
             moduleId   = SemanticAnaliser.getInstance().getModuleId(),
-            functionId = node.getValue().toString(),
+            functionId = node.getValueToString(),
             jasminArgs = JasminUtilsService.getInstance().getJasminArgListFromSymbolTable(
                 SemanticAnaliser.getInstance().getSymbolTableTree(),
                 functionId

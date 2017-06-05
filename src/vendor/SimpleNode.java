@@ -36,6 +36,11 @@ public class SimpleNode implements Node {
         return value;
     }
 
+    @Override
+    public String getValueToString() {
+        return value.toString();
+    }
+
     public SimpleNode setLine(int line) {
         this.line = line;
         return this;

@@ -25,7 +25,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
 
     private void addHeader(Node node) {
         Node moduleIdNode = node.getChildOfType(MODULE_ID);
-        String moduleId   = moduleIdNode.getValue().toString();
+        String moduleId   = moduleIdNode.getValueToString();
 
         code
             .add(String.format(".class public %s", moduleId))
@@ -72,7 +72,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addDeclaration(Node node) {
-        String declarationId = node.getChildOfType(DECLARATION_ID).getValue().toString();
+        String declarationId = node.getChildOfType(DECLARATION_ID).getValueToString();
 
         if (NodeUtilsService.getInstance().declarationNodeIsArray(node)) {
             code.add(String.format(".field static %s [I", declarationId));
@@ -80,9 +80,9 @@ public final class ModuleCodeGenerator extends CodeGenerator {
             if (node.hasChildOfType(INIT_VAR)) {
                 String signal = "";
                 if (node.hasChildOfType(ADD_SUB_OP)) {
-                    signal = node.getChildOfType(ADD_SUB_OP).getValue().toString();
+                    signal = node.getChildOfType(ADD_SUB_OP).getValueToString();
                 }
-                String value = node.getChildOfType(INIT_VAR).getValue().toString();
+                String value = node.getChildOfType(INIT_VAR).getValueToString();
                 code.add(String.format(".field static %s I = %s%s",
                     declarationId,
                     signal,
@@ -102,7 +102,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
                 Node
                     arraySizeNode = declarationNode.getChildOfType(ARRAY_SIZE),
                     integerNode   = arraySizeNode.getChildOfType(INTEGER);
-                String size = integerNode.getValue().toString();
+                String size = integerNode.getValueToString();
 
                 code.add("");
                 if (Integer.valueOf(size) <= 5) {
@@ -114,7 +114,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
                     .add("    newarray int")
                     .add(String.format("    putstatic %s/%s [I",
                         SemanticAnaliser.getInstance().getModuleId(),
-                        declarationNode.getChildOfType(DECLARATION_ID).getValue().toString()
+                        declarationNode.getChildOfType(DECLARATION_ID).getValueToString()
                     ));
             }
         }

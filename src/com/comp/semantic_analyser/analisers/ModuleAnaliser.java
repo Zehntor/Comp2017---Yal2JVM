@@ -26,7 +26,7 @@ public final class ModuleAnaliser extends Analiser {
         Node moduleIdNode = node.getChildOfType(MODULE_ID);
 
         if (moduleIdNode != null) {
-            return moduleIdNode.getValue().toString();
+            return moduleIdNode.getValueToString();
         }
 
         return null;    // Should never happen

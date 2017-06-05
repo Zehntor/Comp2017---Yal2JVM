@@ -21,7 +21,7 @@ public class NodeUtils {
         Node functionIdNode = node.getChildOfType(FUNCTION_ID);
 
         if (functionIdNode != null) {
-            return functionIdNode.getValue().toString();
+            return functionIdNode.getValueToString();
         }
 
         return null;    // Should never happen

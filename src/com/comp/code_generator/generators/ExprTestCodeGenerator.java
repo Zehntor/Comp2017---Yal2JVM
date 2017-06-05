@@ -23,7 +23,7 @@ public class ExprTestCodeGenerator extends CodeGenerator {
     }
 
     private void addLhs(Node node) {
-        String varId = node.getValue().toString();
+        String varId = node.getValueToString();
 
         if (node.hasChildren()) {
 

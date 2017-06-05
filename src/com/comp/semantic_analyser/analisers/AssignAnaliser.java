@@ -25,7 +25,7 @@ public class AssignAnaliser extends Analiser {
 
         // TODO
         Node lhsNode = node.getChildOfType(LHS);
-        String variableName = lhsNode.getValue().toString();
+        String variableName = lhsNode.getValueToString();
         boolean variableExists = symbolTableStack.peek().findVariable(variableName) != null;
 
         if (!variableExists) {
@@ -77,7 +77,7 @@ public class AssignAnaliser extends Analiser {
         FunctionSymbolTable symbolTable = (FunctionSymbolTable) SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.FUNCTION);
         Node idNode = isFunctionNode.jjtGetParent().getChildOfType(ID);
         symbolTable
-            .setId(idNode.getValue().toString())
+            .setId(idNode.getValueToString())
             .setLine(idNode.getLine())
             .setColumn(idNode.getColumn());
         List<Variable> arguments = getFunctionArguments(isFunctionNode);
@@ -100,7 +100,7 @@ public class AssignAnaliser extends Analiser {
                 Node argumentNode         = argumentListNode.jjtGetChild(n);
                 Variable argumentVariable = VariableFactory.getInstance().createVariable(INTEGER);
                 argumentVariable
-                    .setName(argumentNode.getValue().toString())
+                    .setName(argumentNode.getValueToString())
                     .setLine(argumentNode.getLine())
                     .setColumn(argumentNode.getColumn());
                 functionArguments.add(argumentVariable);

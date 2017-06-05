@@ -98,7 +98,7 @@ public final class FunctionAnaliser extends Analiser {
                         variable = VariableFactory.getInstance().createVariable(INTEGER);
                     }
                     variable
-                        .setName(varListIdNode.getValue().toString())
+                        .setName(varListIdNode.getValueToString())
                         .setLine(varListIdNode.getLine())
                         .setColumn(varListIdNode.getColumn());
                     functionArguments.add(variable);
@@ -155,7 +155,7 @@ public final class FunctionAnaliser extends Analiser {
         }
 
         returnVariable.setName(
-            node.getChildOfType(RETURN_ID).getValue().toString()
+            node.getChildOfType(RETURN_ID).getValueToString()
         );
         ((FunctionSymbolTable) symbolTableStack.peek())
             .setReturnVariable(returnVariable)

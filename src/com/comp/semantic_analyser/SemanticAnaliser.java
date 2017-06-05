@@ -104,7 +104,7 @@ public final class SemanticAnaliser {
      */
     private void findModuleId(Node node) {
         if (node.isOfType(NodeType.MODULE_ID)) {
-            moduleId = node.getValue().toString();
+            moduleId = node.getValueToString();
             return;
         }
 

@@ -52,9 +52,15 @@ public interface Node {
 
     /**
      * Returns this node's value
-     * @return
+     * @return Object
      */
     Object getValue();
+
+    /**
+     * Returns this node's value as a string
+     * @return String
+     */
+    String getValueToString();
 
     /**
      * Returns this node's line
