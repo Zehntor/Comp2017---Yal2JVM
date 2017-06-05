@@ -13,7 +13,7 @@ The main purpose of this tool is to convert a yal file into a Jasmin syntax file
 
 ** REPOSITORY
 
-The code is stored at http://github.com/zehntor/comp
+The code is stored at https://github.com/Zehntor/comp2017
 
 ** EXECUTE: (indicate how to run your tool)
 
@@ -60,10 +60,15 @@ The code generator implements the visitor pattern in order to visit all the AST 
 The code generator looks at each node and uses a particular generator according to the node type.
 The particular generators are created at a factory.
 There are N generator types:
-- Module code generator
-- Function code generator
-- Function end code generator
+- Assign code generator
+- ExprTest code generator
 - Function call code generator
+- Function code generator
+- If code generator
+- Module code generator
+- Statement code generator
+- Statement list code generator
+- While code generator
 
 
 
@@ -71,19 +76,19 @@ There are N generator types:
 
 The application was split into:
 
-    3 main modules:
-    - Syntactic analiser
-    - Semantic analiser
-    - Code generator
+3 main modules:
+- Syntactic analiser
+- Semantic analiser
+- Code generator
 
-    2 secondary modules:
-    - Utilities module
-    - Profiler module
+2 secondary modules:
+- Utilities module
+- Profiler module
 
-    one main file, which:
-    - Acts as a façade for all the compilation steps
-    - Performs input checks
-    - Displays errors
+one main file, which:
+- Acts as a façade for all the compilation steps
+- Performs input checks
+- Displays errors
 
 General development principles
 - Modules talk to each other via services, which expose the module's functionality to the outside
@@ -128,10 +133,11 @@ It rocks!
 Well thought
 Well structured
 Maintainable
-Extendable
+Extensible
+Fast
 
 
 
 **CONS: (Identify the most negative aspects of your tool)
 
-None.
+Does not generate all the Jasmin code correctly
