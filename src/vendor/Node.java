@@ -126,6 +126,20 @@ public interface Node {
     Node getAncestorOfType(NodeType type);
 
     /**
+     * Finds and returns the first sibling which is of the specified type
+     * @param type
+     * @return Node
+     */
+    Node getSiblingOfType(NodeType type);
+
+    /**
+     * Returns true if the node has a sibling of the specified type; false otherwise
+     * @param type
+     * @return
+     */
+    boolean hasSiblingOfType(NodeType type);
+
+    /**
      * Returns true if the node has an ancestor of the specified type; false otherwise
      * @param type
      * @return

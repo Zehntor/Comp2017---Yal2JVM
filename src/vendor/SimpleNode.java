@@ -235,6 +235,30 @@ public class SimpleNode implements Node {
     }
 
     /**
+     * Finds and returns the first sibling which is of the specified type
+     * @param type
+     * @return Node
+     */
+    @Override
+    public Node getSiblingOfType(NodeType type) {
+        if (jjtGetParent() == null) {
+            return null;
+        }
+
+        return jjtGetParent().getChildOfType(type);
+    }
+
+    /**
+     * Returns true if the node has an ancestor of the specified type; false otherwise
+     * @param type
+     * @return
+     */
+    @Override
+    public boolean hasSiblingOfType(NodeType type) {
+        return getSiblingOfType(type) != null;
+    }
+
+    /**
      * Returns true if the node has an ancestor of the specified type; false otherwise
      * @param type
      * @return
