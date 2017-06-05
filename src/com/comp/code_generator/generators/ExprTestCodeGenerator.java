@@ -1,7 +1,6 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-import com.comp.utils.services.NodeUtilsService;
 
 import static com.comp.semantic_analyser.NodeType.LHS;
 import static com.comp.semantic_analyser.NodeType.RHS;
@@ -14,8 +13,8 @@ public class ExprTestCodeGenerator extends CodeGenerator {
     @Override
     public String generate(Node node) {
         Node
-            lhsNode = NodeUtilsService.getInstance().getChildOfType(node, LHS),
-            rhsNode = NodeUtilsService.getInstance().getChildOfType(node, RHS);
+            lhsNode = node.getChildOfType(LHS),
+            rhsNode = node.getChildOfType(RHS);
 
         addLhs(node);
         addRhs(node);

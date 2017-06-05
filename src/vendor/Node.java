@@ -7,6 +7,9 @@ package vendor;
    between nodes. */
 
 import com.comp.common.Visitor;
+import com.comp.semantic_analyser.NodeType;
+
+import java.util.List;
 
 public interface Node {
 
@@ -66,9 +69,61 @@ public interface Node {
     int getColumn();
 
     /**
+     * Customs methods below
+     */
+
+    /**
      * Accepts a visitor
      * @param visitor
      */
     void accept(Visitor visitor);
+
+    /**
+     * Returns true if the node has children; false otherwise
+     * @return boolean
+     */
+    boolean hasChildren();
+
+    /**
+     * Finds and returns the first child which is of the specified type
+     * @param type
+     * @return Node
+     */
+    Node getChildOfType(NodeType type);
+
+    /**
+     * Finds and returns a list of children which are of the specified type
+     * @param type
+     * @return List<Node>
+     */
+    List<Node> getChildrenOfType(NodeType type);
+
+    /**
+     * Returns true if the node has at least one child of the specified type; false otherwise
+     * @param type
+     * @return boolean
+     */
+    boolean hasChildOfType(NodeType type);
+
+    /**
+     * Returns true if the node is of the specified type; false otherwise
+     * @param type
+     * @return
+     */
+    boolean isOfType(NodeType type);
+
+    /**
+     * Return the first (counting bottom up) ancestor of the specified type
+     * @param type
+     * @return Node the ancestor, or null if not found
+     */
+    Node getAncestorOfType(NodeType type);
+
+    /**
+     * Returns true if the node has an ancestor of the specified type; false otherwise
+     * @param type
+     * @return
+     */
+    boolean hasAncestorOfType(NodeType type);
 }
 /* JavaCC - OriginalChecksum=8c6fb5c36a36f9402a1d80231d754861 (do not edit this line) */

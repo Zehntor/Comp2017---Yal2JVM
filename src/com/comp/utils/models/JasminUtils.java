@@ -3,7 +3,6 @@ package com.comp.utils.models;
 import vendor.Node;
 import com.comp.common.JasminVarType;
 import com.comp.semantic_analyser.NodeType;
-import com.comp.utils.services.NodeUtilsService;
 import com.comp.semantic_analyser.variables.Variable;
 import com.comp.semantic_analyser.variables.ArrayVariable;
 import com.comp.semantic_analyser.variables.IntegerVariable;
@@ -22,7 +21,7 @@ public class JasminUtils {
      * @return String
      */
     public String getJasminArgListFromNode(Node node) {
-        Node argsNode = NodeUtilsService.getInstance().getChildOfType(node, NodeType.ARGS);
+        Node argsNode = node.getChildOfType(NodeType.ARGS);
         if (argsNode == null) {
             return "";
         }
@@ -31,8 +30,8 @@ public class JasminUtils {
 
         for (int n = 0; n < argsNode.jjtGetNumChildren(); n++) {
             boolean
-                nodeIsVarId     = NodeUtilsService.getInstance().nodeIsOfType(argsNode.jjtGetChild(n), NodeType.VAR_ID),
-                nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && NodeUtilsService.getInstance().nodeIsOfType(argsNode.jjtGetChild(n + 1), NodeType.VAR_IS_ARRAY);
+                nodeIsVarId     = argsNode.jjtGetChild(n).isOfType(NodeType.VAR_ID),
+                nextNodeIsArray = n < argsNode.jjtGetNumChildren() - 1 && argsNode.jjtGetChild(n + 1).isOfType(NodeType.VAR_IS_ARRAY);
 
             if (nodeIsVarId) {
                 if (nextNodeIsArray) {
@@ -53,8 +52,8 @@ public class JasminUtils {
      */
     public JasminVarType getJasminReturnTypeFromNode(Node node) {
         Node
-            returnId = NodeUtilsService.getInstance().getChildOfType(node, NodeType.RETURN_ID),
-            returnIsArray = NodeUtilsService.getInstance().getChildOfType(node, NodeType.RETURN_IS_ARRAY);
+            returnId = node.getChildOfType(NodeType.RETURN_ID),
+            returnIsArray = node.getChildOfType(NodeType.RETURN_IS_ARRAY);
 
         if (returnId == null) {
             return JasminVarType.VOID;
@@ -93,7 +92,7 @@ public class JasminUtils {
      * @return String
      */
     public String getJasminArgListCallFromNode(Node node) {
-        Node argumentListNode = NodeUtilsService.getInstance().getChildOfType(node, NodeType.ARGUMENT_LIST);
+        Node argumentListNode = node.getChildOfType(NodeType.ARGUMENT_LIST);
         StringBuilder stringBuilder = new StringBuilder();
         for (int n = 0; n < argumentListNode.jjtGetNumChildren(); n++) {
             stringBuilder.append("I");

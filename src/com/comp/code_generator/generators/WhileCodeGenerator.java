@@ -1,7 +1,6 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-import com.comp.utils.services.NodeUtilsService;
 
 import static com.comp.semantic_analyser.NodeType.STMTLST;
 import static com.comp.semantic_analyser.NodeType.EXPR_TEST;
@@ -30,13 +29,13 @@ public class WhileCodeGenerator extends CodeGenerator {
     }
 
     private void addExprTest(Node node) {
-        Node exprTestNode       = NodeUtilsService.getInstance().getChildOfType(node, EXPR_TEST);
+        Node exprTestNode       = node.getChildOfType(EXPR_TEST);
         CodeGenerator generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.EXPR_TEST);
         code.add(generator.generate(exprTestNode));
     }
 
     private void addStmtLst(Node node) {
-        Node stmtLstNode        = NodeUtilsService.getInstance().getChildOfType(node, STMTLST);
+        Node stmtLstNode        = node.getChildOfType(STMTLST);
         CodeGenerator generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.STMTLST);
         code.add(generator.generate(stmtLstNode));
     }

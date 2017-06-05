@@ -1,7 +1,6 @@
 package com.comp.semantic_analyser.analisers;
 
 import vendor.Node;
-import com.comp.utils.services.NodeUtilsService;
 
 import static com.comp.semantic_analyser.NodeType.MODULE_ID;
 
@@ -24,7 +23,7 @@ public final class ModuleAnaliser extends Analiser {
      * @return String
      */
     private String getModuleId(Node node) {
-        Node moduleIdNode = NodeUtilsService.getInstance().getChildOfType(node, MODULE_ID);
+        Node moduleIdNode = node.getChildOfType(MODULE_ID);
 
         if (moduleIdNode != null) {
             return moduleIdNode.getValue().toString();

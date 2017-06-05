@@ -29,66 +29,6 @@ public class NodeUtilsService {
     }
 
     /**
-     * Finds and returns the first child which is of the specified type
-     * @param node
-     * @param type
-     * @return Node
-     */
-    public Node getChildOfType(Node node, NodeType type) {
-        return nodeUtils.getChildOfType(node, type);
-    }
-
-    /**
-     * Finds and returns a list of children which are of the specified type
-     * @param node
-     * @param type
-     * @return List<Node>
-     */
-    public List<Node> getChildrenOfType(Node node, NodeType type) {
-        return nodeUtils.getChildrenOfType(node, type);
-    }
-
-    /**
-     * Returns true if the node has at least one child of the specified type; false otherwise
-     * @param node
-     * @param type
-     * @return boolean
-     */
-    public boolean nodeHasChildOfType(Node node, NodeType type) {
-        return nodeUtils.nodeHasChildOfType(node, type);
-    }
-
-    /**
-     * Returns true if the node is of the specified type; false otherwise
-     * @param node
-     * @param type
-     * @return
-     */
-    public boolean nodeIsOfType(Node node, NodeType type) {
-        return nodeUtils.nodeIsOfType(node, type);
-    }
-
-    /**
-     * Returns true if the node has an ancesetor of the specified type; false otherwise
-     * @param node
-     * @param type
-     * @return
-     */
-    public boolean nodeHasAncestorOfType(Node node, NodeType type) {
-        return nodeUtils.nodeHasAncestorOfType(node, type);
-    }
-
-    /**
-     * Return the first (counting bottom up) ancestor of the specified type
-     * @param node
-     * @param type
-     * @return Node the ancestor, or null if not found
-     */
-    public Node getAncestorOfType(Node node, NodeType type) {
-        return nodeUtils.getAncestorOfType(node, type);
-    }
-
-    /**
      * Finds and returns the function id
      * @param node
      * @return String

@@ -2,7 +2,11 @@
 /* JavaCCOptions:MULTI=false,NODE_USES_PARSER=false,VISITOR=false,TRACK_TOKENS=false,NODE_PREFIX=AST,NODE_EXTENDS=,NODE_FACTORY=,SUPPORT_CLASS_VISIBILITY_PUBLIC=true */
 package vendor;
 
+import java.util.List;
+import java.util.ArrayList;
 import com.comp.common.Visitor;
+import com.comp.semantic_analyser.NodeType;
+
 
 public class SimpleNode implements Node {
 
@@ -48,19 +52,6 @@ public class SimpleNode implements Node {
 
     public int getColumn() {
         return column;
-    }
-
-    /**
-     * Gets the value, the begin line and the begin column from the token
-     * @param token
-     * @return SimpleNode, for a fluent interface
-     */
-    public SimpleNode getInfoFromToken(Token token) {
-        value  = token.image;
-        line   = token.beginLine;
-        column = token.beginColumn;
-
-        return this;
     }
 
     public void jjtOpen() {
@@ -138,6 +129,114 @@ public class SimpleNode implements Node {
                 }
             }
         }
+    }
+
+    /**
+     * Customs methods below
+     */
+
+    /**
+     * Gets the value, the begin line and the begin column from the token
+     * @param token
+     * @return SimpleNode, for a fluent interface
+     */
+    public SimpleNode getInfoFromToken(Token token) {
+        value  = token.image;
+        line   = token.beginLine;
+        column = token.beginColumn;
+
+        return this;
+    }
+
+    /**
+     * Returns true if the node has children; false otherwise
+     * @return boolean
+     */
+    @Override
+    public boolean hasChildren() {
+        return children.length > 0;
+    }
+
+    /**
+     * Finds and returns the first child which is of the specified type
+     * @param type
+     * @return Node
+     */
+    @Override
+    public Node getChildOfType(NodeType type) {
+        for (int n = 0; n < jjtGetNumChildren(); n++) {
+            if (NodeType.fromString(jjtGetChild(n).toString()) == type) {
+                return jjtGetChild(n);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Finds and returns a list of children which are of the specified type
+     * @param type
+     * @return List<Node>
+     */
+    @Override
+    public List<Node> getChildrenOfType(NodeType type) {
+        List<Node> children = new ArrayList<>();
+
+        for (int n = 0; n < jjtGetNumChildren(); n++) {
+            if (NodeType.fromString(jjtGetChild(n).toString()) == type) {
+                children.add(jjtGetChild(n));
+            }
+        }
+
+        return children;
+    }
+
+    /**
+     * Returns true if the node has at least one child of the specified type; false otherwise
+     * @param type
+     * @return boolean
+     */
+    @Override
+    public boolean hasChildOfType(NodeType type) {
+        return getChildOfType(type) != null;
+    }
+
+    /**
+     * Returns true if the node is of the specified type; false otherwise
+     * @param type
+     * @return
+     */
+    @Override
+    public boolean isOfType(NodeType type) {
+        return NodeType.fromString(toString()) == type;
+    }
+
+    /**
+     * Return the first (counting bottom up) ancestor of the specified type
+     * @param type
+     * @return Node the ancestor, or null if not found
+     */
+    @Override
+    public Node getAncestorOfType(NodeType type) {
+        if (jjtGetParent() == null) {
+            return null;
+        }
+
+        if (jjtGetParent().isOfType(type)) {
+            return jjtGetParent();
+        }
+
+        return jjtGetParent().getAncestorOfType(type);
+    }
+
+    /**
+     * Returns true if the node has an ancestor of the specified type; false otherwise
+     * @param type
+     * @return
+     */
+    @Override
+    public boolean hasAncestorOfType(NodeType type) {
+        return getAncestorOfType(type) != null;
     }
 }
 

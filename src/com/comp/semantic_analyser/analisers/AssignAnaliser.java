@@ -3,7 +3,6 @@ package com.comp.semantic_analyser.analisers;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
-import com.comp.utils.services.NodeUtilsService;
 import com.comp.semantic_analyser.variables.Variable;
 import com.comp.semantic_analyser.variables.VariableFactory;
 import com.comp.semantic_analyser.variables.IntegerVariable;
@@ -25,7 +24,7 @@ public class AssignAnaliser extends Analiser {
         }
 
         // TODO
-        Node lhsNode = NodeUtilsService.getInstance().getChildOfType(node, LHS);
+        Node lhsNode = node.getChildOfType(LHS);
         String variableName = lhsNode.getValue().toString();
         boolean variableExists = symbolTableStack.peek().findVariable(variableName) != null;
 
@@ -42,7 +41,7 @@ public class AssignAnaliser extends Analiser {
     public boolean hasFunctionCalls(Node node) {
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
             Node child = node.jjtGetChild(n);
-            if (NodeUtilsService.getInstance().nodeHasChildOfType(child, IS_FUNCTION) || hasFunctionCalls(child)) {
+            if (child.hasChildOfType(IS_FUNCTION) || hasFunctionCalls(child)) {
                 return true;
             }
         }
@@ -60,7 +59,7 @@ public class AssignAnaliser extends Analiser {
 
         for (int n = 0; n < node.jjtGetNumChildren(); n++) {
             Node child = node.jjtGetChild(n);
-            if (NodeUtilsService.getInstance().nodeIsOfType(child, IS_FUNCTION)) {
+            if (child.isOfType(IS_FUNCTION)) {
                 functionCalls.add(createFunctionCall(child));
             }
             functionCalls.addAll(getFunctionCalls(child));
@@ -76,7 +75,7 @@ public class AssignAnaliser extends Analiser {
      */
     private FunctionSymbolTable createFunctionCall(Node isFunctionNode) {
         FunctionSymbolTable symbolTable = (FunctionSymbolTable) SymbolTableFactory.getInstance().createSymbolTable(SymbolTableType.FUNCTION);
-        Node idNode = NodeUtilsService.getInstance().getChildOfType(isFunctionNode.jjtGetParent(), ID);
+        Node idNode = isFunctionNode.jjtGetParent().getChildOfType(ID);
         symbolTable
             .setId(idNode.getValue().toString())
             .setLine(idNode.getLine())
@@ -94,7 +93,7 @@ public class AssignAnaliser extends Analiser {
      */
     private List<Variable> getFunctionArguments(Node isFunctionNode) {
         List<Variable> functionArguments = new ArrayList<>();
-        Node argumentListNode = NodeUtilsService.getInstance().getChildOfType(isFunctionNode.jjtGetParent(), ARGUMENT_LIST);
+        Node argumentListNode = isFunctionNode.jjtGetParent().getChildOfType(ARGUMENT_LIST);
 
         if (argumentListNode != null) {
             for (int n = 0; n < argumentListNode.jjtGetNumChildren(); n++) {

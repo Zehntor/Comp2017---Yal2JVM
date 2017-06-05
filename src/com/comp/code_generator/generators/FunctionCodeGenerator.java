@@ -1,7 +1,6 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-import java.util.List;
 import com.comp.common.JasminVarType;
 import com.comp.utils.services.NodeUtilsService;
 import com.comp.utils.services.JasminUtilsService;
@@ -11,9 +10,8 @@ import com.comp.semantic_analyser.variables.ArrayVariable;
 import com.comp.semantic_analyser.variables.IntegerVariable;
 import com.comp.semantic_analyser.symbol_tables.FunctionSymbolTable;
 
-import static com.comp.semantic_analyser.NodeType.FUNCTION_BODY;
-import static com.comp.code_generator.generators.CodeGeneratorType.STMT;
 import static com.comp.semantic_analyser.NodeType.STMTLST;
+import static com.comp.semantic_analyser.NodeType.FUNCTION_BODY;
 import static com.comp.semantic_analyser.symbol_tables.SymbolTableType.FUNCTION;
 
 /**
@@ -76,13 +74,13 @@ public final class FunctionCodeGenerator extends CodeGenerator {
     }
 
     private void addFunctionBody(Node node) {
-        Node functionBodyNode = NodeUtilsService.getInstance().getChildOfType(node, FUNCTION_BODY);
+        Node functionBodyNode = node.getChildOfType(FUNCTION_BODY);
         if (functionBodyNode == null) {
             return;
         }
 
         CodeGenerator generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.STMTLST);
-        Node stmtlstNode        = NodeUtilsService.getInstance().getChildOfType(functionBodyNode, STMTLST);
+        Node stmtlstNode        = functionBodyNode.getChildOfType(STMTLST);
 
         code.add(generator.generate(stmtlstNode));
     }

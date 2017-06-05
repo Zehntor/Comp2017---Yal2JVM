@@ -1,7 +1,6 @@
 package com.comp.code_generator.generators;
 
 import vendor.Node;
-import com.comp.utils.services.NodeUtilsService;
 import com.comp.utils.services.JasminUtilsService;
 import com.comp.semantic_analyser.SemanticAnaliser;
 
@@ -17,7 +16,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
     @Override
     public String generate(Node node) {
         Node parentNode = node.jjtGetParent();
-        if (NodeUtilsService.getInstance().nodeHasChildOfType(parentNode, CALL_ID_2)) {
+        if (parentNode.hasChildOfType(CALL_ID_2)) {
             addExternalCall(node);
         } else {
             addInternalCall(node);
@@ -32,9 +31,9 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
      */
     private void addExternalCall(Node node) {
         Node
-            stmtAncestorNode = NodeUtilsService.getInstance().getAncestorOfType(node, STMT),
-            callId2Node      = NodeUtilsService.getInstance().getChildOfType(stmtAncestorNode, CALL_ID_2);
-        String jasminArgs     = JasminUtilsService.getInstance().getJasminArgListCallFromNode(stmtAncestorNode);
+            stmtAncestorNode = node.getAncestorOfType(STMT),
+            callId2Node      = stmtAncestorNode.getChildOfType(CALL_ID_2);
+        String jasminArgs    = JasminUtilsService.getInstance().getJasminArgListCallFromNode(stmtAncestorNode);
 
         code.add(String.format("    invokestatic %s/%s(%s)V",
             node.getValue(),

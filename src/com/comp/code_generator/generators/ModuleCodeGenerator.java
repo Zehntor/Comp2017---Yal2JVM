@@ -24,7 +24,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addHeader(Node node) {
-        Node moduleIdNode = NodeUtilsService.getInstance().getChildOfType(node, MODULE_ID);
+        Node moduleIdNode = node.getChildOfType(MODULE_ID);
         String moduleId   = moduleIdNode.getValue().toString();
 
         code
@@ -60,7 +60,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addDeclarations(Node node) {
-        List<Node> declarationNodes = NodeUtilsService.getInstance().getChildrenOfType(node, DECLARATION);
+        List<Node> declarationNodes = node.getChildrenOfType(DECLARATION);
 
         if (!declarationNodes.isEmpty()) {
             code.add("");
@@ -72,17 +72,17 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addDeclaration(Node node) {
-        String declarationId = NodeUtilsService.getInstance().getChildOfType(node, DECLARATION_ID).getValue().toString();
+        String declarationId = node.getChildOfType(DECLARATION_ID).getValue().toString();
 
         if (NodeUtilsService.getInstance().declarationNodeIsArray(node)) {
             code.add(String.format(".field static %s [I", declarationId));
         } else {
-            if (NodeUtilsService.getInstance().nodeHasChildOfType(node, INIT_VAR)) {
+            if (node.hasChildOfType(INIT_VAR)) {
                 String signal = "";
-                if (NodeUtilsService.getInstance().nodeHasChildOfType(node, ADD_SUB_OP)) {
-                    signal = NodeUtilsService.getInstance().getChildOfType(node, ADD_SUB_OP).getValue().toString();
+                if (node.hasChildOfType(ADD_SUB_OP)) {
+                    signal = node.getChildOfType(ADD_SUB_OP).getValue().toString();
                 }
-                String value = NodeUtilsService.getInstance().getChildOfType(node, INIT_VAR).getValue().toString();
+                String value = node.getChildOfType(INIT_VAR).getValue().toString();
                 code.add(String.format(".field static %s I = %s%s",
                     declarationId,
                     signal,
@@ -95,12 +95,13 @@ public final class ModuleCodeGenerator extends CodeGenerator {
     }
 
     private void addStaticArrayInitializations(Node node) {
-        List<Node> declarationNodes = NodeUtilsService.getInstance().getChildrenOfType(node, DECLARATION);
+        List<Node> declarationNodes = node.getChildrenOfType(DECLARATION);
+
         for (Node declarationNode : declarationNodes) {
             if (NodeUtilsService.getInstance().declarationNodeIsArray(declarationNode)) {
                 Node
-                    arraySizeNode = NodeUtilsService.getInstance().getChildOfType(declarationNode, ARRAY_SIZE),
-                    integerNode   = NodeUtilsService.getInstance().getChildOfType(arraySizeNode, INTEGER);
+                    arraySizeNode = declarationNode.getChildOfType(ARRAY_SIZE),
+                    integerNode   = arraySizeNode.getChildOfType(INTEGER);
                 String size = integerNode.getValue().toString();
 
                 code.add("");
@@ -113,7 +114,7 @@ public final class ModuleCodeGenerator extends CodeGenerator {
                     .add("    newarray int")
                     .add(String.format("    putstatic %s/%s [I",
                         SemanticAnaliser.getInstance().getModuleId(),
-                        NodeUtilsService.getInstance().getChildOfType(declarationNode, DECLARATION_ID).getValue().toString()
+                        declarationNode.getChildOfType(DECLARATION_ID).getValue().toString()
                     ));
             }
         }

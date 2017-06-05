@@ -103,7 +103,7 @@ public final class SemanticAnaliser {
      * @param node
      */
     private void findModuleId(Node node) {
-        if (NodeUtilsService.getInstance().nodeIsOfType(node, NodeType.MODULE_ID)) {
+        if (node.isOfType(NodeType.MODULE_ID)) {
             moduleId = node.getValue().toString();
             return;
         }
