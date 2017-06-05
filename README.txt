@@ -39,7 +39,8 @@ The semantic visitor looks at each node and uses a particular analiser according
 The particular analisers are created at a factory.
 There are N analiser types:
 - Module analiser
-    Analises a MODULE node
+    Analises a MODULE node. Checks for:
+    - Duplicate global variables
 - Function analiser
     Analises a FUNCTION node. Checks for:
     - Duplicate function ids
