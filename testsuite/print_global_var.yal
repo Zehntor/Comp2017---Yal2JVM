@@ -1,0 +1,10 @@
+module print_global_var {
+
+    a = 10;
+
+    function main() {
+        a = 10;
+        io.println(a);
+    }
+
+}

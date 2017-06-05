@@ -1,0 +1,11 @@
+module semantic_error_missing_main_function {
+
+    function a=f(x, y) {
+        if (x == y) {
+            a = 1;
+        } else {
+            a = 0;
+        }
+    }
+
+}

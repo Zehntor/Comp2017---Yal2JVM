@@ -3,6 +3,7 @@ package com.comp;
 import vendor.Parser;
 import java.util.List;
 import vendor.SimpleNode;
+import vendor.TokenMgrError;
 import vendor.ParseException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,7 +53,8 @@ public class Yal2jvm {
             System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
             abortCompilation();
         } else if (!args[0].endsWith("yal")) {
-            System.out.println("The input file name must have a 'yal' extension");
+            System.out.println("Argument error:");
+            showError("The input file name must have a 'yal' extension");
             abortCompilation();
         }
     }
@@ -93,8 +95,11 @@ public class Yal2jvm {
             System.out.println();
             System.out.println(String.format("A parse exception occurred while parsing file '%s':%n%s", inputFilename, e.getMessage()));
             abortCompilation();
+        } catch (TokenMgrError e) {
+            System.out.println();
+            System.out.println(String.format("A parse exception occurred while parsing file '%s':%n%s", inputFilename, e.getMessage()));
+            abortCompilation();
         }
-
 
         return root;
     }

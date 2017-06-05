@@ -1,21 +1,10 @@
 module test_01 {
 
-    b;
-    c = -10;
-    d = [100];
-    e = [4];
-
-    function f(x) {
-        a = 0;
-        while (a < 3) {
-            io.println(x);
-            a = a + 1;
-        }
-    }
+    a = 10;
+    b = [100];
+    c;
 
     function main() {
-        a = 3;
-        f(4);
     }
 
 }

@@ -1,0 +1,13 @@
+module semantic_error_duplicates {
+
+    a = 0;
+    b = [10];
+    a = 20;
+
+    function main() {
+    }
+
+    function main() {
+    }
+
+}
