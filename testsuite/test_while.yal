@@ -1,4 +1,9 @@
 module test_while {
+
+    c = 10;
+    data = [100];
+    cenas;
+
     function main() {
         a = 0;
         while (a < 3) {

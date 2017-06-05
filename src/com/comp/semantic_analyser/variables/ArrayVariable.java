@@ -8,7 +8,17 @@ import java.util.List;
  */
 public final class ArrayVariable extends Variable {
 
+    private int size = 0;
     private List<Integer> values = new ArrayList<>();
+
+    public ArrayVariable setSize(int size) {
+        this.size = size;
+        return this;
+    }
+
+    public int getSize() {
+        return size;
+    }
 
     public Object getValue() {
         return values;

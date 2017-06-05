@@ -33,9 +33,8 @@ public final class FunctionAnaliser extends Analiser {
         );
 
         List<Variable> arguments = getFunctionArguments(node);
-        if (!arguments.isEmpty()) {
-            checkDuplicateArguments(arguments);
-        }
+        checkDuplicateArguments(arguments);
+
         ((FunctionSymbolTable) symbolTableStack.peek())
             .addArguments(arguments)
             .addVariables(arguments);

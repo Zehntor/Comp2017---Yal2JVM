@@ -93,7 +93,7 @@ public class AssignAnaliser extends Analiser {
      */
     private List<Variable> getFunctionArguments(Node isFunctionNode) {
         List<Variable> functionArguments = new ArrayList<>();
-        Node argumentListNode = isFunctionNode.jjtGetParent().getChildOfType(ARGUMENT_LIST);
+        Node argumentListNode = isFunctionNode.getSiblingOfType(ARGUMENT_LIST);
 
         if (argumentListNode != null) {
             for (int n = 0; n < argumentListNode.jjtGetNumChildren(); n++) {

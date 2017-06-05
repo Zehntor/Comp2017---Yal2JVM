@@ -105,6 +105,32 @@ public class GeneralSymbolTable implements Findable {
     }
 
     /**
+     * Returns the variable index in the variables map
+     * @param variableName
+     * @return
+     */
+    public int getVariableIndex(String variableName) {
+        int n = 0;
+        for (Map.Entry<String, Variable> entry : variables.entrySet()) {
+            if (entry.getKey().equals(variableName)) {
+                return n;
+            }
+            n++;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Returns true if this symbol table has a variable with this name; false otherwise
+     * @param name
+     * @return
+     */
+    public boolean hasVariable(String name) {
+        return variables.get(name) != null;
+    }
+
+    /**
      * Finds variable by name and returns it
      * @param name
      * @return Variable, or null if not found

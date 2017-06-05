@@ -9,6 +9,7 @@ public class IfCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
-        return "";
+        // TODO
+        return code.toString();
     }
 }

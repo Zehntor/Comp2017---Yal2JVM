@@ -159,7 +159,7 @@ public class SimpleNode implements Node {
      */
     @Override
     public boolean hasChildren() {
-        return children.length > 0;
+        return children != null && children.length > 0;
     }
 
     /**

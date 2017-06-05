@@ -15,8 +15,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
-        Node parentNode = node.jjtGetParent();
-        if (parentNode.hasChildOfType(CALL_ID_2)) {
+        if (node.hasSiblingOfType(CALL_ID_2)) {
             addExternalCall(node);
         } else {
             addInternalCall(node);
@@ -32,7 +31,7 @@ public final class FunctionCallCodeGenerator extends CodeGenerator {
     private void addExternalCall(Node node) {
         Node
             stmtAncestorNode = node.getAncestorOfType(STMT),
-            callId2Node      = stmtAncestorNode.getChildOfType(CALL_ID_2);
+            callId2Node      = node.getSiblingOfType(CALL_ID_2);
         String jasminArgs    = JasminUtilsService.getInstance().getJasminArgListCallFromNode(stmtAncestorNode);
 
         code.add(String.format("    invokestatic %s/%s(%s)V",

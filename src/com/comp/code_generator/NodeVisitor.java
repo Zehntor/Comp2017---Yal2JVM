@@ -7,9 +7,8 @@ import java.util.StringJoiner;
 import com.comp.common.Visitor;
 import com.comp.semantic_analyser.NodeType;
 import com.comp.code_generator.generators.CodeGenerator;
+import com.comp.code_generator.generators.CodeGeneratorType;
 import com.comp.code_generator.generators.CodeGeneratorFactory;
-
-import static com.comp.code_generator.generators.CodeGeneratorType.*;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870
@@ -31,43 +30,12 @@ public final class NodeVisitor implements Visitor, Generator {
         if (nodeType != null) {
             switch (nodeType) {
                 case MODULE:
-                    generator = CodeGeneratorFactory.getInstance().createGenerator(MODULE);
+                    generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.MODULE);
                     code.add(generator.generate(node));
                     break;
                 case FUNCTION:
-                    generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION);
+                    generator = CodeGeneratorFactory.getInstance().createGenerator(CodeGeneratorType.FUNCTION);
                     code.add(generator.generate(node));
-                    break;
-
-
-
-
-
-
-
-
-                case STMT:
-                    //generator = CodeGeneratorFactory.getInstance().createGenerator(STMT);
-                    //code.add(generator.generate(node));
-                    break;
-
-
-                case IF:
-                case ELSE:
-                case WHILE:
-                    break;
-                case MODULE_END:
-                    break;
-                case IF_END:
-                case ELSE_END:
-                case WHILE_END:
-                    break;
-                case ASSIGN:
-                    break;
-                case FUNCTION_CALL:
-                case CALL_ID:
-                    // generator = CodeGeneratorFactory.getInstance().createGenerator(FUNCTION_CALL);
-                    // code.add(generator.generate(node));
                     break;
             }
         }

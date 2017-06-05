@@ -1,10 +1,10 @@
 package com.comp.semantic_analyser.analisers;
 
-import com.comp.semantic_analyser.variables.*;
 import vendor.Node;
 import java.util.List;
 import java.util.ArrayList;
 import com.comp.semantic_analyser.NodeType;
+import com.comp.semantic_analyser.variables.*;
 
 /**
  * @author Ricardo Wragg Freitas <ei95036@fe.up.pt> 199502870

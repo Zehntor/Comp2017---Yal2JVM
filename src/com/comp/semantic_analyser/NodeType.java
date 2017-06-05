@@ -43,7 +43,8 @@ public enum NodeType {
     IS_ARRAY("IsArray"),
     ADD_SUB_OP("AddSubOp"),
     INTEGER("Integer"),
-    EXPR_TEST("ExprTest");
+    EXPR_TEST("ExprTest"),
+    SCALAR("Scalar");
 
     private final String value;
 
