@@ -52,6 +52,7 @@ There are N analiser types:
 
 **INTERMEDIATE REPRESENTATIONS (IRs): (for example, when applicable, briefly describe the HLIR (high-level IR) and the LLIR (low-level IR) used, if your tool includes an LLIR with structure different from the HLIR)
 
+Code generation takes as input the AST and the symbol table(s) of the compiled yal module.
 
 
 **CODE GENERATION: (when applicable, describe how the code generation of your tool works and identify the possible problems your tool has regarding code generation.)
