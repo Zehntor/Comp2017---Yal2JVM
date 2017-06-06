@@ -28,6 +28,10 @@ public class ExprTestCodeGenerator extends CodeGenerator {
         return code.toString();
     }
 
+    /**
+     * Adds the left hand side code of the expression
+     * @param node
+     */
     private void addLhs(Node node) {
         String variableName = node.getValueToString();
 
@@ -39,6 +43,10 @@ public class ExprTestCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Adds the right hand side code of the expression
+     * @param node
+     */
     private void addRhs(Node node) {
         Node firstChild = node.jjtGetChild(0);
         if (firstChild.isOfType(NodeType.ARRAY_SIZE)) {
@@ -51,6 +59,12 @@ public class ExprTestCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Loads a variable taking into account if it is global or local and if it is an integer or an array
+     * @param node
+     * @param variableName
+     * @param isArray
+     */
     private void loadVariable(Node node, String variableName, boolean isArray) {
         SymbolTableTree symbolTableTree     = SemanticAnaliser.getInstance().getSymbolTableTree();
         ModuleSymbolTable moduleSymbolTable = (ModuleSymbolTable) symbolTableTree.getRoot();
@@ -87,6 +101,10 @@ public class ExprTestCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Translates an index
+     * @param node
+     */
     private void translateIndex(Node node) {
         Node firstChild = node.jjtGetChild(0);
         if (firstChild.isOfType(NodeType.INTEGER)) {
@@ -94,6 +112,10 @@ public class ExprTestCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Translates a scalar
+     * @param node
+     */
     private void translateScalar(Node node) {
         String variableName = node.jjtGetChild(0).getValueToString();
         if (node.jjtGetNumChildren() > 1) {
@@ -110,6 +132,10 @@ public class ExprTestCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Loads an integer
+     * @param value
+     */
     private void loadInteger(String value) {
         if (Integer.valueOf(value) <= 5) {
             code.add(String.format("    iconst_%s", value));

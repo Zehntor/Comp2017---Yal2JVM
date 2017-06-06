@@ -41,6 +41,11 @@ public final class ModuleAnaliser extends Analiser {
         return null;    // Should never happen
     }
 
+    /**
+     * Returns a list of global variables
+     * @param node
+     * @return
+     */
     private List<Variable> getGlobalVariables(Node node) {
         List<Variable> globalVariables = new ArrayList<>();
 
@@ -93,7 +98,12 @@ public final class ModuleAnaliser extends Analiser {
 
         return globalVariables;
     }
-    
+
+    /**
+     * Checks for duplicate global variable names
+     * If there are duplicates, adds errors
+     * @param globalVariables
+     */
     private void checkDuplicateGlobalVariables(List<Variable> globalVariables) {
         for (int n = 0; n < globalVariables.size(); n++) {
             Variable globalVariable = globalVariables.get(n);

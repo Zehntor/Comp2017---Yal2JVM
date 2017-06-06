@@ -9,6 +9,6 @@ public class AssignCodeGenerator extends CodeGenerator {
 
     @Override
     public String generate(Node node) {
-        return "";
+        return code.toString();
     }
 }

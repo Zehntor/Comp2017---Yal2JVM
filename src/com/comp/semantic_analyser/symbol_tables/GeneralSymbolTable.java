@@ -147,11 +147,22 @@ public class GeneralSymbolTable implements Findable {
         return variables;
     }
 
+    /**
+     * Adds a symbol table to this symbol table's child list
+     * @param symbolTable
+     * @return
+     */
     public GeneralSymbolTable addChild(GeneralSymbolTable symbolTable) {
         children.add(symbolTable);
         return this;
     }
 
+    /**
+     * Finds and returns a symbol table by id and type
+     * @param id
+     * @param type
+     * @return GeneralSymbolTable
+     */
     @Override
     public GeneralSymbolTable findSymbolTable(String id, SymbolTableType type) {
         if (this.id != null && this.id.equals(id) && this.getType() == type) {
@@ -168,6 +179,11 @@ public class GeneralSymbolTable implements Findable {
         return null;
     }
 
+    /**
+     * Finds and returns a variable by name
+     * @param name
+     * @return
+     */
     @Override
     public Variable findVariable(String name) {
         if (variables.containsKey(name)) {

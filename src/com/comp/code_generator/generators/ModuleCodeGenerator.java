@@ -23,6 +23,10 @@ public final class ModuleCodeGenerator extends CodeGenerator {
         return code.toString();
     }
 
+    /**
+     * Adds the class header
+     * @param node
+     */
     private void addHeader(Node node) {
         Node moduleIdNode = node.getChildOfType(MODULE_ID);
         String moduleId   = moduleIdNode.getValueToString();
@@ -32,6 +36,9 @@ public final class ModuleCodeGenerator extends CodeGenerator {
             .add(".super java/lang/Object");
     }
 
+    /**
+     * Adds the defautl constructor code
+     */
     private void addDefaultConstructor() {
         code
             .add("")
@@ -43,6 +50,10 @@ public final class ModuleCodeGenerator extends CodeGenerator {
             .add(".end method");
     }
 
+    /**
+     * Adds the class constructor, initializing global variables
+     * @param node
+     */
     private void addClassConstructor(Node node) {
         code
             .add("")
@@ -59,6 +70,10 @@ public final class ModuleCodeGenerator extends CodeGenerator {
             .add(".end method");
     }
 
+    /**
+     * Adds the static declarations code
+     * @param node
+     */
     private void addDeclarations(Node node) {
         List<Node> declarationNodes = node.getChildrenOfType(DECLARATION);
 
@@ -71,6 +86,10 @@ public final class ModuleCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Adds a single static declaration
+     * @param node
+     */
     private void addDeclaration(Node node) {
         String declarationId = node.getChildOfType(DECLARATION_ID).getValueToString();
 
@@ -94,6 +113,10 @@ public final class ModuleCodeGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * Adds the static array initializations
+     * @param node
+     */
     private void addStaticArrayInitializations(Node node) {
         List<Node> declarationNodes = node.getChildrenOfType(DECLARATION);
 

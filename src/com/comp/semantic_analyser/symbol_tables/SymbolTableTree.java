@@ -31,6 +31,12 @@ public final class SymbolTableTree implements Findable {
         return root;
     }
 
+    /**
+     * Finds and returns a symbol table by id and type
+     * @param id
+     * @param type
+     * @return GeneralSymbolTable
+     */
     @Override
     public GeneralSymbolTable findSymbolTable(String id, SymbolTableType type) {
         if (root == null) {
@@ -40,6 +46,11 @@ public final class SymbolTableTree implements Findable {
         return root.findSymbolTable(id, type);
     }
 
+    /**
+     * Finds and returns a variable by name
+     * @param name
+     * @return
+     */
     @Override
     public Variable findVariable(String name) {
         if (root == null) {

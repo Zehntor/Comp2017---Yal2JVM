@@ -54,6 +54,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             .add(String.format(".method public static %s(%s)%s", functionId, argList, returnType));
     }
 
+    /**
+     * Adds the stack and locals limits
+     * @param node
+     */
     private void addLimits(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
 
@@ -73,6 +77,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
             .add(String.format("    .limit locals %s", limit));
     }
 
+    /**
+     * Adds the function body code
+     * @param node
+     */
     private void addFunctionBody(Node node) {
         Node functionBodyNode = node.getChildOfType(FUNCTION_BODY);
         if (functionBodyNode == null) {
@@ -85,6 +93,10 @@ public final class FunctionCodeGenerator extends CodeGenerator {
         code.add(generator.generate(stmtlstNode));
     }
 
+    /**
+     * Adds the footer, i.e. the return instruction and the function end
+     * @param node
+     */
     private void addFooter(Node node) {
         String functionId = NodeUtilsService.getInstance().getFunctionId(node);
         FunctionSymbolTable symbolTable =
