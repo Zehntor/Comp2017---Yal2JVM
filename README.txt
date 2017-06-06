@@ -22,7 +22,7 @@ Outputs errors whenever applicable and aborts the compilation.
 
 ** REPOSITORY
 
-The code is stored at https://github.com/Zehntor/comp2017
+The code is stored at https://github.com/Zehntor/Comp2017---Yal2JVM
 
 
 
@@ -55,6 +55,7 @@ The application:
 
 The syntatic error analysis phase is performed by the javacc generated files.
 Any exceptions produced are treated, a friendly error message is printed and the compilation is aborted
+
 
 
 **SEMANTIC ANALYSIS:
