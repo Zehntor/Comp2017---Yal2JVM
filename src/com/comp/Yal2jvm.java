@@ -141,7 +141,7 @@ public class Yal2jvm {
             System.out.println(
                 UtilsService.getInstance().getHumanReadableNumber(errors.size(),"code generation error:")
             );
-            showErrors(CodeGenerator.getInstance().getErrors());
+            showErrors(errors);
             abortCompilation();
         }
     }
