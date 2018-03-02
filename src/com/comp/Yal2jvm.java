@@ -16,6 +16,11 @@ import com.comp.profiler.services.TimeMemoryProfilerService;
 public class Yal2jvm {
 
     /**
+     * Usage info to be shown when there are errors when checking args
+     */
+    protected static final String USAGE = "Usage: java -jar yal2jvm.jar <input-file.yal>";
+
+    /**
      * Application entry point
      * Façade method for the whole compiler
      * @param args
@@ -50,12 +55,12 @@ public class Yal2jvm {
         if (args.length == 0) {
             System.out.println("Argument error:");
             showError("No input file supplied");
-            System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
+            System.out.println(USAGE);
             abortCompilation();
         } else if (args.length > 1) {
             System.out.println("Argument error:");
             showError("Too many arguments");
-            System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
+            System.out.println(USAGE);
             abortCompilation();
         } else if (!args[0].endsWith("yal")) {
             System.out.println("Argument error:");
