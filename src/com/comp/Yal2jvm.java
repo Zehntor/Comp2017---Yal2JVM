@@ -47,9 +47,14 @@ public class Yal2jvm {
      * @param args
      */
     private static void checkArgs(String[] args) {
-        if (args.length != 1) {
+        if (args.length == 0) {
             System.out.println("Argument error:");
             showError("No input file supplied");
+            System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
+            abortCompilation();
+        } else if (args.length > 1) {
+            System.out.println("Argument error:");
+            showError("Too many arguments");
             System.out.println("Usage: java -jar yal2jvm.jar <input-file.yal>");
             abortCompilation();
         } else if (!args[0].endsWith("yal")) {
