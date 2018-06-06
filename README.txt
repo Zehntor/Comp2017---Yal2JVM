@@ -53,7 +53,7 @@ The application:
 
 **DEALING WITH SYNTACTIC ERRORS:
 
-The syntatic error analysis phase is performed by the javacc generated files.
+The syntactic error analysis phase is performed by the javacc generated files.
 Any exceptions produced are treated, a friendly error message is printed and the compilation is aborted
 
 
@@ -127,7 +127,7 @@ Vendor files:
       a number of classes were created to deal with specific semantic rules.
       (com/comp/semantic_analyser/analisers/*)
 - Code generator
-    - Performs the semantic analysis step of the compilation.
+    - Performs the code generation step of the compilation.
     - As the code could grow to an unmaintainable size, and to keep the code clean and according to SOLID principles,
       a number of classes were created to deal with specific code generation rules.
       (com/comp/code_generator/generators/*)
