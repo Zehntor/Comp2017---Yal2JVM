@@ -108,12 +108,12 @@ public final class ModuleAnaliser extends Analiser {
         for (int n = 0; n < globalVariables.size(); n++) {
             Variable globalVariable = globalVariables.get(n);
             for (int m = n + 1; m < globalVariables.size(); m++) {
-                Variable otherglobalVariable = globalVariables.get(m);
-                if (otherglobalVariable.getName().equalsIgnoreCase(globalVariable.getName())) {
+                Variable otherGlobalVariable = globalVariables.get(m);
+                if (otherGlobalVariable.getName().equalsIgnoreCase(globalVariable.getName())) {
                     addError(String.format(DUPLICATE_GLOBAL_VARIABLE_ERROR_TEMPLATE,
-                        otherglobalVariable.getName(),
-                        otherglobalVariable.getLine(),
-                        otherglobalVariable.getColumn()
+                        otherGlobalVariable.getName(),
+                        otherGlobalVariable.getLine(),
+                        otherGlobalVariable.getColumn()
                     ));
                 }
             }
